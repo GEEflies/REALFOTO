@@ -1,36 +1,131 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Nana Banana Pro 🍌
+
+AI-powered real estate photo editor with enhance and object removal features.
+
+![Next.js](https://img.shields.io/badge/Next.js-14-black)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38bdf8)
+
+## Features
+
+- 🌟 **Photo Enhancement** - HDR merge, window replacement, lighting correction
+- 🧹 **Object Removal** - Seamless AI inpainting for unwanted objects
+- 🔐 **Authentication** - Clerk passwordless & social login
+- 💳 **Payments** - Stripe subscriptions with tiered pricing
+- 📊 **Quota Management** - Monthly image limits per tier
+
+## Tech Stack
+
+- **Framework**: Next.js 14 (App Router)
+- **Styling**: Tailwind CSS
+- **UI**: Custom components (shadcn-style)
+- **AI**: Google Gemini 2.0 Flash
+- **Auth**: Clerk
+- **Database**: Vercel Postgres + Prisma
+- **Payments**: Stripe
+- **Storage**: Vercel Blob
 
 ## Getting Started
 
-First, run the development server:
+### 1. Clone & Install
+
+```bash
+cd nana-banana-pro
+npm install
+```
+
+### 2. Environment Setup
+
+Copy `env.example` to `.env.local` and fill in your values:
+
+```bash
+cp env.example .env.local
+```
+
+Required environment variables:
+
+| Variable | Description |
+|----------|-------------|
+| `GEMINI_API_KEY` | Google AI API key |
+| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | Clerk public key |
+| `CLERK_SECRET_KEY` | Clerk secret key |
+| `DATABASE_URL` | Vercel Postgres connection string |
+| `STRIPE_SECRET_KEY` | Stripe secret API key |
+| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Stripe public key |
+| `STRIPE_WEBHOOK_SECRET` | Stripe webhook signing secret |
+| `BLOB_READ_WRITE_TOKEN` | Vercel Blob token |
+
+### 3. Database Setup
+
+```bash
+npx prisma generate
+npx prisma db push
+```
+
+### 4. Run Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Vercel (Recommended)
 
-## Learn More
+1. Push to GitHub
+2. Import project in Vercel
+3. Add environment variables in Vercel dashboard
+4. Deploy
 
-To learn more about Next.js, take a look at the following resources:
+### Stripe Webhook
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Create a webhook in Stripe Dashboard pointing to:
+```
+https://your-domain.com/api/webhooks/stripe
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Listen for these events:
+- `checkout.session.completed`
+- `customer.subscription.deleted`
+- `invoice.payment_failed`
 
-## Deploy on Vercel
+## Pricing Tiers
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| Tier | Price | Images/Month |
+|------|-------|--------------|
+| Free | €0 | 3 |
+| Starter | €25/mo | 50 |
+| Pro | €69/mo | 200 |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Overage: €0.50 per additional image
+
+## Project Structure
+
+```
+nana-banana-pro/
+├── app/
+│   ├── page.tsx          # Landing page
+│   ├── enhance/page.tsx  # Photo enhancement
+│   ├── remove/page.tsx   # Object removal
+│   └── api/              # API routes
+├── components/
+│   ├── ui/               # Base UI components
+│   ├── Navbar.tsx
+│   ├── ImageDropzone.tsx
+│   ├── BeforeAfter.tsx
+│   ├── QuotaBar.tsx
+│   └── PricingCards.tsx
+├── lib/
+│   ├── gemini.ts         # AI wrapper
+│   ├── stripe.ts         # Payment client
+│   ├── db.ts             # Database client
+│   └── utils.ts          # Utilities
+└── prisma/
+    └── schema.prisma     # Database schema
+```
+
+## License
+
+MIT
