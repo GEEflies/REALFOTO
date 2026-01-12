@@ -24,21 +24,28 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  return (
-    <ClerkProvider>
-      <html lang="en">
-        <body className={inter.className}>
-          <Navbar />
-          <main className="pt-16 min-h-screen">
-            {children}
-          </main>
-          <Toaster
-            position="top-right"
-            richColors
-            closeButton
-          />
-        </body>
-      </html>
-    </ClerkProvider>
+  const hasClerkKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+
+  const content = (
+    <html lang="en">
+      <body className={inter.className}>
+        <Navbar />
+        <main className="pt-16 min-h-screen">
+          {children}
+        </main>
+        <Toaster
+          position="top-right"
+          richColors
+          closeButton
+        />
+      </body>
+    </html>
   )
+
+  // Only use ClerkProvider if credentials are available
+  if (hasClerkKey) {
+    return <ClerkProvider>{content}</ClerkProvider>
+  }
+
+  return content
 }

@@ -74,10 +74,42 @@ Open [http://localhost:3000](http://localhost:3000)
 
 ### Vercel (Recommended)
 
-1. Push to GitHub
-2. Import project in Vercel
-3. Add environment variables in Vercel dashboard
-4. Deploy
+1. **Push to GitHub**
+   ```bash
+   git push origin main
+   ```
+
+2. **Import to Vercel**
+   - Go to [vercel.com](https://vercel.com)
+   - Click "Add New Project"
+   - Import your GitHub repository
+
+3. **Configure Environment Variables**
+   
+   In Vercel Dashboard → Settings → Environment Variables, add:
+
+   **Required for Basic Functionality:**
+   ```
+   GEMINI_API_KEY=your_gemini_api_key_here
+   NEXT_PUBLIC_APP_URL=https://your-domain.vercel.app
+   ```
+
+   **Optional (Authentication & Payments):**
+   ```
+   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
+   CLERK_SECRET_KEY=sk_test_...
+   DATABASE_URL=postgres://...
+   STRIPE_SECRET_KEY=sk_test_...
+   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
+   STRIPE_WEBHOOK_SECRET=whsec_...
+   BLOB_READ_WRITE_TOKEN=vercel_blob_...
+   ```
+
+   > **Note**: The app will work without Clerk/Stripe, but authentication and payments will be disabled.
+
+4. **Deploy**
+   - Click "Deploy"
+   - Vercel will build and deploy your app
 
 ### Stripe Webhook
 
