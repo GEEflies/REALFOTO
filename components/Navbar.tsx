@@ -63,21 +63,29 @@ export function Navbar() {
 
                     {/* Auth + Mobile Menu */}
                     <div className="flex items-center gap-3">
-                        <SignedOut>
-                            <SignInButton mode="modal">
-                                <Button size="sm">Sign In</Button>
-                            </SignInButton>
-                        </SignedOut>
-                        <SignedIn>
-                            <UserButton
-                                afterSignOutUrl="/"
-                                appearance={{
-                                    elements: {
-                                        avatarBox: 'w-9 h-9'
-                                    }
-                                }}
-                            />
-                        </SignedIn>
+                        {process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ? (
+                            <>
+                                <SignedOut>
+                                    <SignInButton mode="modal">
+                                        <Button size="sm">Sign In</Button>
+                                    </SignInButton>
+                                </SignedOut>
+                                <SignedIn>
+                                    <UserButton
+                                        afterSignOutUrl="/"
+                                        appearance={{
+                                            elements: {
+                                                avatarBox: 'w-9 h-9'
+                                            }
+                                        }}
+                                    />
+                                </SignedIn>
+                            </>
+                        ) : (
+                            <Button size="sm" disabled className="opacity-50">
+                                Auth Disabled
+                            </Button>
+                        )}
 
                         {/* Mobile Menu Button */}
                         <button
