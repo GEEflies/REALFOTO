@@ -24,15 +24,16 @@ const ENHANCE_PROMPT = `You are an expert real estate photo editor. Apply ALL of
 
   "1_HDR_MERGE": {
     "description": "Merge multiple exposure levels into balanced HDR",
-    "overall_exposure_boost": "+0.5_stops_brighter_than_typical",
-    "shadow_recovery": "+2_stops_lift_all_dark_areas",
+    "overall_exposure_boost": "+1_stop_brighter_than_typical",
+    "shadow_recovery": "+2.5_stops_lift_all_dark_areas",
     "highlight_recovery": "preserve_window_and_bright_areas",
-    "overall_exposure": "bright_professional_but_not_overexposed",
-    "walls": "bright_near_white_with_subtle_texture_visible",
-    "ceilings": "bright_white",
-    "floors_and_carpet": "bright_light_beige_not_dark",
-    "avoid": ["washed_out", "overexposed", "flat_look"],
-    "preserve": "texture_and_detail_while_keeping_bright"
+    "overall_exposure": "bright_airy_professional",
+    "walls": "very_bright_near_white_with_subtle_texture",
+    "ceilings": "bright_white_no_gray",
+    "floors_and_carpet": "bright_light_colored",
+    "dark_corners": "eliminate_completely",
+    "avoid": ["washed_out", "overexposed"],
+    "preserve": "texture_and_detail_while_keeping_very_bright"
   },
 
   "2_WINDOW_PULL": {
