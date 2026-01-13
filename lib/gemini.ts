@@ -87,11 +87,13 @@ const ENHANCE_PROMPT = `You are an expert real estate photo editor. Apply ALL of
   },
 
   "8_AUTO_PRIVACY": {
-    "description": "Protect sensitive information",
+    "description": "MANDATORY privacy protection for sensitive information",
+    "CRITICAL": "LICENSE_PLATES_MUST_BE_BLURRED_COMPLETELY",
+    "license_plates": "apply_strong_blur_to_ALL_license_plates_make_text_completely_unreadable",
     "blur_faces_in_photos": true,
-    "blur_license_plates": true,
     "blur_personal_documents": true,
-    "style": "subtle_natural_gaussian_blur"
+    "blur_style": "strong_gaussian_blur_radius_15_to_20_pixels",
+    "priority": "high_must_be_applied"
   },
 
   "9_COLOR_CORRECTION": {
