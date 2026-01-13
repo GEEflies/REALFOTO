@@ -25,7 +25,7 @@ const ENHANCE_PROMPT = `You are an expert real estate photo editor. Apply ALL of
   "1_HDR_MERGE": {
     "description": "Merge multiple exposure levels into balanced HDR",
     "overall_exposure_boost": "+1_stop_brighter_than_typical",
-    "shadow_recovery": "+2.5_stops_lift_all_dark_areas",
+    "shadow_recovery": "+2_to_3_stops_lift_all_dark_areas",
     "highlight_recovery": "preserve_window_and_bright_areas",
     "overall_exposure": "bright_airy_professional",
     "walls": "very_bright_near_white_with_subtle_texture",
