@@ -15,107 +15,189 @@ function getClient(): GoogleGenAI {
     return ai
 }
 
-const ENHANCE_PROMPT = `You are an expert real estate photo editor. Apply ALL of the following professional enhancements as specified:
+// Enhancement mode types
+export type EnhanceMode =
+    | 'full'
+    | 'hdr'
+    | 'window'
+    | 'sky'
+    | 'white_balance'
+    | 'perspective'
+    | 'relighting'
+    | 'raw_quality'
+    | 'privacy'
+    | 'color'
 
-{
-  "task": "professional_real_estate_photo_enhancement",
-  "output_quality": "4K_ultra_high_definition_magazine_ready",
-  "resolution": "4K_3840x2160_or_highest_possible",
+// Mode-specific prompts - each prioritizes its feature at the TOP
+const MODE_PROMPTS: Record<EnhanceMode, string> = {
+    full: `You are an expert real estate photo editor. Apply ALL of the following professional enhancements:
 
-  "1_HDR_MERGE": {
-    "description": "Merge multiple exposure levels into balanced HDR",
-    "shadow_and_midtone_lift": "plus_3_stops_aggressive_lift_all_dark_and_medium_tones",
-    "highlight_protection": "do_not_blow_out_whites_preserve_detail",
-    "overall_exposure": "bright_warm_inviting_family_friendly",
-    "shadows": "lift_aggressively_no_dark_areas_anywhere",
-    "midtones": "push_up_significantly_for_airy_feel",
-    "whites_and_highlights": "keep_bright_but_never_clipped_or_washed_out",
-    "walls": "bright_but_with_visible_texture",
-    "ceilings": "bright_white",
-    "floors_and_carpet": "bright_light_beige",
-    "dark_objects": "lift_all_shadows_on_furniture_lamps_decor",
-    "dark_corners": "eliminate_completely",
-    "avoid": ["blown_out_whites", "clipped_highlights", "dark_shadows"],
-    "goal": "bright_airy_welcoming_but_not_overexposed"
-  },
+APPLY ALL THESE ENHANCEMENTS:
+1. HDR MERGE: Lift shadows +3 stops, protect highlights from clipping, bright airy look
+2. WINDOW PULL: Make exterior views through windows crystal clear with visible blue sky
+3. SKY REPLACEMENT: Replace gray/overcast sky with natural bright blue sky and clouds
+4. WHITE BALANCE: Correct to 5500K neutral daylight, pure whites without color cast
+5. PERSPECTIVE: Straighten all vertical and horizontal architectural lines
+6. RELIGHTING: Even professional illumination, eliminate dark corners
+7. RAW QUALITY: 4K ultra high definition, magazine print sharpness
+8. AUTO PRIVACY: Blur all license plates and faces completely
+9. COLOR CORRECTION: +15% saturation boost, vibrant natural colors
 
-  "2_WINDOW_PULL": {
-    "description": "Make exterior view through windows crystal clear",
-    "exterior_visibility": "100%_clear_and_sharp",
-    "sky_visible": true,
-    "balance": "interior_and_exterior_both_properly_exposed",
-    "glass_clarity": "perfectly_transparent_no_haze"
-  },
+Output a professional real estate magazine quality image.`,
 
-  "3_SKY_REPLACEMENT": {
-    "description": "Replace dull or overcast sky with appealing blue sky",
-    "sky_color": "natural_bright_blue",
-    "clouds": "soft_white_natural_clouds",
-    "apply_when": "sky_is_gray_overcast_or_blown_out"
-  },
+    hdr: `You are an expert HDR photo editor. YOUR PRIMARY TASK IS HDR ENHANCEMENT.
 
-  "4_WHITE_BALANCE": {
-    "description": "Correct color temperature to neutral daylight",
-    "color_temperature": "5500K_neutral_daylight",
-    "whites": "pure_clean_white_no_color_cast",
-    "avoid": ["orange_tint", "yellow_cast", "blue_cast", "green_tint"],
-    "result": "natural_true_to_life_colors"
-  },
+PRIORITY #1 - HDR MERGE (THIS IS THE MOST IMPORTANT):
+- Lift ALL shadows by +3 stops - NO dark areas anywhere
+- Protect highlights from clipping - NO blown out whites
+- Create bright, airy, welcoming atmosphere
+- Eliminate ALL dark corners completely
+- Push midtones up significantly for luminous feel
+- Balance exposure so interior matches window brightness
 
-  "5_PERSPECTIVE_CORRECTION": {
-    "description": "Straighten architectural lines",
-    "vertical_lines": "perfectly_straight_walls_and_doorframes",
-    "horizontal_lines": "perfectly_level_floors_and_ceilings",
-    "lens_distortion": "fully_corrected"
-  },
+ALSO APPLY:
+- Window clarity, perspective correction, color enhancement
+- 4K output quality
 
-  "6_IMAGE_RELIGHTING": {
-    "description": "Enhance lighting for even, professional illumination",
-    "dark_corners": "subtly_brighten_to_match_room",
-    "shadows": "lift_while_preserving_depth_and_dimension",
-    "highlights": "soft_natural_not_blown_out",
-    "overall_lighting": "even_professional_but_natural",
-    "avoid": ["flat_shadowless_look", "artificial_appearance"]
-  },
+The result should have PERFECT shadow/highlight balance with no dark spots.`,
 
-  "7_RAW_QUALITY": {
-    "description": "Maximize detail and sharpness",
-    "sharpness": "magazine_print_quality",
-    "texture_enhancement": "wood_grain_fabric_stone_clearly_visible",
-    "noise_reduction": "clean_but_preserve_detail",
-    "output": "4K_ultra_high_definition"
-  },
+    window: `You are an expert real estate photo editor. YOUR PRIMARY TASK IS WINDOW PULL.
 
-  "8_AUTO_PRIVACY": {
-    "description": "MANDATORY privacy protection for sensitive information",
-    "CRITICAL": "LICENSE_PLATES_MUST_BE_BLURRED_COMPLETELY",
-    "license_plates": "apply_strong_blur_to_ALL_license_plates_make_text_completely_unreadable",
-    "blur_faces_in_photos": true,
-    "blur_personal_documents": true,
-    "blur_style": "strong_gaussian_blur_radius_15_to_20_pixels",
-    "priority": "high_must_be_applied"
-  },
+PRIORITY #1 - WINDOW PULL (THIS IS THE MOST IMPORTANT):
+- Make ALL exterior views through windows CRYSTAL CLEAR
+- Sky must be visible: bright natural blue with soft white clouds
+- Glass must be PERFECTLY TRANSPARENT - no haze, no fog, no glare
+- Balance interior and exterior exposure equally
+- Exterior landscape/buildings should be sharp and detailed
+- Remove any window reflections that obstruct the view
 
-  "9_COLOR_CORRECTION": {
-    "description": "Enhance colors for vibrant natural appearance",
-    "saturation": "+15%_boost_for_vibrant_look",
-    "vibrance": "enhanced_especially_in_muted_areas",
-    "red_fabrics": "rich_vibrant_true_red",
-    "wood_tones": "warm_natural_brown",
-    "greens": "healthy_vibrant_natural",
-    "maintain": "color_accuracy_and_separation"
-  }
+ALSO APPLY:
+- HDR balance, color correction, perspective
+- 4K output quality
+
+The window views should look like you could step right through them.`,
+
+    sky: `You are an expert real estate photo editor. YOUR PRIMARY TASK IS SKY REPLACEMENT.
+
+PRIORITY #1 - SKY REPLACEMENT (THIS IS THE MOST IMPORTANT):
+- Replace ANY gray, overcast, white, or blown-out sky
+- New sky: Natural bright blue with soft white fluffy clouds
+- Sky must look photorealistic and match the lighting
+- Blend sky seamlessly with horizon and building edges
+- Maintain natural color temperature in sky
+- Time of day should match the interior lighting
+
+ALSO APPLY:
+- HDR balance, window clarity, color enhancement
+- 4K output quality
+
+The sky should look like a perfect sunny day.`,
+
+    white_balance: `You are an expert real estate photo editor. YOUR PRIMARY TASK IS WHITE BALANCE CORRECTION.
+
+PRIORITY #1 - WHITE BALANCE (THIS IS THE MOST IMPORTANT):
+- Correct color temperature to exactly 5500K neutral daylight
+- Whites must be PURE CLEAN WHITE - NO color cast at all
+- AVOID: orange tint, yellow cast, blue cast, green tint
+- Walls and ceilings should be neutral, not warm or cool
+- Wood tones should be natural brown, not orange
+- Fabrics should show true colors
+
+ALSO APPLY:
+- HDR balance, window clarity, perspective
+- 4K output quality
+
+The colors should look natural and true-to-life as seen in daylight.`,
+
+    perspective: `You are an expert real estate photo editor. YOUR PRIMARY TASK IS PERSPECTIVE CORRECTION.
+
+PRIORITY #1 - PERSPECTIVE CORRECTION (THIS IS THE MOST IMPORTANT):
+- Make ALL vertical lines PERFECTLY STRAIGHT (walls, doorframes, windows)
+- Make ALL horizontal lines PERFECTLY LEVEL (floors, ceilings, countertops)
+- Correct ALL lens distortion - no barrel or pincushion distortion
+- Fix any keystoning or tilting
+- Maintain proper proportions after correction
+
+ALSO APPLY:
+- HDR balance, color correction, window clarity
+- 4K output quality
+
+The architecture should look professionally photographed with perfect geometry.`,
+
+    relighting: `You are an expert real estate photo editor. YOUR PRIMARY TASK IS IMAGE RELIGHTING.
+
+PRIORITY #1 - RELIGHTING (THIS IS THE MOST IMPORTANT):
+- Create EVEN, PROFESSIONAL illumination throughout the entire image
+- Eliminate ALL dark corners and shadows
+- Lift shadows on furniture, lamps, and decor objects
+- Highlights should be soft and natural, not harsh
+- Lighting should feel warm, inviting, and welcoming
+- No artificial or HDR-looking appearance
+
+ALSO APPLY:
+- Color correction, perspective, window clarity
+- 4K output quality
+
+The room should look like it's lit by beautiful natural light from every direction.`,
+
+    raw_quality: `You are an expert real estate photo editor. YOUR PRIMARY TASK IS MAXIMUM QUALITY OUTPUT.
+
+PRIORITY #1 - RAW QUALITY (THIS IS THE MOST IMPORTANT):
+- Output at 4K ULTRA HIGH DEFINITION (3840x2160 or maximum possible)
+- MAGAZINE PRINT QUALITY sharpness
+- Enhance textures: wood grain, fabric weave, stone detail clearly visible
+- Clean noise reduction while preserving fine detail
+- Crisp edges and defined surfaces
+- Maximum clarity and detail enhancement
+
+ALSO APPLY:
+- HDR balance, color correction, perspective
+- Window clarity and lighting
+
+The image should be sharp enough for a premium magazine cover print.`,
+
+    privacy: `You are an expert photo editor. YOUR PRIMARY AND MOST CRITICAL TASK IS PRIVACY PROTECTION.
+
+!!!!! ABSOLUTE TOP PRIORITY - AUTO PRIVACY !!!!!
+THIS IS THE MOST IMPORTANT INSTRUCTION - DO THIS FIRST:
+
+1. BLUR ALL LICENSE PLATES COMPLETELY
+   - Find EVERY license plate in the image
+   - Apply STRONG HEAVY BLUR (radius 20+ pixels)
+   - The text must be 100% UNREADABLE
+   - This is MANDATORY and CRITICAL
+
+2. BLUR ALL FACES IN PHOTOS/FRAMES
+   - Any photos on walls showing faces - blur them
+   - Any people visible - blur their faces
+
+3. BLUR PERSONAL DOCUMENTS
+   - Any visible mail, documents, screens with text
+
+ALSO APPLY:
+- Standard photo enhancement (HDR, color, sharpness)
+- 4K output quality
+
+The license plates and faces MUST be completely unreadable in the final image.`,
+
+    color: `You are an expert real estate photo editor. YOUR PRIMARY TASK IS COLOR CORRECTION.
+
+PRIORITY #1 - COLOR CORRECTION (THIS IS THE MOST IMPORTANT):
+- Boost saturation by +15-20% for vibrant, appealing colors
+- Enhance vibrance especially in muted areas
+- Red fabrics: rich, vibrant TRUE red (not orange)
+- Wood tones: warm natural brown (not orange or yellow)
+- Greens: healthy, vibrant, natural green
+- Blues: clean, true blue
+- Maintain color accuracy and separation
+- Colors should POP but still look natural
+
+ALSO APPLY:
+- HDR balance, perspective, window clarity
+- 4K output quality
+
+The colors should be magazine-quality vibrant while remaining realistic.`,
 }
-
-CRITICAL BALANCE REQUIREMENTS:
-1. BALANCED EXPOSURE - Bright but NOT washed out or overexposed
-2. PRESERVE TEXTURE - Walls, carpet, and surfaces must show visible texture and detail
-3. MAINTAIN DEPTH - Keep natural shadows for 3D dimensional look, do NOT flatten the image
-4. VIBRANT COLORS - Colors should be saturated and rich, NOT muted or desaturated
-5. NATURAL LOOK - The result should look like professional photography, not over-processed
-
-The goal is a PROFESSIONAL REAL ESTATE MAGAZINE quality image that looks natural and inviting, with perfect window views, balanced lighting, and vibrant colors. NOT flat, NOT washed out, NOT overexposed.`
-
 
 const REMOVE_OBJECT_PROMPT = (objectToRemove: string) => `You are an expert real estate photo editor. Edit this image by replacing the "${objectToRemove}" with the surrounding background (wall, floor, or ceiling). 
 
@@ -126,9 +208,21 @@ CRITICAL REQUIREMENTS:
 4. Maintain maximum sharpness and detail in the edited area.`
 
 
+// Legacy function for backwards compatibility
 export async function enhanceImage(imageBase64: string, mimeType: string = 'image/jpeg'): Promise<string> {
+    return enhanceImageWithMode(imageBase64, 'full', mimeType)
+}
+
+// New function with mode support
+export async function enhanceImageWithMode(
+    imageBase64: string,
+    mode: EnhanceMode = 'full',
+    mimeType: string = 'image/jpeg'
+): Promise<string> {
     try {
         const client = getClient()
+        const prompt = MODE_PROMPTS[mode] || MODE_PROMPTS.full
+
         const response = await client.models.generateContent({
             model: 'gemini-3-pro-image-preview',
             config: {
@@ -143,7 +237,7 @@ export async function enhanceImage(imageBase64: string, mimeType: string = 'imag
                 {
                     role: 'user',
                     parts: [
-                        { text: ENHANCE_PROMPT },
+                        { text: prompt },
                         {
                             inlineData: {
                                 mimeType: mimeType,
@@ -156,7 +250,7 @@ export async function enhanceImage(imageBase64: string, mimeType: string = 'imag
         })
 
         // Debug logging
-        console.log('Gemini Enhance API Response:', JSON.stringify(response, null, 2))
+        console.log(`Gemini Enhance (${mode}) API Response:`, JSON.stringify(response, null, 2))
 
         // Extract image from response
         const candidate = response.candidates?.[0]

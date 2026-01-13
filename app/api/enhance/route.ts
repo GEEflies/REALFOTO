@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { enhanceImage } from '@/lib/gemini'
+import { enhanceImageWithMode, EnhanceMode } from '@/lib/gemini'
 
 // Max duration for serverless function (60 seconds)
 export const maxDuration = 60
@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
     try {
         // Parse request body
         const body = await request.json()
-        const { image, mimeType } = body
+        const { image, mimeType, mode } = body
 
         if (!image) {
             return NextResponse.json(
@@ -24,8 +24,9 @@ export async function POST(request: NextRequest) {
         //   return NextResponse.json({ message: 'Quota exceeded' }, { status: 403 })
         // }
 
-        // Process image with Gemini
-        const enhancedBase64 = await enhanceImage(image, mimeType || 'image/jpeg')
+        // Process image with Gemini using specified mode (defaults to 'full')
+        const enhanceMode: EnhanceMode = mode || 'full'
+        const enhancedBase64 = await enhanceImageWithMode(image, enhanceMode, mimeType || 'image/jpeg')
 
         // TODO: Increment user quota
         // await prisma.user.update({
