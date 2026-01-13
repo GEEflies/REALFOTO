@@ -215,34 +215,62 @@ export default function EnhancePage() {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -20 }}
-                                className="space-y-6"
+                                className="space-y-8"
                             >
-                                <BeforeAfter
-                                    beforeImage={originalImage!}
-                                    afterImage={upscaledImage || enhancedImage}
-                                />
+                                {/* Gemini Enhanced Result Card */}
+                                <div className="bg-white rounded-2xl shadow-lg border-2 border-blue-100 p-6">
+                                    <div className="flex items-center gap-2 mb-4">
+                                        <Sparkles className="w-5 h-5 text-blue-600" />
+                                        <h3 className="text-lg font-semibold text-gray-800">AI Enhanced (Gemini)</h3>
+                                        <span className="ml-auto text-xs text-gray-500 bg-blue-50 px-3 py-1 rounded-full">Standard Quality</span>
+                                    </div>
+                                    <div className="relative rounded-xl overflow-hidden bg-gray-100 mb-4">
+                                        <img
+                                            src={enhancedImage}
+                                            alt="Gemini Enhanced"
+                                            className="w-full h-auto"
+                                        />
+                                    </div>
+                                    <Button
+                                        onClick={() => handleDownload(enhancedImage, 'Standard Enhanced')}
+                                        className="w-full gap-2"
+                                        variant="secondary"
+                                    >
+                                        <Download className="w-5 h-5" />
+                                        Download Standard Enhanced
+                                    </Button>
+                                </div>
+
+                                {/* 4K Upscaled Result Card */}
                                 {upscaledImage && (
-                                    <div className="text-center text-sm text-gray-500 -mt-4">
-                                        Showing 4K Upscaled Result
+                                    <div className="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-2xl shadow-lg border-2 border-purple-200 p-6">
+                                        <div className="flex items-center gap-2 mb-4">
+                                            <Sparkles className="w-5 h-5 text-purple-600" />
+                                            <h3 className="text-lg font-semibold text-gray-800">4K Upscaled (Replicate)</h3>
+                                            <span className="ml-auto text-xs text-purple-700 bg-purple-100 px-3 py-1 rounded-full font-medium">Ultra HD</span>
+                                        </div>
+                                        <div className="relative rounded-xl overflow-hidden bg-white mb-4">
+                                            <img
+                                                src={upscaledImage}
+                                                alt="4K Upscaled"
+                                                className="w-full h-auto"
+                                            />
+                                        </div>
+                                        <Button
+                                            onClick={() => handleDownload(upscaledImage, '4K Upscaled')}
+                                            className="w-full gap-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 border-0"
+                                        >
+                                            <Download className="w-5 h-5" />
+                                            Download 4K Ultra HD Version
+                                        </Button>
                                     </div>
                                 )}
 
-                                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                                    <Button onClick={() => handleDownload(enhancedImage, 'Standard Enhanced')} size="lg" variant="secondary" className="gap-2">
-                                        <Download className="w-5 h-5" />
-                                        Standard Enhanced
-                                    </Button>
-
-                                    {upscaledImage && (
-                                        <Button onClick={() => handleDownload(upscaledImage, '4K Upscaled')} size="lg" className="gap-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 border-0">
-                                            <Download className="w-5 h-5" />
-                                            Download 4K Version
-                                        </Button>
-                                    )}
-
+                                {/* Action Buttons */}
+                                <div className="flex justify-center">
                                     <Button onClick={handleReset} size="lg" variant="outline" className="gap-2">
                                         <RotateCcw className="w-5 h-5" />
-                                        Enhance Another
+                                        Enhance Another Photo
                                     </Button>
                                 </div>
                             </motion.div>
