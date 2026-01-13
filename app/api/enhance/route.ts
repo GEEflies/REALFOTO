@@ -5,7 +5,7 @@ import { enhanceImage } from '@/lib/gemini'
 export const config = {
     api: {
         bodyParser: {
-            sizeLimit: '10mb',
+            sizeLimit: '30mb',
         },
     },
 }
