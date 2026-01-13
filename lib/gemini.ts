@@ -24,18 +24,19 @@ const ENHANCE_PROMPT = `You are an expert real estate photo editor. Apply ALL of
 
   "1_HDR_MERGE": {
     "description": "Merge multiple exposure levels into balanced HDR",
-    "overall_exposure_boost": "plus_three_quarter_stop_brighter",
-    "shadow_recovery": "plus_2_to_3_stops_lift_all_dark_areas_and_objects",
-    "highlight_recovery": "prevent_white_clipping_on_railings_and_bright_surfaces",
-    "overall_exposure": "bright_but_controlled_no_blown_highlights",
-    "whites_and_highlights": "bright_but_preserve_detail_no_clipping",
-    "walls": "bright_with_visible_texture",
-    "ceilings": "bright_white_with_subtle_detail",
-    "floors_and_carpet": "bright_light_colored",
-    "dark_objects": "lift_shadows_on_lamps_furniture_decor_significantly",
+    "shadow_and_midtone_lift": "plus_3_stops_aggressive_lift_all_dark_and_medium_tones",
+    "highlight_protection": "do_not_blow_out_whites_preserve_detail",
+    "overall_exposure": "bright_warm_inviting_family_friendly",
+    "shadows": "lift_aggressively_no_dark_areas_anywhere",
+    "midtones": "push_up_significantly_for_airy_feel",
+    "whites_and_highlights": "keep_bright_but_never_clipped_or_washed_out",
+    "walls": "bright_but_with_visible_texture",
+    "ceilings": "bright_white",
+    "floors_and_carpet": "bright_light_beige",
+    "dark_objects": "lift_all_shadows_on_furniture_lamps_decor",
     "dark_corners": "eliminate_completely",
-    "avoid": ["blown_out_whites", "clipped_highlights", "overexposed_areas"],
-    "preserve": "detail_in_all_bright_and_dark_areas"
+    "avoid": ["blown_out_whites", "clipped_highlights", "dark_shadows"],
+    "goal": "bright_airy_welcoming_but_not_overexposed"
   },
 
   "2_WINDOW_PULL": {
