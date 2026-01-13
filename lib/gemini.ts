@@ -22,12 +22,17 @@ const ENHANCE_PROMPT = `You are an expert real estate photo editor. Apply the fo
   "output_quality": "magazine_cover_ready",
   
   "exposure": {
-    "target": "high_key_bright",
-    "shadow_lift": "+2_stops",
-    "highlight_recovery": "full",
-    "overall_brightness": "very_bright",
-    "dark_corners": "eliminate_completely",
-    "walls_and_ceilings": "bright_glowing_appearance"
+    "CRITICAL": "MAKE_EXTREMELY_BRIGHT",
+    "overall_exposure_boost": "+1.5_stops_brighter_than_input",
+    "target": "very_high_key_extremely_bright",
+    "shadow_lift": "+3_stops_aggressive",
+    "highlight_recovery": "full_but_keep_bright",
+    "overall_brightness": "MAXIMUM_brightness_like_sunny_day_indoors",
+    "dark_corners": "eliminate_completely_no_shadows",
+    "walls": "almost_glowing_near_white_very_bright",
+    "ceilings": "pure_bright_white",
+    "floors_and_carpet": "bright_light_colored_no_dark_areas",
+    "midtones": "push_up_significantly"
   },
   
   "white_balance": {
@@ -36,11 +41,11 @@ const ENHANCE_PROMPT = `You are an expert real estate photo editor. Apply the fo
     "whites": "pure_clean_white_NOT_cream_NOT_yellow",
     "avoid": ["orange_tint", "yellow_cast", "golden_glow", "warm_tungsten"],
     "target_look": "natural_daylight_through_windows",
-    "walls": "clean_neutral_white_or_very_light_gray"
+    "walls": "clean_bright_white_almost_glowing"
   },
   
   "window_treatment": {
-    "CRITICAL": "HIGHEST_PRIORITY",
+    "priority": "high",
     "exterior_visibility": "crystal_clear_sharp",
     "sky": {
       "appearance": "bright_blue_with_white_clouds",
@@ -48,8 +53,7 @@ const ENHANCE_PROMPT = `You are an expert real estate photo editor. Apply the fo
       "color": "natural_sky_blue"
     },
     "glass_clarity": "perfectly_transparent",
-    "balance": "interior_and_exterior_equally_exposed",
-    "avoid": ["blown_out_white", "hazy_unclear", "foggy_appearance"]
+    "balance": "interior_MUST_be_as_bright_as_exterior"
   },
   
   "color_correction": {
@@ -57,43 +61,42 @@ const ENHANCE_PROMPT = `You are an expert real estate photo editor. Apply the fo
     "vibrance": "enhanced_but_realistic",
     "red_fabrics": "true_vibrant_red_not_orange",
     "wood_tones": "natural_brown_not_orange",
-    "greens": "healthy_natural_green",
-    "maintain": "color_accuracy_and_separation"
+    "greens": "healthy_natural_green"
   },
   
   "contrast_and_clarity": {
-    "contrast": "professional_medium_high",
-    "clarity": "crisp_sharp_magazine_quality",
+    "contrast": "medium_preserve_brightness",
+    "clarity": "crisp_sharp",
     "local_contrast": "enhanced_for_depth",
-    "avoid": ["muddy_flat_look", "hazy_appearance"]
+    "tone_curve": "lift_shadows_and_midtones_aggressively"
   },
   
   "perspective": {
     "vertical_lines": "perfectly_straight",
-    "horizontal_lines": "perfectly_level",
-    "lens_distortion": "fully_corrected"
+    "horizontal_lines": "perfectly_level"
   },
   
   "sharpness": {
     "level": "magazine_print_quality",
-    "details": "enhanced_textures",
-    "edges": "crisp_and_defined"
+    "details": "enhanced_textures"
   },
   
   "privacy": {
     "blur_faces_in_photos": true,
-    "blur_license_plates": true,
-    "style": "subtle_natural"
+    "blur_license_plates": true
   }
 }
 
-CRITICAL REQUIREMENTS:
-1. WINDOW CLARITY IS #1 PRIORITY - The view through windows MUST be crystal clear with visible blue sky and clouds
-2. DO NOT ADD WARM/ORANGE TINT - Keep colors neutral daylight, whites must be PURE WHITE not cream or yellow
-3. HIGH KEY BRIGHTNESS - Entire image should be very bright, no dark areas
-4. PROFESSIONAL CONTRAST - Image should feel crisp and defined, not muddy or flat
+CRITICAL BRIGHTNESS REQUIREMENTS - THIS IS THE MOST IMPORTANT:
+1. THE IMAGE MUST BE EXTREMELY BRIGHT - like a room flooded with sunlight
+2. WALLS should appear ALMOST GLOWING - near white, very bright
+3. CEILINGS must be PURE BRIGHT WHITE - no gray tones at all
+4. NO DARK AREAS anywhere - every corner and shadow must be completely lifted
+5. The overall exposure should be boosted +1.5 stops compared to typical editing
+6. Think "high-key photography" - bright, airy, luminous throughout
+7. CARPET/FLOORS should be light and bright, not dark or shadowy
 
-The result should look like a professional real estate magazine cover photo shot in perfect natural daylight conditions.`
+The final image should look like the room is flooded with natural daylight from every direction. Make it BRIGHT.`
 
 
 const REMOVE_OBJECT_PROMPT = (objectToRemove: string) => `Edit this image by replacing the "${objectToRemove}" with the surrounding background (wall, floor, or ceiling). The result should look natural and seamless, as if the object was never there.`
