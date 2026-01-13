@@ -107,10 +107,51 @@ export default function EnhancePage() {
                     <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
                         Enhance Your Photo
                     </h1>
-                    <p className="text-gray-600 max-w-xl mx-auto">
-                        Upload a real estate photo and our AI will automatically enhance it with perfect HDR, lighting, and professional quality.
+                    <p className="text-gray-600 max-w-xl mx-auto mb-8">
+                        Upload a real estate photo and our AI will automatically apply professional-grade enhancements.
                     </p>
+
+                    {/* Feature Showcase Grid */}
+                    <div className="grid grid-cols-3 md:grid-cols-9 gap-3 max-w-4xl mx-auto mb-8">
+                        <div className="flex flex-col items-center gap-1 p-3 rounded-xl bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-100">
+                            <span className="text-2xl">🌅</span>
+                            <span className="text-xs font-medium text-gray-700">HDR Merge</span>
+                        </div>
+                        <div className="flex flex-col items-center gap-1 p-3 rounded-xl bg-gradient-to-br from-sky-50 to-blue-50 border border-sky-100">
+                            <span className="text-2xl">🪟</span>
+                            <span className="text-xs font-medium text-gray-700">Window Pull</span>
+                        </div>
+                        <div className="flex flex-col items-center gap-1 p-3 rounded-xl bg-gradient-to-br from-cyan-50 to-sky-50 border border-cyan-100">
+                            <span className="text-2xl">☁️</span>
+                            <span className="text-xs font-medium text-gray-700">Sky Replace</span>
+                        </div>
+                        <div className="flex flex-col items-center gap-1 p-3 rounded-xl bg-gradient-to-br from-gray-50 to-slate-50 border border-gray-100">
+                            <span className="text-2xl">⚖️</span>
+                            <span className="text-xs font-medium text-gray-700">White Bal.</span>
+                        </div>
+                        <div className="flex flex-col items-center gap-1 p-3 rounded-xl bg-gradient-to-br from-indigo-50 to-purple-50 border border-indigo-100">
+                            <span className="text-2xl">📐</span>
+                            <span className="text-xs font-medium text-gray-700">Perspective</span>
+                        </div>
+                        <div className="flex flex-col items-center gap-1 p-3 rounded-xl bg-gradient-to-br from-yellow-50 to-amber-50 border border-yellow-100">
+                            <span className="text-2xl">💡</span>
+                            <span className="text-xs font-medium text-gray-700">Relighting</span>
+                        </div>
+                        <div className="flex flex-col items-center gap-1 p-3 rounded-xl bg-gradient-to-br from-emerald-50 to-green-50 border border-emerald-100">
+                            <span className="text-2xl">📷</span>
+                            <span className="text-xs font-medium text-gray-700">RAW Quality</span>
+                        </div>
+                        <div className="flex flex-col items-center gap-1 p-3 rounded-xl bg-gradient-to-br from-rose-50 to-pink-50 border border-rose-100">
+                            <span className="text-2xl">🔒</span>
+                            <span className="text-xs font-medium text-gray-700">Auto Privacy</span>
+                        </div>
+                        <div className="flex flex-col items-center gap-1 p-3 rounded-xl bg-gradient-to-br from-violet-50 to-purple-50 border border-violet-100">
+                            <span className="text-2xl">🎨</span>
+                            <span className="text-xs font-medium text-gray-700">Color Fix</span>
+                        </div>
+                    </div>
                 </div>
+
 
                 {/* Main Content */}
                 <div className="space-y-8">

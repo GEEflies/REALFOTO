@@ -15,7 +15,69 @@ function getClient(): GoogleGenAI {
     return ai
 }
 
-const ENHANCE_PROMPT = `Using the provided real estate photo, enhance it for a professional listing. Improve the lighting with perfect HDR balance, correct the white balance for natural warm tones, and enhance colors to be vibrant but realistic. The result should be ultra high quality and listing-ready.`
+const ENHANCE_PROMPT = `You are a professional real estate photo editor. Transform this real estate photo into a stunning, listing-ready image by applying ALL of the following enhancements:
+
+## 1. HDR MERGING & EXPOSURE BALANCE
+- Create perfect exposure balance across the ENTIRE image
+- Recover ALL shadow details in dark areas - make them bright and visible
+- Recover ALL highlight details in bright areas - no blown out whites
+- Interior should be dramatically brighter while maintaining natural look
+
+## 2. WINDOW PULLING (CRITICAL)
+- Windows MUST show a clear, sharp view of the outside
+- The exterior through windows should be perfectly visible, not white/blown out
+- Balance interior exposure with exterior view - both must be crystal clear
+- If there's sky visible through windows, it should be blue and inviting
+
+## 3. SKY REPLACEMENT
+- If any exterior sky is visible and it's dull/gray/overcast, replace with bright blue sky
+- Add natural-looking white clouds for visual interest
+- Sky should look inviting and enhance curb appeal
+
+## 4. WHITE BALANCE CORRECTION
+- Correct any color cast (yellow, blue, green tints)
+- Whites should be pure white
+- Create warm, inviting tones that feel welcoming
+- Natural color temperature around 5500-6000K
+
+## 5. PERSPECTIVE CORRECTION
+- Straighten ALL vertical lines (walls, door frames, windows)
+- Straighten ALL horizontal lines (floor edges, ceiling lines)
+- Correct any lens distortion or barrel distortion
+- Image should look professionally shot with a tilt-shift lens
+
+## 6. IMAGE RELIGHTING
+- Brighten ALL dark corners and shadowy areas dramatically
+- Add subtle highlights to surfaces to create depth
+- Create balanced, even lighting as if professionally lit
+- No harsh shadows - soft, natural-looking illumination
+
+## 7. RAW-QUALITY DETAIL ENHANCEMENT
+- Maximize sharpness and clarity
+- Enhance fine textures (wood grain, fabric, stone)
+- Preserve and enhance all micro-details
+- Output should look like it came from a professional camera RAW file
+
+## 8. AUTO PRIVACY PROTECTION
+- If there are any family photos/portraits visible, apply subtle blur
+- If there are any license plates visible, blur them
+- Blur any personal documents or screens with sensitive info
+- Maintain natural appearance while protecting privacy
+
+## 9. COLOR CORRECTION & VIBRANCE
+- Boost color vibrance for visual pop without looking artificial
+- Enhance greens in plants to look healthy and vibrant
+- Enhance wood tones to look rich and warm
+- Make the space look inviting, clean, and move-in ready
+
+OUTPUT REQUIREMENTS:
+- The result should be DRAMATICALLY improved - obvious visible difference
+- Professional real estate listing quality
+- Natural and realistic - not over-processed or HDR-heavy
+- Ready for immediate use on Zillow, Redfin, Realtor.com
+
+Apply ALL enhancements aggressively. The before/after difference should be STRIKING.`
+
 
 const REMOVE_OBJECT_PROMPT = (objectToRemove: string) => `Edit this image by replacing the "${objectToRemove}" with the surrounding background (wall, floor, or ceiling). The result should look natural and seamless, as if the object was never there.`
 
