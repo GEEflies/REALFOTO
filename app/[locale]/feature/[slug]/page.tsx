@@ -5,12 +5,15 @@ import { Link } from '@/navigation'
 import { useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/button'
 import { ArrowRight } from 'lucide-react'
+import { Footer } from '@/components/Footer'
+import { PreFooter } from '@/components/PreFooter'
+import { use } from 'react'
 
 interface FeaturePageProps {
-    params: {
+    params: Promise<{
         slug: string
         locale: string
-    }
+    }>
 }
 
 // Map slugs to image paths
@@ -54,7 +57,7 @@ const featureImages: Record<string, { before: string; after: string }> = {
 }
 
 export default function FeaturePage({ params }: FeaturePageProps) {
-    const { slug } = params
+    const { slug } = use(params)
     const t = useTranslations(`FeaturePages.${slug}`)
 
     const images = featureImages[slug] || featureImages['sky-replacement'] // Fallback
@@ -116,6 +119,10 @@ export default function FeaturePage({ params }: FeaturePageProps) {
                     </div>
                 </div>
             </section>
+
+            {/* Footer */}
+            <PreFooter />
+            <Footer />
         </div>
     )
 }
