@@ -89,14 +89,14 @@ export default function HomePage() {
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row items-center gap-4 mb-8 w-full sm:w-auto">
                 <Link href="/enhance" className="w-full sm:w-auto">
-                  <Button size="lg" className="w-full sm:w-auto h-12 px-8 text-base gap-2 bg-blue-600 hover:bg-blue-700 shadow-lg hover:shadow-blue-500/25 transition-all">
+                  <Button size="lg" className="w-full sm:w-auto h-12 px-8 text-base gap-2 bg-blue-600 hover:bg-blue-700 shadow-lg hover:shadow-blue-500/25 transition-all cursor-pointer">
                     {t('ctaTryFree')}
                     <ArrowRight className="w-4 h-4" />
                   </Button>
                 </Link>
                 <button
                   onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="w-full sm:w-auto h-12 px-6 flex items-center justify-center gap-2 text-gray-600 hover:text-gray-900 font-medium transition-colors border border-gray-200 hover:border-gray-300 rounded-md bg-white"
+                  className="w-full sm:w-auto h-12 px-6 flex items-center justify-center gap-2 text-gray-600 hover:text-gray-900 font-medium transition-colors border border-gray-200 hover:border-gray-300 rounded-md bg-white cursor-pointer"
                 >
                   {t('ctaSeeFeatures')}
                 </button>
@@ -226,39 +226,39 @@ export default function HomePage() {
       </section>
 
       {/* Comparison Section: Aurix vs Human Editor */}
-      <section className="px-4 py-20 bg-slate-900 text-white">
+      <section className="px-4 py-24 sm:py-32 bg-slate-900 text-white">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <div className="text-center mb-16 sm:mb-20">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 tracking-tight">
               {t('comparisonTitle')}
             </h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">
+            <p className="text-gray-400 max-w-2xl mx-auto text-lg leading-relaxed">
               {t('comparisonSubtitle')}
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
             {/* Aurix Edit */}
-            <div className="relative">
-              <div className="absolute top-4 left-4 bg-blue-600 text-white text-sm font-medium px-3 py-1 rounded-md z-10">
+            <div className="relative border border-white/10 shadow-2xl rounded-2xl overflow-hidden group">
+              <div className="absolute top-6 left-6 bg-blue-600/90 backdrop-blur-md text-white text-sm font-semibold px-4 py-1.5 rounded-full z-10 shadow-lg">
                 {t('aurixLabel')}
               </div>
               <ImageCompareSlider
                 beforeImage="/landing/aurix edit/original-edit.jpg"
                 afterImage="/landing/aurix edit/aurix-edit.jpg"
-                className="rounded-xl"
+                className=""
               />
             </div>
 
             {/* Human Editor */}
-            <div className="relative">
-              <div className="absolute top-4 left-4 bg-gray-600 text-white text-sm font-medium px-3 py-1 rounded-md z-10">
+            <div className="relative border border-white/10 shadow-2xl rounded-2xl overflow-hidden group">
+              <div className="absolute top-6 left-6 bg-gray-700/90 backdrop-blur-md text-white text-sm font-semibold px-4 py-1.5 rounded-full z-10 shadow-lg">
                 {t('humanLabel')}
               </div>
               <ImageCompareSlider
                 beforeImage="/landing/human edit/original-edit.jpg"
                 afterImage="/landing/human edit/human-edit.jpg"
-                className="rounded-xl"
+                className=""
               />
             </div>
           </div>
