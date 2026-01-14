@@ -259,5 +259,43 @@
             },
             "contact": "Kontaktovať predaj"
         }
+    },
+    "PreFooter": {
+        "title": "Pripravení začať?",
+        "subtitle": "Pridajte sa k tisíckam realitných profesionálov, ktorí šetria čas s AI.",
+        "cta": "Začať zadarmo",
+        "demo": "Pozrieť demo"
+    },
+    "Footer": {
+        "description": "AI foto editor, ktorý vylepší váš pracovný tok.",
+        "handyLinks": "Užitočné odkazy",
+        "company": "Spoločnosť",
+        "features": "Funkcie",
+        "links": {
+            "home": "Domov",
+            "enhance": "Vylepšiť",
+            "remove": "Odstrániť",
+            "pricing": "Cenník",
+            "contact": "Kontakt",
+            "blog": "Blog",
+            "about": "O nás",
+            "privacy": "Ochrana súkromia",
+            "terms": "Podmienky služby",
+            "legal": "Právne dokumenty",
+            "status": "Stav systému",
+            "affiliate": "Partnerský program",
+            "jobs": "Kariéra"
+        },
+        "featureList": {
+            "sky": "Výmena oblohy",
+            "perspective": "Korekcia perspektívy",
+            "hdr": "HDR zlúčenie",
+            "window": "Vytiahnutie okien",
+            "whiteBalance": "Vyváženie bielej",
+            "relighting": "Preosvetlenie",
+            "raw": "Podpora RAW",
+            "privacy": "Auto Súkromie"
+        },
+        "rights": "Všetky práva vyhradené."
     }
 }

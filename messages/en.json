@@ -259,5 +259,43 @@
             },
             "contact": "Contact Sales"
         }
+    },
+    "PreFooter": {
+        "title": "Ready to get started?",
+        "subtitle": "Join thousands of real estate professionals saving time with AI.",
+        "cta": "Get Started",
+        "demo": "Watch Demo"
+    },
+    "Footer": {
+        "description": "The AI photo editor that enhances your workflow.",
+        "handyLinks": "Handy links",
+        "company": "Company",
+        "features": "Features",
+        "links": {
+            "home": "Home",
+            "enhance": "Enhance",
+            "remove": "Remove",
+            "pricing": "Pricing",
+            "contact": "Contact",
+            "blog": "Blog",
+            "about": "About us",
+            "privacy": "Privacy Policy",
+            "terms": "Terms of Service",
+            "legal": "Legal documents",
+            "status": "Status page",
+            "affiliate": "Affiliate program",
+            "jobs": "Jobs"
+        },
+        "featureList": {
+            "sky": "Sky replacement",
+            "perspective": "Perspective correction",
+            "hdr": "HDR merge",
+            "window": "Window Pulling",
+            "whiteBalance": "White Balance",
+            "relighting": "Image relighting",
+            "raw": "RAW Support",
+            "privacy": "Auto Privacy"
+        },
+        "rights": "All rights reserved."
     }
 }
