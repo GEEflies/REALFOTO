@@ -3,8 +3,10 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
-import { Check, Flame, X } from 'lucide-react'
+import { Check, Flame, X, Sparkles, Building2, Crown, Zap } from 'lucide-react'
 import { useTranslations } from 'next-intl'
+import { motion, AnimatePresence } from 'framer-motion'
+import { cn } from '@/lib/utils'
 
 interface PaywallGateProps {
     open: boolean
@@ -24,238 +26,258 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
     }
 
     return (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-            <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto relative">
-                {/* Close button */}
-                <button
-                    onClick={handleClose}
-                    className="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 transition-colors z-10"
-                >
-                    <X className="w-5 h-5 text-gray-500" />
-                </button>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            {/* Backdrop with sophisticated blur */}
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="absolute inset-0 bg-black/60 backdrop-blur-md"
+                onClick={handleClose}
+            />
 
-                <div className="p-8">
-                    {/* Header */}
-                    <div className="text-center mb-8">
-                        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
-                            {t('title')}
-                        </h2>
-                        <p className="text-gray-600">
-                            {t('subtitle')}
-                        </p>
-                    </div>
+            {/* Main Modal */}
+            <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                className="relative w-full max-w-5xl bg-white rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col"
+            >
+                {/* Header Section */}
+                <div className="relative pt-12 pb-6 px-8 text-center bg-gradient-to-b from-gray-50 to-white border-b border-gray-100">
+                    <button
+                        onClick={handleClose}
+                        className="absolute top-6 right-6 p-2 rounded-full hover:bg-gray-100 transition-colors duration-200"
+                    >
+                        <X className="w-6 h-6 text-gray-400 hover:text-gray-900" />
+                    </button>
 
-                    {/* Tabs */}
-                    <div className="flex justify-center mb-8">
-                        <div className="inline-flex bg-gray-100 rounded-full p-1">
-                            <button
-                                onClick={() => setActiveTab('payPerImage')}
-                                className={`px-6 py-2.5 rounded-full text-sm font-medium transition-all ${activeTab === 'payPerImage'
-                                    ? 'bg-white text-gray-900 shadow-sm'
-                                    : 'text-gray-600 hover:text-gray-900'
-                                    }`}
-                            >
-                                {t('tabs.payPerImage')}
-                            </button>
-                            <button
-                                onClick={() => setActiveTab('limitedOffer')}
-                                className={`px-6 py-2.5 rounded-full text-sm font-medium transition-all flex items-center gap-1.5 ${activeTab === 'limitedOffer'
-                                    ? 'bg-white text-gray-900 shadow-sm'
-                                    : 'text-gray-600 hover:text-gray-900'
-                                    }`}
-                            >
-                                <Flame className="w-4 h-4 text-orange-500" />
-                                {t('tabs.limitedOffer')}
-                            </button>
-                            <button
-                                onClick={() => setActiveTab('enterprise')}
-                                className={`px-6 py-2.5 rounded-full text-sm font-medium transition-all ${activeTab === 'enterprise'
-                                    ? 'bg-white text-gray-900 shadow-sm'
-                                    : 'text-gray-600 hover:text-gray-900'
-                                    }`}
-                            >
-                                {t('tabs.enterprise')}
-                            </button>
+                    <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3 tracking-tight">
+                        {t('title')}
+                    </h2>
+                    <p className="text-gray-500 text-lg max-w-xl mx-auto leading-relaxed">
+                        {t('subtitle')}
+                    </p>
+
+                    {/* Premium Tab Switcher */}
+                    <div className="flex justify-center mt-8">
+                        <div className="inline-flex bg-gray-100/80 p-1.5 rounded-full border border-gray-200/50 backdrop-blur-sm">
+                            {[
+                                { id: 'payPerImage', label: t('tabs.payPerImage'), icon: Sparkles },
+                                { id: 'limitedOffer', label: t('tabs.limitedOffer'), icon: Flame },
+                                { id: 'enterprise', label: t('tabs.enterprise'), icon: Building2 }
+                            ].map((tab) => (
+                                <button
+                                    key={tab.id}
+                                    onClick={() => setActiveTab(tab.id as PricingTab)}
+                                    className={cn(
+                                        "relative px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 flex items-center gap-2 z-10",
+                                        activeTab === tab.id
+                                            ? "text-gray-900 shadow-sm"
+                                            : "text-gray-500 hover:text-gray-900"
+                                    )}
+                                >
+                                    {activeTab === tab.id && (
+                                        <motion.div
+                                            layoutId="activeTab"
+                                            className="absolute inset-0 bg-white rounded-full"
+                                            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                                        />
+                                    )}
+                                    <span className="relative z-10 flex items-center gap-2">
+                                        <tab.icon className={cn("w-4 h-4", activeTab === tab.id && "text-blue-600")} />
+                                        {tab.label}
+                                    </span>
+                                </button>
+                            ))}
                         </div>
                     </div>
-
-                    {/* Pay Per Image */}
-                    {activeTab === 'payPerImage' && (
-                        <div className="grid md:grid-cols-2 gap-8 items-center min-h-[400px]">
-                            <div className="text-center md:text-left">
-                                <h3 className="text-xl font-bold text-gray-900 mb-2">
-                                    {t('payPerImage.title')}
-                                </h3>
-                                <p className="text-gray-600 mb-6">
-                                    {t('payPerImage.description')}
-                                </p>
-                                <div className="mb-2">
-                                    <span className="text-4xl font-bold text-gray-900">€0.69</span>
-                                    <span className="text-gray-600"> / {t('payPerImage.perImage')}</span>
-                                </div>
-                                <p className="text-sm text-gray-500 mb-6">
-                                    {t('payPerImage.invoiceNote')}
-                                </p>
-                                <Button size="lg" variant="outline" className="px-8 mb-8">
-                                    {t('getStarted')}
-                                </Button>
-                                <ul className="space-y-3 text-sm">
-                                    <li className="flex items-center gap-2 text-gray-600">
-                                        <Check className="w-5 h-5 text-green-500" />
-                                        {t('payPerImage.features.0')}
-                                    </li>
-                                    <li className="flex items-center gap-2 text-gray-600">
-                                        <Check className="w-5 h-5 text-green-500" />
-                                        {t('payPerImage.features.1')}
-                                    </li>
-                                    <li className="flex items-center gap-2 text-gray-600">
-                                        <Check className="w-5 h-5 text-green-500" />
-                                        {t('payPerImage.features.2')}
-                                    </li>
-                                </ul>
-                            </div>
-                            <div className="relative flex items-center justify-center py-8">
-                                {/* Before Image - Tilted left */}
-                                <div className="relative w-36 rounded-xl overflow-hidden shadow-lg transform -rotate-[15deg] z-10">
-                                    <div className="absolute top-2 left-2 bg-gray-800 text-white text-xs px-2 py-1 rounded z-20">
-                                        {t('before')}
-                                    </div>
-                                    <Image
-                                        src="/landing/pricing/before.jpeg"
-                                        alt="Before"
-                                        width={300}
-                                        height={400}
-                                        className="w-full h-auto"
-                                    />
-                                </div>
-                                {/* After Image - Tilted right, overlapping, no border */}
-                                <div className="relative w-48 rounded-xl overflow-hidden shadow-2xl transform rotate-[15deg] -ml-8 z-20">
-                                    <div className="absolute top-2 left-2 bg-blue-600 text-white text-xs px-2 py-1 rounded z-20">
-                                        {t('after')}
-                                    </div>
-                                    <Image
-                                        src="/landing/pricing/after.jpeg"
-                                        alt="After"
-                                        width={300}
-                                        height={400}
-                                        className="w-full h-auto"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Limited Offer */}
-                    {activeTab === 'limitedOffer' && (
-                        <div className="grid md:grid-cols-2 gap-6 min-h-[400px]">
-                            {/* 50 Images Pack */}
-                            <div className="border-2 border-gray-200 rounded-2xl p-6 hover:border-blue-500 transition-colors">
-                                <div className="flex items-center gap-2 mb-4">
-                                    <Flame className="w-5 h-5 text-orange-500" />
-                                    <span className="text-sm font-medium text-orange-600">{t('limitedOffer.popular')}</span>
-                                </div>
-                                <h3 className="text-xl font-bold text-gray-900 mb-2">
-                                    50 {t('limitedOffer.images')}
-                                </h3>
-                                <div className="mb-4">
-                                    <span className="text-3xl font-bold text-gray-900">€16.99</span>
-                                    <span className="text-gray-500 text-sm ml-2">(€0.34/{t('payPerImage.perImage')})</span>
-                                </div>
-                                <Button className="w-full mb-4 bg-blue-600 hover:bg-blue-700">
-                                    {t('selectPlan')}
-                                </Button>
-                                <ul className="space-y-2 text-sm text-gray-600">
-                                    <li className="flex items-center gap-2">
-                                        <Check className="w-4 h-4 text-green-500" />
-                                        {t('limitedOffer.features.0')}
-                                    </li>
-                                    <li className="flex items-center gap-2">
-                                        <Check className="w-4 h-4 text-green-500" />
-                                        {t('limitedOffer.features.1')}
-                                    </li>
-                                    <li className="flex items-center gap-2">
-                                        <Check className="w-4 h-4 text-green-500" />
-                                        {t('limitedOffer.features.2')}
-                                    </li>
-                                </ul>
-                            </div>
-
-                            {/* 100 Images Pack */}
-                            <div className="border-2 border-blue-500 rounded-2xl p-6 relative bg-blue-50/50">
-                                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-xs px-3 py-1 rounded-full font-medium">
-                                    {t('limitedOffer.bestValue')}
-                                </div>
-                                <h3 className="text-xl font-bold text-gray-900 mb-2 mt-2">
-                                    100 {t('limitedOffer.images')}
-                                </h3>
-                                <div className="mb-4">
-                                    <span className="text-3xl font-bold text-gray-900">€24.99</span>
-                                    <span className="text-gray-500 text-sm ml-2">(€0.25/{t('payPerImage.perImage')})</span>
-                                </div>
-                                <Button className="w-full mb-4 bg-blue-600 hover:bg-blue-700">
-                                    {t('selectPlan')}
-                                </Button>
-                                <ul className="space-y-2 text-sm text-gray-600">
-                                    <li className="flex items-center gap-2">
-                                        <Check className="w-4 h-4 text-green-500" />
-                                        {t('limitedOffer.features.0')}
-                                    </li>
-                                    <li className="flex items-center gap-2">
-                                        <Check className="w-4 h-4 text-green-500" />
-                                        {t('limitedOffer.features.1')}
-                                    </li>
-                                    <li className="flex items-center gap-2">
-                                        <Check className="w-4 h-4 text-green-500" />
-                                        {t('limitedOffer.features.2')}
-                                    </li>
-                                    <li className="flex items-center gap-2">
-                                        <Check className="w-4 h-4 text-green-500" />
-                                        {t('limitedOffer.features.3')}
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Enterprise */}
-                    {activeTab === 'enterprise' && (
-                        <div className="flex flex-col items-center justify-center text-center max-w-lg mx-auto min-h-[400px]">
-                            <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl flex items-center justify-center mb-6">
-                                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                                </svg>
-                            </div>
-                            <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                                {t('enterprise.title')}
-                            </h3>
-                            <p className="text-gray-600 mb-8">
-                                {t('enterprise.description')}
-                            </p>
-                            <ul className="space-y-3 mb-8 w-full">
-                                <li className="flex items-center justify-center gap-3 text-gray-700">
-                                    <Check className="w-5 h-5 text-green-500 shrink-0" />
-                                    {t('enterprise.features.0')}
-                                </li>
-                                <li className="flex items-center justify-center gap-3 text-gray-700">
-                                    <Check className="w-5 h-5 text-green-500 shrink-0" />
-                                    {t('enterprise.features.1')}
-                                </li>
-                                <li className="flex items-center justify-center gap-3 text-gray-700">
-                                    <Check className="w-5 h-5 text-green-500 shrink-0" />
-                                    {t('enterprise.features.2')}
-                                </li>
-                                <li className="flex items-center justify-center gap-3 text-gray-700">
-                                    <Check className="w-5 h-5 text-green-500 shrink-0" />
-                                    {t('enterprise.features.3')}
-                                </li>
-                            </ul>
-                            <Button size="lg" className="px-12 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700">
-                                {t('enterprise.contact')}
-                            </Button>
-                        </div>
-                    )}
                 </div>
-            </div>
+
+                {/* Content Area */}
+                <div className="flex-1 overflow-y-auto p-8 md:p-12 bg-white">
+                    <AnimatePresence mode="wait">
+                        {activeTab === 'payPerImage' && (
+                            <motion.div
+                                key="payPerImage"
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -20 }}
+                                className="grid lg:grid-cols-2 gap-12 items-center"
+                            >
+                                <div className="space-y-8">
+                                    <div>
+                                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-sm font-medium mb-4">
+                                            <Zap className="w-4 h-4" />
+                                            Flexible Usage
+                                        </div>
+                                        <h3 className="text-3xl font-bold text-gray-900 mb-4">{t('payPerImage.title')}</h3>
+                                        <p className="text-gray-600 text-lg leading-relaxed">{t('payPerImage.description')}</p>
+                                    </div>
+
+                                    <div className="flex items-baseline gap-2">
+                                        <span className="text-6xl font-bold tracking-tight text-gray-900">€0.69</span>
+                                        <span className="text-xl text-gray-500 font-medium">/ {t('payPerImage.perImage')}</span>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 gap-4">
+                                        {[0, 1, 2].map((i) => (
+                                            <div key={i} className="flex items-center gap-4 p-4 rounded-xl bg-gray-50 border border-gray-100">
+                                                <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+                                                    <Check className="w-5 h-5 text-green-600" />
+                                                </div>
+                                                <span className="font-medium text-gray-700">{t(`payPerImage.features.${i}`)}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    <Button size="lg" className="w-full h-14 text-lg bg-gray-900 hover:bg-gray-800 text-white rounded-xl shadow-lg hover:shadow-xl transition-all">
+                                        {t('getStarted')}
+                                    </Button>
+
+                                    <p className="text-center text-sm text-gray-400">
+                                        {t('payPerImage.invoiceNote')}
+                                    </p>
+                                </div>
+
+                                <div className="relative group">
+                                    <div className="absolute -inset-4 bg-gradient-to-r from-blue-100 to-purple-100 rounded-[2rem] blur-xl opacity-50 group-hover:opacity-100 transition-opacity" />
+                                    <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-gray-200 bg-white">
+                                        <div className="aspect-[4/3] relative">
+                                            <div className="absolute inset-0 flex">
+                                                <div className="w-1/2 relative overflow-hidden border-r-2 border-white">
+                                                    <div className="absolute top-4 left-4 z-10 bg-black/70 text-white text-xs font-bold px-3 py-1.5 rounded-full backdrop-blur-md">
+                                                        {t('before')}
+                                                    </div>
+                                                    <Image
+                                                        src="/landing/pricing/before.jpeg"
+                                                        alt="Before"
+                                                        fill
+                                                        className="object-cover"
+                                                    />
+                                                </div>
+                                                <div className="w-1/2 relative overflow-hidden">
+                                                    <div className="absolute top-4 right-4 z-10 bg-blue-600 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
+                                                        {t('after')}
+                                                    </div>
+                                                    <Image
+                                                        src="/landing/pricing/after.jpeg"
+                                                        alt="After"
+                                                        fill
+                                                        className="object-cover"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        )}
+
+                        {activeTab === 'limitedOffer' && (
+                            <motion.div
+                                key="limitedOffer"
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -20 }}
+                                className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto"
+                            >
+                                {[
+                                    { count: 50, price: '16.99', per: '0.34', highlight: false, id: 'starter' },
+                                    { count: 100, price: '24.99', per: '0.25', highlight: true, id: 'pro' }
+                                ].map((plan) => (
+                                    <div
+                                        key={plan.count}
+                                        className={cn(
+                                            "relative p-8 rounded-3xl border-2 transition-all duration-300",
+                                            plan.highlight
+                                                ? "border-blue-500 bg-blue-50/30 shadow-xl scale-105 z-10"
+                                                : "border-gray-100 bg-white hover:border-gray-200 hover:shadow-lg"
+                                        )}
+                                    >
+                                        {plan.highlight && (
+                                            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-blue-600 to-blue-500 text-white px-4 py-1.5 rounded-full text-sm font-bold shadow-lg flex items-center gap-1.5">
+                                                <Flame className="w-3.5 h-3.5 fill-current" />
+                                                {t('limitedOffer.bestValue')}
+                                            </div>
+                                        )}
+
+                                        <h3 className="text-lg font-medium text-gray-500 mb-2">
+                                            {plan.count} {t('limitedOffer.images')}
+                                        </h3>
+                                        <div className="flex items-baseline gap-2 mb-6">
+                                            <span className="text-5xl font-bold text-gray-900">€{plan.price}</span>
+                                            <span className="text-sm font-medium text-gray-400 bg-gray-100 px-2 py-1 rounded-md">
+                                                €{plan.per}/{t('payPerImage.perImage')}
+                                            </span>
+                                        </div>
+
+                                        <Button
+                                            className={cn(
+                                                "w-full h-12 text-base mb-8 rounded-xl",
+                                                plan.highlight ? "bg-blue-600 hover:bg-blue-700" : "bg-gray-900 hover:bg-gray-800"
+                                            )}
+                                        >
+                                            {t('selectPlan')}
+                                        </Button>
+
+                                        <div className="space-y-4">
+                                            <div className="text-xs font-semibold uppercase tracking-wider text-gray-400">Features</div>
+                                            {[0, 1, 2, 3].map((i) => (
+                                                <div key={i} className="flex items-center gap-3">
+                                                    <div className={cn(
+                                                        "w-6 h-6 rounded-full flex items-center justify-center shrink-0",
+                                                        plan.highlight ? "bg-blue-100 text-blue-600" : "bg-gray-100 text-gray-500"
+                                                    )}>
+                                                        <Check className="w-3.5 h-3.5" />
+                                                    </div>
+                                                    <span className="text-gray-700 font-medium">{t(`limitedOffer.features.${i}`)}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ))}
+                            </motion.div>
+                        )}
+
+                        {activeTab === 'enterprise' && (
+                            <motion.div
+                                key="enterprise"
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -20 }}
+                                className="max-w-3xl mx-auto text-center"
+                            >
+                                <div className="w-24 h-24 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-xl shadow-purple-500/20">
+                                    <Building2 className="w-10 h-10 text-white" />
+                                </div>
+
+                                <h3 className="text-4xl font-bold text-gray-900 mb-6 font-display">
+                                    {t('enterprise.title')}
+                                </h3>
+                                <p className="text-xl text-gray-500 mb-12 max-w-2xl mx-auto leading-relaxed">
+                                    {t('enterprise.description')}
+                                </p>
+
+                                <div className="grid md:grid-cols-2 gap-6 mb-12">
+                                    {[0, 1, 2, 3].map((i) => (
+                                        <div key={i} className="flex items-center gap-4 p-5 rounded-2xl bg-gray-50 border border-gray-100 text-left">
+                                            <div className="w-10 h-10 rounded-xl bg-white border border-gray-200 flex items-center justify-center shadow-sm shrink-0">
+                                                <Check className="w-5 h-5 text-indigo-600" />
+                                            </div>
+                                            <span className="font-semibold text-gray-900">{t(`enterprise.features.${i}`)}</span>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <Button size="lg" className="px-12 h-14 text-lg bg-gray-900 hover:bg-gray-800 text-white rounded-xl shadow-xl hover:shadow-2xl transition-all">
+                                    {t('enterprise.contact')}
+                                </Button>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </div>
+            </motion.div>
         </div>
     )
 }
