@@ -12,7 +12,9 @@
         "heroSubtitle": "AI HDR zlúčenie, výmena oblohy a vytiahnutie okien v priebehu sekúnd.",
         "heroDescription": "Prestaňte strácať hodiny manuálnou úpravou. Získajte konzistentné, profesionálne výsledky okamžite a ušetrite až 90% nákladov.",
         "ctaTryFree": "Vyskúšať Zadarmo",
+        "ctaTryFreeShort": "Skúsiť",
         "ctaSeeFeatures": "Pozrieť funkcie",
+        "ctaSeeFeaturesShort": "Funkcie",
         "noAccount": "*Bez nutnosti kreditnej karty",
         "heroBenefits": {
             "speed": "Hotovo do 30s",

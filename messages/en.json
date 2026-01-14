@@ -12,7 +12,9 @@
         "heroSubtitle": "AI-powered HDR, Sky Replacement, and Window Pulls in seconds.",
         "heroDescription": "Stop wasting hours on manual editing. Get consistent, professional-grade results instantly and save up to 90% of your editing costs.",
         "ctaTryFree": "Try For Free",
+        "ctaTryFreeShort": "Try Free",
         "ctaSeeFeatures": "See Features",
+        "ctaSeeFeaturesShort": "Features",
         "noAccount": "*No credit card required",
         "heroBenefits": {
             "speed": "30s Turnaround",

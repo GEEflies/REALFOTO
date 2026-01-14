@@ -67,9 +67,10 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="px-4 py-16 md:py-24 bg-gradient-to-b from-slate-50 to-white">
         <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Left: Text Content */}
             <div className="order-2 lg:order-1 flex flex-col items-start text-left">
+              {/* Badge */}
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-sm font-medium mb-6">
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
@@ -80,99 +81,112 @@ export default function HomePage() {
 
               <HeroTitle />
 
-              <p className="text-xl text-gray-600 mb-8 max-w-lg leading-relaxed">
+              <p className="text-lg md:text-xl text-gray-600 mb-6 max-w-lg leading-relaxed">
                 {t.rich('heroDescription', {
                   br: () => <br />,
                   highlight: (chunks) => <span className="text-blue-600 font-semibold">{chunks}</span>
                 })}
               </p>
 
+              {/* MOBILE ONLY: Hero Image between subtitle and CTA */}
+              <div className="block lg:hidden w-full mb-6">
+                <div className="relative rounded-xl overflow-hidden shadow-xl">
+                  <ImageCompareSlider
+                    beforeImage="/landing/hero images/wb-before.jpg"
+                    afterImage="/landing/hero images/wb-after.jpg"
+                    className=""
+                  />
+                  {/* Mobile testimonial bar - super slim */}
+                  <div className="absolute bottom-0 left-0 right-0 z-10 bg-black/30 backdrop-blur-sm px-3 py-1.5 flex items-center justify-center gap-2">
+                    <div className="flex items-center -space-x-1.5">
+                      <div className="w-6 h-6 rounded-full border border-white/30 overflow-hidden">
+                        <Image src="/testimonials/Gemini_Generated_Image_339lzr339lzr339l.png" alt="User" width={24} height={24} className="w-full h-full object-cover" />
+                      </div>
+                      <div className="w-6 h-6 rounded-full border border-white/30 overflow-hidden">
+                        <Image src="/testimonials/Gemini_Generated_Image_job9rjob9rjob9rj.png" alt="User" width={24} height={24} className="w-full h-full object-cover" />
+                      </div>
+                      <div className="w-6 h-6 rounded-full border border-white/30 overflow-hidden">
+                        <Image src="/testimonials/Gemini_Generated_Image_l0v0vll0v0vll0v0.png" alt="User" width={24} height={24} className="w-full h-full object-cover" />
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-0.5">
+                      <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
+                      <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
+                      <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
+                      <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
+                      <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row items-center gap-4 mb-8 w-full sm:w-auto">
+              <div className="flex flex-col sm:flex-row items-center gap-3 mb-6 w-full sm:w-auto">
                 <Link href="/enhance" className="w-full sm:w-auto">
-                  <Button size="lg" className="w-full sm:w-auto h-12 px-8 text-base gap-2 bg-blue-600 hover:bg-blue-700 shadow-lg hover:shadow-blue-500/25 transition-all cursor-pointer">
-                    {t('ctaTryFree')}
+                  <Button size="lg" className="w-full sm:w-auto h-11 sm:h-12 px-6 sm:px-8 text-sm sm:text-base gap-2 bg-blue-600 hover:bg-blue-700 shadow-lg hover:shadow-blue-500/25 transition-all cursor-pointer">
+                    <span className="sm:hidden">{t('ctaTryFreeShort')}</span>
+                    <span className="hidden sm:inline">{t('ctaTryFree')}</span>
                     <ArrowRight className="w-4 h-4" />
                   </Button>
                 </Link>
                 <button
                   onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="w-full sm:w-auto h-12 px-6 flex items-center justify-center gap-2 text-gray-600 hover:text-gray-900 font-medium transition-colors border border-gray-200 hover:border-gray-300 rounded-md bg-white cursor-pointer"
+                  className="w-full sm:w-auto h-11 sm:h-12 px-5 sm:px-6 flex items-center justify-center gap-2 text-gray-600 hover:text-gray-900 font-medium transition-colors border border-gray-200 hover:border-gray-300 rounded-md bg-white cursor-pointer text-sm sm:text-base"
                 >
-                  {t('ctaSeeFeatures')}
+                  <span className="sm:hidden">{t('ctaSeeFeaturesShort')}</span>
+                  <span className="hidden sm:inline">{t('ctaSeeFeatures')}</span>
                 </button>
               </div>
 
-              <p className="text-sm text-gray-500 mb-8 flex items-center gap-2">
+              <p className="text-sm text-gray-500 mb-6 flex items-center gap-2">
                 <ShieldCheck className="w-4 h-4 text-green-500" />
                 {t('noAccount')}
               </p>
 
               {/* Benefits Bar */}
-              <div className="w-full pt-8 border-t border-gray-100 grid grid-cols-2 md:grid-cols-3 gap-4">
+              <div className="w-full pt-6 border-t border-gray-100 grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
                 <div className="flex flex-col gap-1">
-                  <div className="flex items-center gap-2 text-gray-900 font-semibold">
-                    <AnimatedZap className="w-5 h-5" />
+                  <div className="flex items-center gap-2 text-gray-900 font-semibold text-sm md:text-base">
+                    <AnimatedZap className="w-4 h-4 md:w-5 md:h-5" />
                     {t('heroBenefits.speed')}
                   </div>
                 </div>
                 <div className="flex flex-col gap-1">
-                  <div className="flex items-center gap-2 text-gray-900 font-semibold">
-                    <AnimatedShield className="w-5 h-5" />
+                  <div className="flex items-center gap-2 text-gray-900 font-semibold text-sm md:text-base">
+                    <AnimatedShield className="w-4 h-4 md:w-5 md:h-5" />
                     {t('heroBenefits.privacy')}
                   </div>
                 </div>
                 <div className="flex flex-col gap-1">
-                  <div className="flex items-center gap-2 text-gray-900 font-semibold">
-                    <AnimatedTrend className="w-5 h-5" />
+                  <div className="flex items-center gap-2 text-gray-900 font-semibold text-sm md:text-base">
+                    <AnimatedTrend className="w-4 h-4 md:w-5 md:h-5" />
                     {t('heroBenefits.cost')}
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Right: Hero Image Slider */}
-            <div className="order-1 lg:order-2">
+            {/* Right: Hero Image Slider - DESKTOP ONLY */}
+            <div className="hidden lg:block order-1 lg:order-2">
               <div className="relative rounded-xl overflow-hidden shadow-2xl">
                 <ImageCompareSlider
                   beforeImage="/landing/hero images/wb-before.jpg"
                   afterImage="/landing/hero images/wb-after.jpg"
                   className=""
                 />
-                {/* Full-width testimonial overlay bar */}
-                {/* Full-width testimonial overlay bar */}
+                {/* Desktop testimonial overlay bar */}
                 <div className="absolute bottom-0 left-0 right-0 z-10 bg-black/20 backdrop-blur-sm border-t border-white/60 px-6 py-3 flex items-center justify-center gap-4">
-                  {/* Overlapping avatars */}
                   <div className="flex items-center -space-x-2.5">
                     <div className="w-10 h-10 rounded-full border-2 border-white/20 overflow-hidden bg-gray-200">
-                      <Image
-                        src="/testimonials/Gemini_Generated_Image_339lzr339lzr339l.png"
-                        alt="User"
-                        width={40}
-                        height={40}
-                        className="w-full h-full object-cover"
-                      />
+                      <Image src="/testimonials/Gemini_Generated_Image_339lzr339lzr339l.png" alt="User" width={40} height={40} className="w-full h-full object-cover" />
                     </div>
                     <div className="w-10 h-10 rounded-full border-2 border-white/20 overflow-hidden bg-gray-200">
-                      <Image
-                        src="/testimonials/Gemini_Generated_Image_job9rjob9rjob9rj.png"
-                        alt="User"
-                        width={40}
-                        height={40}
-                        className="w-full h-full object-cover"
-                      />
+                      <Image src="/testimonials/Gemini_Generated_Image_job9rjob9rjob9rj.png" alt="User" width={40} height={40} className="w-full h-full object-cover" />
                     </div>
                     <div className="w-10 h-10 rounded-full border-2 border-white/20 overflow-hidden bg-gray-200">
-                      <Image
-                        src="/testimonials/Gemini_Generated_Image_l0v0vll0v0vll0v0.png"
-                        alt="User"
-                        width={40}
-                        height={40}
-                        className="w-full h-full object-cover"
-                      />
+                      <Image src="/testimonials/Gemini_Generated_Image_l0v0vll0v0vll0v0.png" alt="User" width={40} height={40} className="w-full h-full object-cover" />
                     </div>
                   </div>
-                  {/* Stars */}
                   <div className="flex items-center gap-0.5">
                     <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
                     <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
@@ -180,7 +194,6 @@ export default function HomePage() {
                     <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
                     <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
                   </div>
-                  {/* Text */}
                   <span className="text-sm font-medium text-white">{t('usedBy')}</span>
                 </div>
               </div>
