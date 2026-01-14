@@ -65,7 +65,7 @@ export default function HomePage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="px-4 py-16 md:py-24 bg-gradient-to-b from-slate-50 to-white">
+      <section className="px-4 py-8 md:py-24 bg-gradient-to-b from-slate-50 to-white">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Left: Text Content */}
@@ -100,13 +100,13 @@ export default function HomePage() {
                   <div className="absolute bottom-0 left-0 right-0 z-10 bg-black/30 backdrop-blur-sm px-3 py-1.5 flex items-center justify-center gap-2">
                     <div className="flex items-center -space-x-1.5">
                       <div className="w-6 h-6 rounded-full border border-white/30 overflow-hidden">
-                        <Image src="/testimonials/Gemini_Generated_Image_339lzr339lzr339l.png" alt="User" width={24} height={24} className="w-full h-full object-cover" />
+                        <Image src="/testimonials/Gemini_Generated_Image_339lzr339lzr339l.png" alt="User" width={80} height={80} className="w-full h-full object-cover" />
                       </div>
                       <div className="w-6 h-6 rounded-full border border-white/30 overflow-hidden">
-                        <Image src="/testimonials/Gemini_Generated_Image_job9rjob9rjob9rj.png" alt="User" width={24} height={24} className="w-full h-full object-cover" />
+                        <Image src="/testimonials/Gemini_Generated_Image_job9rjob9rjob9rj.png" alt="User" width={80} height={80} className="w-full h-full object-cover" />
                       </div>
                       <div className="w-6 h-6 rounded-full border border-white/30 overflow-hidden">
-                        <Image src="/testimonials/Gemini_Generated_Image_l0v0vll0v0vll0v0.png" alt="User" width={24} height={24} className="w-full h-full object-cover" />
+                        <Image src="/testimonials/Gemini_Generated_Image_l0v0vll0v0vll0v0.png" alt="User" width={80} height={80} className="w-full h-full object-cover" />
                       </div>
                     </div>
                     <div className="flex items-center gap-0.5">
@@ -121,43 +121,43 @@ export default function HomePage() {
               </div>
 
               {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row items-center gap-3 mb-6 w-full sm:w-auto">
+              <div className="grid grid-cols-2 gap-3 w-full sm:flex sm:flex-row sm:items-center sm:gap-4 sm:w-auto mb-6">
                 <Link href="/enhance" className="w-full sm:w-auto">
-                  <Button size="lg" className="w-full sm:w-auto h-11 sm:h-12 px-6 sm:px-8 text-sm sm:text-base gap-2 bg-blue-600 hover:bg-blue-700 shadow-lg hover:shadow-blue-500/25 transition-all cursor-pointer">
+                  <Button size="lg" className="w-full h-11 sm:h-12 px-3 sm:px-8 text-sm sm:text-base gap-2 bg-blue-600 hover:bg-blue-700 shadow-lg hover:shadow-blue-500/25 transition-all cursor-pointer">
                     <span className="sm:hidden">{t('ctaTryFreeShort')}</span>
                     <span className="hidden sm:inline">{t('ctaTryFree')}</span>
-                    <ArrowRight className="w-4 h-4" />
+                    <ArrowRight className="w-4 h-4 ml-1" />
                   </Button>
                 </Link>
                 <button
                   onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="w-full sm:w-auto h-11 sm:h-12 px-5 sm:px-6 flex items-center justify-center gap-2 text-gray-600 hover:text-gray-900 font-medium transition-colors border border-gray-200 hover:border-gray-300 rounded-md bg-white cursor-pointer text-sm sm:text-base"
+                  className="w-full h-11 sm:h-12 px-3 sm:px-6 flex items-center justify-center gap-2 text-gray-600 hover:text-gray-900 font-medium transition-colors border border-gray-200 hover:border-gray-300 rounded-md bg-white cursor-pointer text-sm sm:text-base"
                 >
                   <span className="sm:hidden">{t('ctaSeeFeaturesShort')}</span>
                   <span className="hidden sm:inline">{t('ctaSeeFeatures')}</span>
                 </button>
               </div>
 
-              <p className="text-sm text-gray-500 mb-6 flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-green-500" />
+              <p className="text-xs sm:text-sm text-gray-500 mb-8 flex items-center justify-center sm:justify-start gap-2 w-full sm:w-auto">
+                <ShieldCheck className="w-3.5 h-3.5 text-green-500" />
                 {t('noAccount')}
               </p>
 
               {/* Benefits Bar */}
-              <div className="w-full pt-6 border-t border-gray-100 grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-                <div className="flex flex-col gap-1">
+              <div className="w-full pt-6 border-t border-gray-100 flex flex-wrap justify-center sm:grid sm:grid-cols-3 gap-x-6 gap-y-3 sm:gap-4">
+                <div className="flex flex-col gap-1 items-center sm:items-start">
                   <div className="flex items-center gap-2 text-gray-900 font-semibold text-sm md:text-base">
                     <AnimatedZap className="w-4 h-4 md:w-5 md:h-5" />
                     {t('heroBenefits.speed')}
                   </div>
                 </div>
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-1 items-center sm:items-start">
                   <div className="flex items-center gap-2 text-gray-900 font-semibold text-sm md:text-base">
                     <AnimatedShield className="w-4 h-4 md:w-5 md:h-5" />
                     {t('heroBenefits.privacy')}
                   </div>
                 </div>
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-1 items-center sm:items-start">
                   <div className="flex items-center gap-2 text-gray-900 font-semibold text-sm md:text-base">
                     <AnimatedTrend className="w-4 h-4 md:w-5 md:h-5" />
                     {t('heroBenefits.cost')}

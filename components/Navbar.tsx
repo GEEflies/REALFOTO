@@ -90,11 +90,7 @@ export function Navbar() {
                                     />
                                 </SignedIn>
                             </>
-                        ) : (
-                            <Button size="sm" disabled className="opacity-50">
-                                {t('authDisabled')}
-                            </Button>
-                        )}
+                        ) : null}
 
                         {/* Mobile Menu Button */}
                         <button
