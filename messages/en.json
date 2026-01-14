@@ -213,5 +213,51 @@
         "getStarted": "Get Started",
         "upgrade": "Upgrade",
         "currentPlan": "Current Plan"
+    },
+    "Paywall": {
+        "title": "Upgrade Your Plan",
+        "subtitle": "Choose the perfect plan to continue enhancing your images",
+        "tabs": {
+            "payPerImage": "Pay per image",
+            "limitedOffer": "Limited offer",
+            "enterprise": "Enterprise"
+        },
+        "before": "Before",
+        "after": "After",
+        "getStarted": "Get started",
+        "selectPlan": "Select Plan",
+        "payPerImage": {
+            "title": "Pay Per Image",
+            "description": "Enhance images whenever you need and pay as you go",
+            "perImage": "image",
+            "invoiceNote": "Downloaded images are invoiced at the end of the month",
+            "features": {
+                "0": "Images saved for 30 days",
+                "1": "AI Version 5",
+                "2": "6K resolution enhancements"
+            }
+        },
+        "limitedOffer": {
+            "popular": "Popular Choice",
+            "bestValue": "Best Value",
+            "images": "Images",
+            "features": {
+                "0": "Never expires",
+                "1": "Priority processing",
+                "2": "6K resolution",
+                "3": "Priority support"
+            }
+        },
+        "enterprise": {
+            "title": "Enterprise Solution",
+            "description": "Custom solutions for agencies and high-volume users with dedicated support and API access.",
+            "features": {
+                "0": "Unlimited image processing",
+                "1": "Dedicated account manager",
+                "2": "Custom API integration",
+                "3": "Volume pricing discounts"
+            },
+            "contact": "Contact Sales"
+        }
     }
 }

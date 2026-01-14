@@ -213,5 +213,51 @@
         "getStarted": "Začať Zadarmo",
         "upgrade": "Inovovať",
         "currentPlan": "Aktuálny Plán"
+    },
+    "Paywall": {
+        "title": "Vylepšite svoj plán",
+        "subtitle": "Vyberte si ideálny plán pre pokračovanie vo vylepšovaní obrázkov",
+        "tabs": {
+            "payPerImage": "Platba za obrázok",
+            "limitedOffer": "Limitovaná ponuka",
+            "enterprise": "Podnikové riešenie"
+        },
+        "before": "Pred",
+        "after": "Po",
+        "getStarted": "Začať",
+        "selectPlan": "Vybrať plán",
+        "payPerImage": {
+            "title": "Platba za obrázok",
+            "description": "Vylepšujte obrázky kedykoľvek a plaťte priebežne",
+            "perImage": "obrázok",
+            "invoiceNote": "Stiahnuté obrázky sú fakturované na konci mesiaca",
+            "features": {
+                "0": "Obrázky uložené 30 dní",
+                "1": "AI Verzia 5",
+                "2": "6K rozlíšenie vylepšení"
+            }
+        },
+        "limitedOffer": {
+            "popular": "Populárna voľba",
+            "bestValue": "Najlepšia hodnota",
+            "images": "Obrázkov",
+            "features": {
+                "0": "Nikdy nevyprší",
+                "1": "Prioritné spracovanie",
+                "2": "6K rozlíšenie",
+                "3": "Prioritná podpora"
+            }
+        },
+        "enterprise": {
+            "title": "Podnikové riešenie",
+            "description": "Vlastné riešenia pre agentúry a veľkoobjemových používateľov s vyhradenou podporou a API prístupom.",
+            "features": {
+                "0": "Neobmedzené spracovanie obrázkov",
+                "1": "Vyhradený account manažér",
+                "2": "Vlastná API integrácia",
+                "3": "Objemové cenové zľavy"
+            },
+            "contact": "Kontaktovať predaj"
+        }
     }
 }
