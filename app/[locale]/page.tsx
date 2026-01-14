@@ -1,3 +1,5 @@
+'use client'
+
 import { Link } from '@/navigation'
 import { ArrowRight, Play, Star, Zap, ShieldCheck, TrendingDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
