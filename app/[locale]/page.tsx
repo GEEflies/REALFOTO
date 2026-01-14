@@ -111,33 +111,33 @@ export default function HomePage() {
                   className="rounded-2xl shadow-2xl"
                 />
                 {/* Used by badge with testimonial avatars */}
-                <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm rounded-full px-4 py-2 flex items-center gap-3 shadow-lg">
+                <div className="absolute bottom-4 left-4 bg-white/95 rounded-2xl px-4 py-2.5 flex items-center gap-3 shadow-xl">
                   {/* Overlapping avatars */}
-                  <div className="flex items-center -space-x-2">
-                    <div className="w-8 h-8 rounded-full border-2 border-white overflow-hidden bg-gray-200">
+                  <div className="flex items-center -space-x-2.5">
+                    <div className="w-10 h-10 rounded-full border-2 border-white overflow-hidden bg-gray-200 ring-1 ring-gray-200">
                       <Image
                         src="/testimonials/Gemini_Generated_Image_339lzr339lzr339l.png"
                         alt="User"
-                        width={32}
-                        height={32}
+                        width={40}
+                        height={40}
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    <div className="w-8 h-8 rounded-full border-2 border-white overflow-hidden bg-gray-200">
+                    <div className="w-10 h-10 rounded-full border-2 border-white overflow-hidden bg-gray-200 ring-1 ring-gray-200">
                       <Image
                         src="/testimonials/Gemini_Generated_Image_job9rjob9rjob9rj.png"
                         alt="User"
-                        width={32}
-                        height={32}
+                        width={40}
+                        height={40}
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    <div className="w-8 h-8 rounded-full border-2 border-white overflow-hidden bg-gray-200">
+                    <div className="w-10 h-10 rounded-full border-2 border-white overflow-hidden bg-gray-200 ring-1 ring-gray-200">
                       <Image
                         src="/testimonials/Gemini_Generated_Image_l0v0vll0v0vll0v0.png"
                         alt="User"
-                        width={32}
-                        height={32}
+                        width={40}
+                        height={40}
                         className="w-full h-full object-cover"
                       />
                     </div>
@@ -151,7 +151,7 @@ export default function HomePage() {
                       <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
                       <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
                     </div>
-                    <span className="text-sm text-gray-600">{t('usedBy')}</span>
+                    <span className="text-sm font-medium text-gray-700">{t('usedBy')}</span>
                   </div>
                 </div>
               </div>
