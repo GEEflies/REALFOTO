@@ -228,8 +228,8 @@ export default function HomePage() {
       {/* Comparison Section: Aurix vs Human Editor */}
       <section className="px-4 py-24 sm:py-32 bg-slate-900 text-white">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16 sm:mb-20">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 tracking-tight">
+          <div className="text-center mb-16 sm:mb-24">
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-8 tracking-tight leading-tight text-balance max-w-5xl mx-auto">
               {t('comparisonTitle')}
             </h2>
             <p className="text-gray-400 max-w-2xl mx-auto text-lg leading-relaxed">
