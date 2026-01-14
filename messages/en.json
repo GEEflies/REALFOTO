@@ -255,7 +255,7 @@
         },
         "enterprise": {
             "title": "Enterprise Solution",
-            "description": "Custom solutions for agencies and high-volume users with dedicated support and API access.",
+            "description": "Custom solutions for agencies and high-volume users.",
             "features": {
                 "0": "Unlimited image processing",
                 "1": "Dedicated account manager",

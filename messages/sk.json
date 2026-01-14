@@ -255,7 +255,7 @@
         },
         "enterprise": {
             "title": "Podnikové riešenie",
-            "description": "Vlastné riešenia pre agentúry a veľkoobjemových používateľov s vyhradenou podporou a API prístupom.",
+            "description": "Vlastné riešenia pre agentúry a veľkoobjemových používateľov.",
             "features": {
                 "0": "Neobmedzené spracovanie obrázkov",
                 "1": "Vyhradený account manažér",
