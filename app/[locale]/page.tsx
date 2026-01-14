@@ -62,6 +62,47 @@ export default function HomePage() {
     },
   ]
 
+  // Custom smooth scroll for mobile performance
+  const smoothScrollToFeatures = () => {
+    const target = document.getElementById('features')
+    if (!target) return
+
+    // Detect mobile
+    const isMobile = window.innerWidth < 768
+
+    if (!isMobile) {
+      // Use native smooth scroll on desktop
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      return
+    }
+
+    // Custom smooth scroll for mobile using RAF
+    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - 80 // 80px offset for navbar
+    const startPosition = window.pageYOffset
+    const distance = targetPosition - startPosition
+    const duration = 800 // milliseconds
+    let start: number | null = null
+
+    const animation = (currentTime: number) => {
+      if (start === null) start = currentTime
+      const timeElapsed = currentTime - start
+      const progress = Math.min(timeElapsed / duration, 1)
+
+      // Easing function (easeInOutCubic)
+      const ease = progress < 0.5
+        ? 4 * progress * progress * progress
+        : 1 - Math.pow(-2 * progress + 2, 3) / 2
+
+      window.scrollTo(0, startPosition + distance * ease)
+
+      if (timeElapsed < duration) {
+        requestAnimationFrame(animation)
+      }
+    }
+
+    requestAnimationFrame(animation)
+  }
+
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
@@ -130,7 +171,7 @@ export default function HomePage() {
                   </Button>
                 </Link>
                 <button
-                  onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
+                  onClick={smoothScrollToFeatures}
                   className="w-full h-11 sm:h-12 px-3 sm:px-6 flex items-center justify-center gap-2 text-gray-600 hover:text-gray-900 font-medium transition-colors border border-gray-200 hover:border-gray-300 rounded-md bg-white cursor-pointer text-sm sm:text-base"
                 >
                   <span className="sm:hidden">{t('ctaSeeFeaturesShort')}</span>
