@@ -106,14 +106,14 @@ export default function HomePage() {
 
             {/* Right: Hero Image Slider */}
             <div className="order-1 lg:order-2">
-              <div className="relative rounded-t-xl rounded-b-none overflow-hidden shadow-2xl">
+              <div className="relative rounded-xl overflow-hidden shadow-2xl">
                 <ImageCompareSlider
                   beforeImage="/landing/hero images/wb-before.jpg"
                   afterImage="/landing/hero images/wb-after.jpg"
                   className=""
                 />
                 {/* Full-width testimonial overlay bar */}
-                <div className="absolute bottom-0 left-0 right-0 z-10 bg-white/20 backdrop-blur-xl px-6 py-2 flex items-center justify-center gap-4">
+                <div className="absolute bottom-0 left-0 right-0 z-10 bg-white/10 backdrop-blur-md px-6 py-3 flex items-center justify-center gap-4">
                   {/* Overlapping avatars */}
                   <div className="flex items-center -space-x-2.5">
                     <div className="w-10 h-10 rounded-full border-2 border-white overflow-hidden bg-gray-200 ring-1 ring-gray-200">
