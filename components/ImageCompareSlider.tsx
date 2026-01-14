@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import Image from 'next/image'
 
 interface ImageCompareSliderProps {
@@ -34,15 +34,6 @@ export function ImageCompareSlider({
         isDragging.current = true
     }, [])
 
-    const handleMouseUp = useCallback(() => {
-        isDragging.current = false
-    }, [])
-
-    const handleMouseMove = useCallback((e: React.MouseEvent) => {
-        if (!isDragging.current) return
-        handleMove(e.clientX)
-    }, [handleMove])
-
     const handleTouchMove = useCallback((e: React.TouchEvent) => {
         handleMove(e.touches[0].clientX)
     }, [handleMove])
@@ -51,14 +42,31 @@ export function ImageCompareSlider({
         handleMove(e.clientX)
     }, [handleMove])
 
+    // Global mouse event handlers
+    useEffect(() => {
+        const handleGlobalMouseMove = (e: MouseEvent) => {
+            if (!isDragging.current) return
+            handleMove(e.clientX)
+        }
+
+        const handleGlobalMouseUp = () => {
+            isDragging.current = false
+        }
+
+        document.addEventListener('mousemove', handleGlobalMouseMove)
+        document.addEventListener('mouseup', handleGlobalMouseUp)
+
+        return () => {
+            document.removeEventListener('mousemove', handleGlobalMouseMove)
+            document.removeEventListener('mouseup', handleGlobalMouseUp)
+        }
+    }, [handleMove])
+
     return (
         <div
             ref={containerRef}
             className={`relative overflow-hidden rounded-xl cursor-ew-resize select-none ${className}`}
             onMouseDown={handleMouseDown}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseUp}
-            onMouseMove={handleMouseMove}
             onTouchMove={handleTouchMove}
             onClick={handleClick}
         >
