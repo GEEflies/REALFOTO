@@ -1,5 +1,4 @@
 import createMiddleware from 'next-intl/middleware';
-import { NextRequest } from 'next/server';
 
 const middleware = createMiddleware({
     // A list of all locales that are supported
@@ -12,10 +11,7 @@ const middleware = createMiddleware({
     localePrefix: 'as-needed'
 });
 
-export default function (request: NextRequest) {
-    console.log('Middleware handling request:', request.nextUrl.pathname)
-    return middleware(request)
-}
+export default middleware;
 
 export const config = {
     // Match only internationalized pathnames

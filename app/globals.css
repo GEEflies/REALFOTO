@@ -11,6 +11,7 @@
   * {
     @apply border-gray-200;
   }
+
   body {
     @apply bg-white text-gray-900;
     font-feature-settings: "rlig" 1, "calt" 1;
@@ -28,9 +29,11 @@
   0% {
     background-position: 0% 50%;
   }
+
   50% {
     background-position: 100% 50%;
   }
+
   100% {
     background-position: 0% 50%;
   }
@@ -39,18 +42,27 @@
 .animate-gradient {
   background-size: 200% 200%;
   animation: gradient 8s ease infinite;
+  will-change: background-position;
 }
 
-/* Smooth scrolling */
+/* Smooth scrolling with GPU acceleration */
 html {
   scroll-behavior: smooth;
 }
 
+* {
+  /* Prevent layout thrashing during scroll */
+  backface-visibility: hidden;
+}
+
 /* Loading pulse */
 @keyframes pulse-soft {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.6;
   }
