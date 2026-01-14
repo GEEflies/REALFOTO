@@ -55,8 +55,8 @@ export function Footer() {
                             <li><Link href="/" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.home')}</Link></li>
                             <li><Link href="/enhance" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.enhance')}</Link></li>
                             <li><Link href="/remove" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.remove')}</Link></li>
-                            <li><Link href="/#pricing" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.pricing')}</Link></li>
-                            <li><Link href="#" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.status')}</Link></li>
+                            <li><Link href="/pricing" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.pricing')}</Link></li>
+                            <li><Link href="/status" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.status')}</Link></li>
                         </ul>
                     </div>
 
@@ -64,12 +64,12 @@ export function Footer() {
                     <div>
                         <h3 className="font-bold text-gray-900 mb-6">{t('company')}</h3>
                         <ul className="space-y-4">
-                            <li><Link href="#" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.about')}</Link></li>
-                            <li><Link href="#" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.blog')}</Link></li>
-                            <li><Link href="#" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.jobs')}</Link></li>
-                            <li><Link href="#" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.affiliate')}</Link></li>
-                            <li><Link href="#" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.privacy')}</Link></li>
-                            <li><Link href="#" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.terms')}</Link></li>
+                            <li><Link href="/about" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.about')}</Link></li>
+                            <li><Link href="/blog" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.blog')}</Link></li>
+                            <li><Link href="/jobs" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.jobs')}</Link></li>
+                            <li><Link href="/affiliate" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.affiliate')}</Link></li>
+                            <li><Link href="/privacy" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.privacy')}</Link></li>
+                            <li><Link href="/terms" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.terms')}</Link></li>
                         </ul>
                     </div>
 

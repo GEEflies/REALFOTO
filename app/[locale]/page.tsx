@@ -114,7 +114,7 @@ export default function HomePage() {
                 />
                 {/* Full-width testimonial overlay bar */}
                 {/* Full-width testimonial overlay bar */}
-                <div className="absolute bottom-0 left-0 right-0 z-10 bg-black/30 backdrop-blur-sm px-6 py-3 flex items-center justify-center gap-4">
+                <div className="absolute bottom-0 left-0 right-0 z-10 bg-black/20 backdrop-blur-sm border-t border-white/60 px-6 py-3 flex items-center justify-center gap-4">
                   {/* Overlapping avatars */}
                   <div className="flex items-center -space-x-2.5">
                     <div className="w-10 h-10 rounded-full border-2 border-white/20 overflow-hidden bg-gray-200">
@@ -154,7 +154,7 @@ export default function HomePage() {
                     <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
                   </div>
                   {/* Text */}
-                  <span className="text-sm font-medium text-white shadow-sm">{t('usedBy')}</span>
+                  <span className="text-sm font-medium text-white">{t('usedBy')}</span>
                 </div>
               </div>
             </div>

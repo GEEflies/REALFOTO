@@ -15,7 +15,7 @@
         "ctaWatchDemo": "Watch Demo",
         "noAccount": "*No account required",
         "trustedBy": "Trusted by:",
-        "usedBy": "Used by 1000s of real estate professionals",
+        "usedBy": "Trusted for professional quality results",
         "featuresTitle": "Picture Success With AI Image Editing",
         "featuresSubtitle": "Aurix edits your real estate images to the finest detail. Fully optimized for the real estate industry.",
         "features": {
@@ -282,7 +282,7 @@
             "privacy": "Privacy Policy",
             "terms": "Terms of Service",
             "legal": "Legal documents",
-            "status": "Status page",
+            "status": "System Status",
             "affiliate": "Affiliate program",
             "jobs": "Jobs"
         },
@@ -461,6 +461,49 @@
                 "title": "Consistency",
                 "desc": "Maintain a cohesive look across your entire portfolio."
             }
+        }
+    },
+    "Status": {
+        "allSystemsOperational": "All Systems Operational",
+        "lastUpdated": "Last updated: {date}",
+        "services": {
+            "website": "Website",
+            "webapp": "Web App",
+            "api": "API"
+        },
+        "incidents": {
+            "title": "Incident History",
+            "empty": "No incidents reported in the last 90 days."
+        }
+    },
+    "PricingPage": {
+        "title": "Simple, Transparent Pricing",
+        "subtitle": "Choose the perfect plan for your real estate business. No hidden fees."
+    },
+    "Pages": {
+        "about": {
+            "title": "About Us",
+            "content": "Learn more about our mission to revolutionize real estate photography."
+        },
+        "blog": {
+            "title": "Blog",
+            "content": "Insights, tips, and news from the real estate marketing world."
+        },
+        "jobs": {
+            "title": "Careers",
+            "content": "We will check that later."
+        },
+        "affiliate": {
+            "title": "Affiliate Program",
+            "content": "We will check that later."
+        },
+        "privacy": {
+            "title": "Privacy Policy",
+            "content": "Your privacy is important to us."
+        },
+        "terms": {
+            "title": "Terms of Service",
+            "content": "Please read our terms carefully."
         }
     }
 }

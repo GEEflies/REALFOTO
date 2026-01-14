@@ -15,7 +15,7 @@
         "ctaWatchDemo": "Pozrieť Demo",
         "noAccount": "*Nevyžaduje sa účet",
         "trustedBy": "Dôverujú nám:",
-        "usedBy": "Používané tisíckami realitných profesionálov",
+        "usedBy": "Spoľahlivá kvalita pre profesionálne výsledky",
         "featuresTitle": "Úspech Obrazu s AI Úpravou",
         "featuresSubtitle": "Aurix upraví vaše realitné fotografie do najmenšieho detailu. Plne optimalizované pre realitný priemysel.",
         "features": {
@@ -280,7 +280,7 @@
             "blog": "Blog",
             "about": "O nás",
             "privacy": "Ochrana súkromia",
-            "terms": "Podmienky služby",
+            "terms": "Podmienky používania",
             "legal": "Právne dokumenty",
             "status": "Stav systému",
             "affiliate": "Partnerský program",
@@ -461,6 +461,49 @@
                 "title": "Konzistentnosť",
                 "desc": "Udržujte jednotný vzhľad celého vášho portfólia."
             }
+        }
+    },
+    "Status": {
+        "allSystemsOperational": "Všetky systémy funkčné",
+        "lastUpdated": "Posledná aktualizácia: {date}",
+        "services": {
+            "website": "Webstránka",
+            "webapp": "Webová Aplikácia",
+            "api": "API"
+        },
+        "incidents": {
+            "title": "História incidentov",
+            "empty": "Žiadne incidenty za posledných 90 dní."
+        }
+    },
+    "PricingPage": {
+        "title": "Jednoduchý, transparentný cenník",
+        "subtitle": "Vyberte si perfektný plán pre váš realitný biznis. Žiadne skryté poplatky."
+    },
+    "Pages": {
+        "about": {
+            "title": "O nás",
+            "content": "Dozviete sa viac o našej misii revolucionalizovať realitnú fotografiu."
+        },
+        "blog": {
+            "title": "Blog",
+            "content": "Postrehy, tipy a novinky zo sveta realitného marketingu."
+        },
+        "jobs": {
+            "title": "Kariéra",
+            "content": "Pozrieme sa na to neskôr."
+        },
+        "affiliate": {
+            "title": "Partnerský program",
+            "content": "Pozrieme sa na to neskôr."
+        },
+        "privacy": {
+            "title": "Ochrana súkromia",
+            "content": "Vaše súkromie je pre nás dôležité."
+        },
+        "terms": {
+            "title": "Podmienky používania",
+            "content": "Prosím, prečítajte si pozorne naše podmienky."
         }
     }
 }
