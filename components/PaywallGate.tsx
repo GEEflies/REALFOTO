@@ -58,7 +58,7 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                 className="relative w-full max-w-4xl bg-white rounded-3xl shadow-2xl overflow-hidden max-h-[85vh] flex flex-col"
             >
                 {/* Header Section - Tighter padding */}
-                <div className="relative pt-8 pb-4 px-6 text-center bg-gradient-to-b from-gray-50 to-white border-b border-gray-100">
+                <div className="relative pt-6 pb-2 px-6 text-center bg-gradient-to-b from-gray-50 to-white border-b border-gray-100">
                     <button
                         onClick={handleClose}
                         className="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 transition-colors duration-200"
@@ -66,7 +66,7 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                         <X className="w-5 h-5 text-gray-400 hover:text-gray-900" />
                     </button>
 
-                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2 tracking-tight">
+                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-1 tracking-tight">
                         {t('title')}
                     </h2>
                     <p className="text-gray-500 text-base max-w-lg mx-auto leading-relaxed">
@@ -74,7 +74,7 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                     </p>
 
                     {/* Premium Tab Switcher - smaller padding */}
-                    <div className="flex justify-center mt-6">
+                    <div className="flex justify-center mt-3">
                         <div className="inline-flex bg-gray-100/80 p-1 rounded-full border border-gray-200/50 backdrop-blur-sm">
                             {[
                                 { id: 'payPerImage', label: t('tabs.payPerImage'), icon: Sparkles },
@@ -109,7 +109,7 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                 </div>
 
                 {/* Content Area - Tighter padding */}
-                <div className="flex-1 overflow-y-auto p-6 md:p-8 bg-white">
+                <div className="flex-1 overflow-y-auto overflow-x-hidden p-5 md:p-6 bg-white">
                     <AnimatePresence mode="wait">
                         {activeTab === 'payPerImage' && (
                             <motion.div
@@ -119,9 +119,9 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                                 exit={{ opacity: 0, x: -20 }}
                                 className="grid lg:grid-cols-2 gap-8 items-center"
                             >
-                                <div className="space-y-6">
+                                <div className="space-y-4">
                                     <div>
-                                        <div className="flex items-center gap-3 mb-2">
+                                        <div className="flex items-center gap-3 mb-1">
                                             <h3 className="text-2xl font-bold text-gray-900">{t('payPerImage.title')}</h3>
                                             <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 text-xs font-bold uppercase tracking-wider">
                                                 <Zap className="w-3 h-3" />
@@ -147,7 +147,7 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                                         ))}
                                     </div>
 
-                                    <Button size="lg" className="w-full h-12 text-lg bg-gray-900 hover:bg-gray-800 text-white rounded-xl shadow-lg hover:shadow-xl transition-all">
+                                    <Button size="lg" className="w-full h-11 text-lg bg-gray-900 hover:bg-gray-800 text-white rounded-xl shadow-lg hover:shadow-xl transition-all">
                                         {t('getStarted')}
                                     </Button>
 
