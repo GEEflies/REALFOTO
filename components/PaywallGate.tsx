@@ -122,11 +122,11 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                                         <span className="text-lg text-gray-500 font-medium">/ {t('payPerImage.perImage')}</span>
                                     </div>
 
-                                    <div className="grid grid-cols-1 gap-3">
+                                    <div className="grid grid-cols-1 gap-2">
                                         {[0, 1, 2].map((i) => (
-                                            <div key={i} className="flex items-center gap-3 p-3 rounded-lg bg-gray-50 border border-gray-100">
-                                                <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center shrink-0">
-                                                    <Check className="w-3.5 h-3.5 text-green-600" />
+                                            <div key={i} className="flex items-center gap-2.5 p-2 rounded-lg bg-gray-50 border border-gray-100">
+                                                <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+                                                    <Check className="w-3 h-3 text-green-600" />
                                                 </div>
                                                 <span className="font-medium text-sm text-gray-700">{t(`payPerImage.features.${i}`)}</span>
                                             </div>
@@ -252,7 +252,7 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                                 exit={{ opacity: 0, x: -20 }}
                                 className="max-w-2xl mx-auto text-center"
                             >
-                                <div className="w-20 h-20 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl shadow-purple-500/20">
+                                <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl shadow-purple-500/20">
                                     <Building2 className="w-8 h-8 text-white" />
                                 </div>
 
@@ -263,13 +263,13 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                                     {t('enterprise.description')}
                                 </p>
 
-                                <div className="grid md:grid-cols-2 gap-4 mb-8">
+                                <div className="grid md:grid-cols-2 gap-3 mb-6">
                                     {[0, 1, 2, 3].map((i) => (
-                                        <div key={i} className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 border border-gray-100 text-left">
-                                            <div className="w-8 h-8 rounded-lg bg-white border border-gray-200 flex items-center justify-center shadow-sm shrink-0">
-                                                <Check className="w-4 h-4 text-indigo-600" />
+                                        <div key={i} className="flex items-center gap-3 p-3 rounded-lg bg-gray-50 border border-gray-100 text-left">
+                                            <div className="w-6 h-6 rounded-lg bg-white border border-gray-200 flex items-center justify-center shadow-sm shrink-0">
+                                                <Check className="w-3.5 h-3.5 text-indigo-600" />
                                             </div>
-                                            <span className="font-semibold text-sm text-gray-900">{t(`enterprise.features.${i}`)}</span>
+                                            <span className="font-semibold text-xs text-gray-900">{t(`enterprise.features.${i}`)}</span>
                                         </div>
                                     ))}
                                 </div>
