@@ -81,7 +81,7 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
 
                     {/* Pay Per Image */}
                     {activeTab === 'payPerImage' && (
-                        <div className="grid md:grid-cols-2 gap-8 items-center">
+                        <div className="grid md:grid-cols-2 gap-8 items-center min-h-[400px]">
                             <div className="text-center md:text-left">
                                 <h3 className="text-xl font-bold text-gray-900 mb-2">
                                     {t('payPerImage.title')}
@@ -128,8 +128,8 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                                         className="w-full h-auto"
                                     />
                                 </div>
-                                {/* After Image - Tilted right, overlapping */}
-                                <div className="relative w-40 rounded-xl overflow-hidden shadow-2xl border-4 border-white transform rotate-[15deg] -ml-8 z-20">
+                                {/* After Image - Tilted right, overlapping, no border */}
+                                <div className="relative w-48 rounded-xl overflow-hidden shadow-2xl transform rotate-[15deg] -ml-8 z-20">
                                     <div className="absolute top-2 left-2 bg-blue-600 text-white text-xs px-2 py-1 rounded z-20">
                                         {t('after')}
                                     </div>
@@ -147,7 +147,7 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
 
                     {/* Limited Offer */}
                     {activeTab === 'limitedOffer' && (
-                        <div className="grid md:grid-cols-2 gap-6">
+                        <div className="grid md:grid-cols-2 gap-6 min-h-[400px]">
                             {/* 50 Images Pack */}
                             <div className="border-2 border-gray-200 rounded-2xl p-6 hover:border-blue-500 transition-colors">
                                 <div className="flex items-center gap-2 mb-4">
@@ -219,7 +219,7 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
 
                     {/* Enterprise */}
                     {activeTab === 'enterprise' && (
-                        <div className="flex flex-col items-center justify-center text-center max-w-lg mx-auto">
+                        <div className="flex flex-col items-center justify-center text-center max-w-lg mx-auto min-h-[400px]">
                             <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl flex items-center justify-center mb-6">
                                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
