@@ -24,12 +24,12 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
 
     // Pro tier pricing tiers
     const proTiers = [
-        { count: 100, price: '29.00', originalPrice: '72.50', per: '0.29' },
-        { count: 200, price: '54.00', originalPrice: '135.00', per: '0.27' },
-        { count: 300, price: '75.00', originalPrice: '187.50', per: '0.25' },
-        { count: 400, price: '92.00', originalPrice: '230.00', per: '0.23' },
-        { count: 500, price: '105.00', originalPrice: '262.50', per: '0.21' },
-        { count: 1000, price: '190.00', originalPrice: '475.00', per: '0.19' },
+        { count: 100, price: '29.99', originalPrice: '74.99', per: '0.30' },
+        { count: 200, price: '54.99', originalPrice: '137.99', per: '0.27' },
+        { count: 300, price: '74.99', originalPrice: '187.99', per: '0.25' },
+        { count: 400, price: '91.99', originalPrice: '229.99', per: '0.23' },
+        { count: 500, price: '104.99', originalPrice: '262.99', per: '0.21' },
+        { count: 1000, price: '189.99', originalPrice: '474.99', per: '0.19' },
     ]
 
     const selectedProPricing = proTiers.find(t => t.count === selectedProTier) || proTiers[0]
