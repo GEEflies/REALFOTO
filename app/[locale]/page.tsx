@@ -111,7 +111,7 @@ export default function HomePage() {
                   className=""
                 />
                 {/* Full-width testimonial overlay bar */}
-                <div className="absolute bottom-0 left-0 right-0 bg-white/80 backdrop-blur-md px-6 py-4 flex items-center justify-center gap-4">
+                <div className="absolute bottom-0 left-0 right-0 bg-white/20 backdrop-blur-xl px-6 py-4 flex items-center justify-center gap-4">
                   {/* Overlapping avatars */}
                   <div className="flex items-center -space-x-2.5">
                     <div className="w-10 h-10 rounded-full border-2 border-white overflow-hidden bg-gray-200 ring-1 ring-gray-200">
@@ -241,7 +241,7 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2">
-              <div className="relative w-10 h-10 rounded-xl bg-white/10 border-2 border-white/20 overflow-hidden backdrop-blur-sm">
+              <div className="relative w-10 h-10 rounded-xl bg-white/10 border-2 border-white/20 overflow-hidden backdrop-blur-sm p-1.5">
                 <Image
                   src="/aurix-logo.png"
                   alt="Aurix Logo"
