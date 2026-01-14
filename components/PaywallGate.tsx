@@ -258,18 +258,17 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                                 <div className="grid md:grid-cols-2 gap-6">
                                     {/* Starter Tier */}
                                     <div className="relative p-6 rounded-2xl border-2 border-gray-100 bg-white hover:border-gray-200 hover:shadow-lg transition-all duration-300">
-                                        <h3 className="text-lg font-bold text-gray-900 mb-1">
+                                        <h3 className="text-lg font-bold text-gray-900 mb-4">
                                             {t('limitedOffer.starterName')}
                                         </h3>
-                                        <p className="text-sm text-gray-500 mb-3">50 {t('limitedOffer.images')}</p>
 
                                         <div className="flex items-baseline flex-wrap gap-2 mb-1">
                                             <span className="text-lg text-gray-400 line-through font-medium">€42.49</span>
                                             <span className="text-4xl font-bold text-gray-900">€16.99</span>
+                                            <span className="text-lg font-medium text-orange-600">{t('limitedOffer.perMonth')}</span>
                                         </div>
                                         <div className="flex items-center gap-2 mb-4 text-sm text-gray-500">
                                             <span>(€0.34/{t('payPerImage.perImage')})</span>
-                                            <span className="font-medium text-orange-600">{t('limitedOffer.perMonth')}</span>
                                         </div>
 
                                         <Button className="w-full h-10 text-sm mb-6 rounded-lg bg-gray-900 hover:bg-gray-800">
@@ -302,50 +301,19 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                                             {t('limitedOffer.bestValue')}
                                         </div>
 
-                                        <h3 className="text-lg font-bold text-gray-900 mb-1">
+                                        <h3 className="text-lg font-bold text-gray-900 mb-4">
                                             {t('limitedOffer.proName')}
                                         </h3>
 
-                                        {/* Dropdown for image count */}
-                                        <div className="relative mb-3">
-                                            <button
-                                                onClick={() => setProDropdownOpen(!proDropdownOpen)}
-                                                className="flex items-center gap-2 text-sm text-gray-700 font-medium bg-white border border-gray-200 rounded-lg px-3 py-1.5 hover:border-orange-400 transition-colors cursor-pointer"
-                                            >
-                                                <span>{selectedProTier} {t('limitedOffer.images')}</span>
-                                                <svg className={cn("w-4 h-4 transition-transform", proDropdownOpen && "rotate-180")} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                                </svg>
-                                            </button>
 
-                                            {proDropdownOpen && (
-                                                <div className="absolute top-full left-0 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg z-20 py-1">
-                                                    {proTiers.map((tier) => (
-                                                        <button
-                                                            key={tier.count}
-                                                            onClick={() => {
-                                                                setSelectedProTier(tier.count)
-                                                                setProDropdownOpen(false)
-                                                            }}
-                                                            className={cn(
-                                                                "w-full text-left px-3 py-2 text-sm hover:bg-orange-50 transition-colors cursor-pointer",
-                                                                selectedProTier === tier.count && "bg-orange-100 font-semibold"
-                                                            )}
-                                                        >
-                                                            {tier.count} {t('limitedOffer.images')} — €{tier.per}/{t('payPerImage.perImage')}
-                                                        </button>
-                                                    ))}
-                                                </div>
-                                            )}
-                                        </div>
 
                                         <div className="flex items-baseline flex-wrap gap-2 mb-1">
                                             <span className="text-lg text-gray-400 line-through font-medium">€{selectedProPricing.originalPrice}</span>
                                             <span className="text-4xl font-bold text-gray-900">€{selectedProPricing.price}</span>
+                                            <span className="text-lg font-medium text-orange-600">{t('limitedOffer.perMonth')}</span>
                                         </div>
                                         <div className="flex items-center gap-2 mb-4 text-sm text-gray-500">
                                             <span>(€{selectedProPricing.per}/{t('payPerImage.perImage')})</span>
-                                            <span className="font-medium text-orange-600">{t('limitedOffer.perMonth')}</span>
                                         </div>
 
                                         <Button className="w-full h-10 text-sm mb-6 rounded-lg bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white shadow-lg shadow-orange-500/20">
@@ -354,11 +322,42 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
 
                                         <div className="space-y-2.5">
                                             <div className="text-[10px] font-semibold uppercase tracking-wider text-gray-400">Features</div>
+                                            {/* Dropdown in features */}
                                             <div className="flex items-center gap-2">
                                                 <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 bg-orange-100 text-orange-600">
                                                     <Check className="w-3 h-3" />
                                                 </div>
-                                                <span className="text-gray-700 text-sm font-medium">{selectedProTier} {t('limitedOffer.images').toLowerCase()}</span>
+                                                <div className="relative flex-1">
+                                                    <button
+                                                        onClick={() => setProDropdownOpen(!proDropdownOpen)}
+                                                        className="w-full flex items-center justify-between text-sm text-gray-700 font-medium bg-white border border-gray-200 rounded-lg px-3 py-1.5 hover:border-orange-400 transition-colors cursor-pointer"
+                                                    >
+                                                        <span>{selectedProTier} {t('limitedOffer.images').toLowerCase()}</span>
+                                                        <svg className={cn("w-4 h-4 transition-transform", proDropdownOpen && "rotate-180")} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                                        </svg>
+                                                    </button>
+
+                                                    {proDropdownOpen && (
+                                                        <div className="absolute top-full left-0 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg z-20 py-1">
+                                                            {proTiers.map((tier) => (
+                                                                <button
+                                                                    key={tier.count}
+                                                                    onClick={() => {
+                                                                        setSelectedProTier(tier.count)
+                                                                        setProDropdownOpen(false)
+                                                                    }}
+                                                                    className={cn(
+                                                                        "w-full text-left px-3 py-2 text-sm hover:bg-orange-50 transition-colors cursor-pointer",
+                                                                        selectedProTier === tier.count && "bg-orange-100 font-semibold"
+                                                                    )}
+                                                                >
+                                                                    {tier.count} {t('limitedOffer.images').toLowerCase()}
+                                                                </button>
+                                                            ))}
+                                                        </div>
+                                                    )}
+                                                </div>
                                             </div>
                                             {[1, 2, 3].map((i) => (
                                                 <div key={i} className="flex items-center gap-2">
