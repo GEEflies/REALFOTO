@@ -1,5 +1,5 @@
 import { Link } from '@/navigation'
-import { ArrowRight, Play, Star } from 'lucide-react'
+import { ArrowRight, Play, Star, Zap, ShieldCheck, TrendingDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ImageCompareSlider } from '@/components/ImageCompareSlider'
 import { useTranslations } from 'next-intl'
@@ -65,41 +65,66 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Left: Text Content */}
-            <div className="order-2 lg:order-1">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
-                <span className="text-blue-600">{t('heroTitle')}</span>
-                <br />
-                <span className="text-gray-900">{t('heroSubtitle')}</span>
+            <div className="order-2 lg:order-1 flex flex-col items-start text-left">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-sm font-medium mb-6">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                </span>
+                {t('heroBadge')}
+              </div>
+
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight text-gray-900 leading-[1.1]">
+                {t('heroTitle')}
               </h1>
-              <p className="text-lg text-gray-600 mb-8 max-w-lg">
-                {t('heroDescription')}
+
+              <p className="text-xl text-gray-600 mb-8 max-w-lg leading-relaxed">
+                {t.rich('heroDescription', {
+                  br: () => <br />,
+                  highlight: (chunks) => <span className="text-blue-600 font-semibold">{chunks}</span>
+                })}
               </p>
 
               {/* CTA Buttons */}
-              <div className="flex flex-wrap items-center gap-4 mb-4">
-                <Link href="/enhance">
-                  <Button size="lg" className="gap-2 px-6">
+              <div className="flex flex-col sm:flex-row items-center gap-4 mb-8 w-full sm:w-auto">
+                <Link href="/enhance" className="w-full sm:w-auto">
+                  <Button size="lg" className="w-full sm:w-auto h-12 px-8 text-base gap-2 bg-blue-600 hover:bg-blue-700 shadow-lg hover:shadow-blue-500/25 transition-all">
                     {t('ctaTryFree')}
                     <ArrowRight className="w-4 h-4" />
                   </Button>
                 </Link>
-                <button className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition-colors font-medium">
-                  <div className="w-10 h-10 rounded-full bg-white border-2 border-gray-200 flex items-center justify-center">
-                    <Play className="w-4 h-4 ml-0.5" />
-                  </div>
-                  {t('ctaWatchDemo')}
+                <button
+                  onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="w-full sm:w-auto h-12 px-6 flex items-center justify-center gap-2 text-gray-600 hover:text-gray-900 font-medium transition-colors border border-gray-200 hover:border-gray-300 rounded-md bg-white"
+                >
+                  {t('ctaSeeFeatures')}
                 </button>
               </div>
-              <p className="text-sm text-gray-500 mb-8">{t('noAccount')}</p>
 
-              {/* Trust Badges */}
-              <div className="text-sm text-gray-500">
-                <span className="font-medium">{t('trustedBy')}</span>
-                <div className="flex items-center gap-6 mt-3 opacity-60">
-                  <span className="font-semibold text-gray-700">OnTheMarket</span>
-                  <span className="font-semibold text-gray-700">MADE</span>
-                  <span className="font-semibold text-gray-700">CoreLogic</span>
-                  <span className="font-semibold text-gray-700">DCTR</span>
+              <p className="text-sm text-gray-500 mb-8 flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4 text-green-500" />
+                {t('noAccount')}
+              </p>
+
+              {/* Benefits Bar */}
+              <div className="w-full pt-8 border-t border-gray-100 grid grid-cols-3 gap-4">
+                <div className="flex flex-col gap-1">
+                  <div className="flex items-center gap-2 text-gray-900 font-semibold">
+                    <Zap className="w-4 h-4 text-amber-500 fill-amber-500" />
+                    {t('heroBenefits.speed')}
+                  </div>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <div className="flex items-center gap-2 text-gray-900 font-semibold">
+                    <ShieldCheck className="w-4 h-4 text-blue-500 fill-blue-500/20" />
+                    {t('heroBenefits.privacy')}
+                  </div>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <div className="flex items-center gap-2 text-gray-900 font-semibold">
+                    <TrendingDown className="w-4 h-4 text-green-500" />
+                    {t('heroBenefits.cost')}
+                  </div>
                 </div>
               </div>
             </div>
@@ -163,7 +188,7 @@ export default function HomePage() {
       </section>
 
       {/* Features Section */}
-      <section className="px-4 py-20 bg-white">
+      <section id="features" className="scroll-mt-20 px-4 py-20 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">

@@ -7,14 +7,18 @@
         "authDisabled": "Auth Disabled"
     },
     "Home": {
-        "heroBadge": "AI-Powered Editing",
-        "heroTitle": "The AI Engine",
-        "heroSubtitle": "Powering Real Estate Photo Editing at Scale",
-        "heroDescription": "Fast, consistent, and cost-effective AI HDR merging, window pulls, color correction, and more... with superhuman quality.",
+        "heroBadge": "AI-Powered Automation",
+        "heroTitle": "Automate Your Real Estate Photo Editing",
+        "heroSubtitle": "AI-powered HDR, Sky Replacement, and Window Pulls in seconds.",
+        "heroDescription": "Stop wasting hours on manual editing. Get consistent, professional-grade results instantly and save up to 90% of your editing costs.",
         "ctaTryFree": "Try For Free",
-        "ctaWatchDemo": "Watch Demo",
-        "noAccount": "*No account required",
-        "trustedBy": "Trusted by:",
+        "ctaSeeFeatures": "See Features",
+        "noAccount": "*No credit card required",
+        "heroBenefits": {
+            "speed": "30s Turnaround",
+            "privacy": "GDPR Compliant",
+            "cost": "10x Cheaper"
+        },
         "usedBy": "Trusted for professional quality results",
         "featuresTitle": "Picture Success With AI Image Editing",
         "featuresSubtitle": "Aurix edits your real estate images to the finest detail. Fully optimized for the real estate industry.",
