@@ -173,20 +173,24 @@
         "removeError": "Removal failed. Please try again."
     },
     "Pricing": {
-        "free": {
-            "name": "Free",
-            "desc": "Perfect for trying out the platform",
+        "title": "Simple, Transparent Pricing",
+        "subtitle": "Choose the perfect plan for your real estate business. No hidden fees.",
+        "payPerImage": {
+            "name": "Pay Per Image",
+            "desc": "Enhance images whenever you need and pay as you go",
+            "price": "0",
             "period": "forever",
             "features": {
-                "0": "3 images per month",
-                "1": "Basic enhancement",
-                "2": "Object removal",
+                "0": "Pay only for what you use",
+                "1": "No monthly subscription",
+                "2": "Full feature access",
                 "3": "Standard processing"
             }
         },
-        "starter": {
-            "name": "Starter",
-            "desc": "Great for active real estate agents",
+        "limitedOffer": {
+            "name": "Limited Offer",
+            "desc": "Best value for professionals",
+            "price": "25",
             "period": "month",
             "features": {
                 "0": "50 images per month",
@@ -196,17 +200,18 @@
                 "4": "€0.50 per extra image"
             }
         },
-        "pro": {
-            "name": "Pro",
+        "enterprise": {
+            "name": "Enterprise",
             "desc": "For agencies and power users",
+            "price": "69",
             "period": "month",
             "features": {
-                "0": "200 images per month",
+                "0": "Unlimited users",
                 "1": "Instant processing",
                 "2": "4K quality exports",
                 "3": "Priority support",
-                "4": "€0.50 per extra image",
-                "5": "API access (coming soon)"
+                "4": "Custom volume discounts",
+                "5": "API access"
             }
         },
         "mostPopular": "Most Popular",
@@ -475,10 +480,6 @@
             "title": "Incident History",
             "empty": "No incidents reported in the last 90 days."
         }
-    },
-    "PricingPage": {
-        "title": "Simple, Transparent Pricing",
-        "subtitle": "Choose the perfect plan for your real estate business. No hidden fees."
     },
     "Pages": {
         "about": {

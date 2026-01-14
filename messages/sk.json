@@ -173,20 +173,24 @@
         "removeError": "Odstránenie zlyhalo. Skúste to prosím znova."
     },
     "Pricing": {
-        "free": {
-            "name": "Free",
-            "desc": "Ideálne na vyskúšanie platformy",
+        "title": "Jednoduchý, transparentný cenník",
+        "subtitle": "Vyberte si perfektný plán pre váš realitný biznis. Žiadne skryté poplatky.",
+        "payPerImage": {
+            "name": "Platba za obrázok",
+            "desc": "Vylepšujte obrázky kedykoľvek a plaťte priebežne",
+            "price": "0",
             "period": "navždy",
             "features": {
-                "0": "3 obrázky mesačne",
-                "1": "Základné vylepšenie",
-                "2": "Odstránenie objektov",
+                "0": "Platíte len za to, čo využijete",
+                "1": "Žiadne mesačné predplatné",
+                "2": "Prístup ku všetkým funkciám",
                 "3": "Štandardné spracovanie"
             }
         },
-        "starter": {
-            "name": "Starter",
-            "desc": "Skvelé pre aktívnych maklérov",
+        "limitedOffer": {
+            "name": "Limitovaná ponuka",
+            "desc": "Najlepšia hodnota pre profesionálov",
+            "price": "25",
             "period": "mesačne",
             "features": {
                 "0": "50 obrázkov mesačne",
@@ -196,17 +200,18 @@
                 "4": "€0.50 za extra obrázok"
             }
         },
-        "pro": {
-            "name": "Pro",
+        "enterprise": {
+            "name": "Enterprise",
             "desc": "Pre agentúry a náročných",
+            "price": "69",
             "period": "mesačne",
             "features": {
-                "0": "200 obrázkov mesačne",
+                "0": "Neobmedzený počet používateľov",
                 "1": "Okamžité spracovanie",
                 "2": "4K kvalita exportov",
                 "3": "Prioritná podpora",
-                "4": "€0.50 za extra obrázok",
-                "5": "API prístup (čoskoro)"
+                "4": "Objemové zľavy",
+                "5": "API prístup"
             }
         },
         "mostPopular": "Najpopulárnejšie",
@@ -475,10 +480,6 @@
             "title": "História incidentov",
             "empty": "Žiadne incidenty za posledných 90 dní."
         }
-    },
-    "PricingPage": {
-        "title": "Jednoduchý, transparentný cenník",
-        "subtitle": "Vyberte si perfektný plán pre váš realitný biznis. Žiadne skryté poplatky."
     },
     "Pages": {
         "about": {

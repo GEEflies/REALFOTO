@@ -23,39 +23,39 @@ interface PricingTier {
 }
 
 interface PricingCardsProps {
-    currentTier?: 'FREE' | 'STARTER' | 'PRO'
+    currentTier?: 'PAY_PER_IMAGE' | 'LIMITED_OFFER' | 'ENTERPRISE'
 }
 
-export function PricingCards({ currentTier = 'FREE' }: PricingCardsProps) {
+export function PricingCards({ currentTier = 'PAY_PER_IMAGE' }: PricingCardsProps) {
     const t = useTranslations('Pricing')
     const [loading, setLoading] = useState<string | null>(null)
 
     const tiers: PricingTier[] = [
         {
-            name: t('free.name'),
-            price: 0,
-            period: t('free.period'),
-            description: t('free.desc'),
+            name: t('payPerImage.name'),
+            price: Number(t('payPerImage.price')),
+            period: t('payPerImage.period'),
+            description: t('payPerImage.desc'),
             features: [
-                t('free.features.0'),
-                t('free.features.1'),
-                t('free.features.2'),
-                t('free.features.3'),
+                t('payPerImage.features.0'),
+                t('payPerImage.features.1'),
+                t('payPerImage.features.2'),
+                t('payPerImage.features.3'),
             ],
-            images: 3,
+            images: 0, // Depends on usage
             icon: Sparkles,
         },
         {
-            name: t('starter.name'),
-            price: 25,
-            period: t('starter.period'),
-            description: t('starter.desc'),
+            name: t('limitedOffer.name'),
+            price: Number(t('limitedOffer.price')),
+            period: t('limitedOffer.period'),
+            description: t('limitedOffer.desc'),
             features: [
-                t('starter.features.0'),
-                t('starter.features.1'),
-                t('starter.features.2'),
-                t('starter.features.3'),
-                t('starter.features.4'),
+                t('limitedOffer.features.0'),
+                t('limitedOffer.features.1'),
+                t('limitedOffer.features.2'),
+                t('limitedOffer.features.3'),
+                t('limitedOffer.features.4'),
             ],
             images: 50,
             icon: Zap,
@@ -63,17 +63,17 @@ export function PricingCards({ currentTier = 'FREE' }: PricingCardsProps) {
             priceId: process.env.NEXT_PUBLIC_STRIPE_STARTER_PRICE_ID,
         },
         {
-            name: t('pro.name'),
-            price: 69,
-            period: t('pro.period'),
-            description: t('pro.desc'),
+            name: t('enterprise.name'),
+            price: Number(t('enterprise.price')),
+            period: t('enterprise.period'),
+            description: t('enterprise.desc'),
             features: [
-                t('pro.features.0'),
-                t('pro.features.1'),
-                t('pro.features.2'),
-                t('pro.features.3'),
-                t('pro.features.4'),
-                t('pro.features.5'),
+                t('enterprise.features.0'),
+                t('enterprise.features.1'),
+                t('enterprise.features.2'),
+                t('enterprise.features.3'),
+                t('enterprise.features.4'),
+                t('enterprise.features.5'),
             ],
             images: 200,
             icon: Crown,
