@@ -172,6 +172,7 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                                                 alt="Before"
                                                 fill
                                                 className="object-cover"
+                                                priority
                                             />
                                         </div>
 
@@ -185,6 +186,7 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                                                 alt="After"
                                                 fill
                                                 className="object-cover"
+                                                priority
                                             />
                                         </div>
                                     </div>
