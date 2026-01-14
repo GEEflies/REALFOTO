@@ -3,6 +3,7 @@ import { ArrowRight, Play, Aperture, Star } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ImageCompareSlider } from '@/components/ImageCompareSlider'
 import { useTranslations } from 'next-intl'
+import Image from 'next/image'
 
 export default function HomePage() {
   const t = useTranslations('Home')
