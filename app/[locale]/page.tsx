@@ -2,6 +2,7 @@
 
 import { Link } from '@/navigation'
 import { ArrowRight, Play, Star, Zap, ShieldCheck, TrendingDown } from 'lucide-react'
+import { AnimatedZap, AnimatedShield, AnimatedTrend } from '@/components/HeroIcons'
 import { Button } from '@/components/ui/button'
 import { ImageCompareSlider } from '@/components/ImageCompareSlider'
 import { useTranslations } from 'next-intl'
@@ -111,19 +112,19 @@ export default function HomePage() {
               <div className="w-full pt-8 border-t border-gray-100 grid grid-cols-2 md:grid-cols-3 gap-4">
                 <div className="flex flex-col gap-1">
                   <div className="flex items-center gap-2 text-gray-900 font-semibold">
-                    <Zap className="w-4 h-4 text-amber-500 fill-amber-500" />
+                    <AnimatedZap className="w-5 h-5" />
                     {t('heroBenefits.speed')}
                   </div>
                 </div>
                 <div className="flex flex-col gap-1">
                   <div className="flex items-center gap-2 text-gray-900 font-semibold">
-                    <ShieldCheck className="w-4 h-4 text-blue-500 fill-blue-500/20" />
+                    <AnimatedShield className="w-5 h-5" />
                     {t('heroBenefits.privacy')}
                   </div>
                 </div>
                 <div className="flex flex-col gap-1">
                   <div className="flex items-center gap-2 text-gray-900 font-semibold">
-                    <TrendingDown className="w-4 h-4 text-green-500" />
+                    <AnimatedTrend className="w-5 h-5" />
                     {t('heroBenefits.cost')}
                   </div>
                 </div>
