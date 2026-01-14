@@ -51,8 +51,8 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                             <button
                                 onClick={() => setActiveTab('payPerImage')}
                                 className={`px-6 py-2.5 rounded-full text-sm font-medium transition-all ${activeTab === 'payPerImage'
-                                        ? 'bg-white text-gray-900 shadow-sm'
-                                        : 'text-gray-600 hover:text-gray-900'
+                                    ? 'bg-white text-gray-900 shadow-sm'
+                                    : 'text-gray-600 hover:text-gray-900'
                                     }`}
                             >
                                 {t('tabs.payPerImage')}
@@ -60,8 +60,8 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                             <button
                                 onClick={() => setActiveTab('limitedOffer')}
                                 className={`px-6 py-2.5 rounded-full text-sm font-medium transition-all flex items-center gap-1.5 ${activeTab === 'limitedOffer'
-                                        ? 'bg-white text-gray-900 shadow-sm'
-                                        : 'text-gray-600 hover:text-gray-900'
+                                    ? 'bg-white text-gray-900 shadow-sm'
+                                    : 'text-gray-600 hover:text-gray-900'
                                     }`}
                             >
                                 <Flame className="w-4 h-4 text-orange-500" />
@@ -70,8 +70,8 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                             <button
                                 onClick={() => setActiveTab('enterprise')}
                                 className={`px-6 py-2.5 rounded-full text-sm font-medium transition-all ${activeTab === 'enterprise'
-                                        ? 'bg-white text-gray-900 shadow-sm'
-                                        : 'text-gray-600 hover:text-gray-900'
+                                    ? 'bg-white text-gray-900 shadow-sm'
+                                    : 'text-gray-600 hover:text-gray-900'
                                     }`}
                             >
                                 {t('tabs.enterprise')}
@@ -156,8 +156,8 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                                     50 {t('limitedOffer.images')}
                                 </h3>
                                 <div className="mb-4">
-                                    <span className="text-3xl font-bold text-gray-900">€14.99</span>
-                                    <span className="text-gray-500 text-sm ml-2">(€0.30/{t('payPerImage.perImage')})</span>
+                                    <span className="text-3xl font-bold text-gray-900">€16.99</span>
+                                    <span className="text-gray-500 text-sm ml-2">(€0.34/{t('payPerImage.perImage')})</span>
                                 </div>
                                 <Button className="w-full mb-4 bg-blue-600 hover:bg-blue-700">
                                     {t('selectPlan')}
