@@ -241,12 +241,12 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2">
-              <div className="relative w-8 h-8 rounded-lg overflow-hidden">
+              <div className="relative w-10 h-10 rounded-xl bg-white/10 border-2 border-white/20 overflow-hidden backdrop-blur-sm">
                 <Image
                   src="/aurix-logo.png"
                   alt="Aurix Logo"
                   fill
-                  className="object-contain p-1"
+                  className="object-contain p-1.5"
                 />
               </div>
               <span className="font-semibold text-white">Aurix</span>

@@ -34,12 +34,12 @@ export function Navbar() {
                 <div className="flex items-center justify-between h-16">
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-2 group">
-                        <div className="relative w-9 h-9 rounded-xl overflow-hidden shadow-md group-hover:shadow-lg transition-shadow">
+                        <div className="relative w-9 h-9">
                             <Image
                                 src="/aurix-logo.png"
                                 alt="Aurix Logo"
                                 fill
-                                className="object-contain p-1"
+                                className="object-contain"
                             />
                         </div>
                         <span className="font-bold text-xl text-gray-900">
