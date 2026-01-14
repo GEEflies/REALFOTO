@@ -46,6 +46,10 @@ const featureImages: Record<string, { before: string; after: string }> = {
     'auto-privacy': {
         before: '/landing/privacy/privacy-before.jpeg',
         after: '/landing/privacy/privacy-after.jpeg'
+    },
+    'color-correction': {
+        before: '/landing/color correction/cc-before.jpg',
+        after: '/landing/color correction/cc-after.jpg'
     }
 }
 

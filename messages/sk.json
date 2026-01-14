@@ -294,7 +294,8 @@
             "whiteBalance": "Vyváženie bielej",
             "relighting": "Preosvetlenie",
             "raw": "Podpora RAW",
-            "privacy": "Auto Súkromie"
+            "privacy": "Auto Súkromie",
+            "color": "Korekcia Farieb"
         },
         "rights": "Všetky práva vyhradené."
     },
@@ -441,6 +442,24 @@
             "benefit3": {
                 "title": "Bezpečné pre GDPR",
                 "desc": "Zabezpečí, že vaše marketingové materiály spĺňajú štandardy ochrany súkromia."
+            }
+        },
+        "color-correction": {
+            "title": "Korekcia Farieb",
+            "description": "Vylepšite živosť a zabezpečte presnú reprodukciu farieb na všetkých obrázkoch. Vytvorte úžasné, verné fotografie, ktoré priťahujú viac kupujúcich.",
+            "cta": "Opraviť farby teraz",
+            "benefitsTitle": "Živé a presné",
+            "benefit1": {
+                "title": "Zvýšenie živosti",
+                "desc": "Oživte fádne obrázky inteligentnými úpravami sýtosti."
+            },
+            "benefit2": {
+                "title": "Verné farby",
+                "desc": "Zabezpečte, aby tóny dreva, trávy a oblohy vyzerali presne tak, ako majú."
+            },
+            "benefit3": {
+                "title": "Konzistentnosť",
+                "desc": "Udržujte jednotný vzhľad celého vášho portfólia."
             }
         }
     }

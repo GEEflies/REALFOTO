@@ -294,7 +294,8 @@
             "whiteBalance": "White Balance",
             "relighting": "Image relighting",
             "raw": "RAW Support",
-            "privacy": "Auto Privacy"
+            "privacy": "Auto Privacy",
+            "color": "Color Correction"
         },
         "rights": "All rights reserved."
     },
@@ -441,6 +442,24 @@
             "benefit3": {
                 "title": "GDPR Safe",
                 "desc": "Ensures your marketing materials meet privacy standards."
+            }
+        },
+        "color-correction": {
+            "title": "Color Correction",
+            "description": "Enhance vibrancy and ensure accurate color reproduction across all images. Create stunning, true-to-life photos that attract more buyers.",
+            "cta": "Correct Colors Now",
+            "benefitsTitle": "Vibrant & Accurate",
+            "benefit1": {
+                "title": "Vibrancy Boost",
+                "desc": "Make dull images pop with intelligent saturation adjustments."
+            },
+            "benefit2": {
+                "title": "True Colors",
+                "desc": "Ensure wood tones, grass, and sky look exactly as they should."
+            },
+            "benefit3": {
+                "title": "Consistency",
+                "desc": "Maintain a cohesive look across your entire portfolio."
             }
         }
     }

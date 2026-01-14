@@ -83,6 +83,9 @@ export function Footer() {
                             <li><Link href="/feature/window-pulling" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('featureList.window')}</Link></li>
                             <li><Link href="/feature/white-balance" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('featureList.whiteBalance')}</Link></li>
                             <li><Link href="/feature/image-relighting" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('featureList.relighting')}</Link></li>
+                            <li><Link href="/feature/raw-support" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('featureList.raw')}</Link></li>
+                            <li><Link href="/feature/auto-privacy" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('featureList.privacy')}</Link></li>
+                            <li><Link href="/feature/color-correction" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('featureList.color')}</Link></li>
                         </ul>
                     </div>
                 </div>
