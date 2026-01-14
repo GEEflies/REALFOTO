@@ -16,7 +16,7 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
-import Image from 'next/image'
+
 
 export function Navbar() {
     const t = useTranslations('Navbar')
