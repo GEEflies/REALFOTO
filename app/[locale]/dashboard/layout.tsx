@@ -96,6 +96,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         }
     }
 
+    useEffect(() => {
+        checkAuth()
+    }, [])
+
     const handleLogout = async () => {
         const { error } = await signOut()
         if (error) {
