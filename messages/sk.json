@@ -163,7 +163,7 @@
     },
     "Dropzone": {
         "dragDrop": "Kliknite sem a vyberte obrázok",
-        "supports": "Podporuje JPG a PNG do 10MB",
+        "supports": "Podporuje JPG,PNG do 10MB na fotku",
         "changeImage": "Zmeniť Obrázok",
         "errorFormat": "Prosím nahrajte platný obrázok (JPG, PNG, WebP)",
         "errorSize": "Obrázok je príliš veľký (Max 10MB)"

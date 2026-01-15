@@ -163,7 +163,7 @@
     },
     "Dropzone": {
         "dragDrop": "Click here to select an image",
-        "supports": "Supports JPG & PNG up to 10MB",
+        "supports": "Supports JPG,PNG up to 10MB each",
         "changeImage": "Change Image",
         "errorFormat": "Please upload a valid image (JPG, PNG, WebP)",
         "errorSize": "Image is too large (Max 10MB)"

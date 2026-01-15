@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Download, Loader2, Sparkles, RotateCcw, Check, ChevronDown, X } from 'lucide-react'
+import { Download, Loader2, Sparkles, RotateCcw, Check, ChevronDown, X, Layers, AppWindow, CloudSun, Scale, Ruler, Lightbulb, Camera, Lock, Palette, Image as LucideImage } from 'lucide-react'
 import { toast } from 'sonner'
 import { useTranslations } from 'next-intl'
 
@@ -21,7 +21,7 @@ type EnhanceMode = 'full' | 'hdr' | 'window' | 'sky' | 'white_balance' | 'perspe
 
 interface ModeOption {
     id: EnhanceMode
-    icon: string
+    icon: any
     label: string
     description: string
     bgGradient: string
@@ -77,16 +77,16 @@ export default function EnhancePage() {
     }
 
     const ENHANCE_MODES: ModeOption[] = [
-        { id: 'full', icon: '✨', label: t('modes.full.label'), description: t('modes.full.description'), bgGradient: 'from-purple-50 to-indigo-50', borderColor: 'border-purple-200' },
-        { id: 'hdr', icon: '🌅', label: t('modes.hdr.label'), description: t('modes.hdr.description'), bgGradient: 'from-amber-50 to-orange-50', borderColor: 'border-amber-100' },
-        { id: 'window', icon: '🪟', label: t('modes.window.label'), description: t('modes.window.description'), bgGradient: 'from-sky-50 to-blue-50', borderColor: 'border-sky-100' },
-        { id: 'sky', icon: '☁️', label: t('modes.sky.label'), description: t('modes.sky.description'), bgGradient: 'from-cyan-50 to-sky-50', borderColor: 'border-cyan-100' },
-        { id: 'white_balance', icon: '⚖️', label: t('modes.white_balance.label'), description: t('modes.white_balance.description'), bgGradient: 'from-gray-50 to-slate-50', borderColor: 'border-gray-100' },
-        { id: 'perspective', icon: '📐', label: t('modes.perspective.label'), description: t('modes.perspective.description'), bgGradient: 'from-indigo-50 to-purple-50', borderColor: 'border-indigo-100' },
-        { id: 'relighting', icon: '💡', label: t('modes.relighting.label'), description: t('modes.relighting.description'), bgGradient: 'from-yellow-50 to-amber-50', borderColor: 'border-yellow-100' },
-        { id: 'raw_quality', icon: '📷', label: t('modes.raw_quality.label'), description: t('modes.raw_quality.description'), bgGradient: 'from-emerald-50 to-green-50', borderColor: 'border-emerald-100' },
-        { id: 'privacy', icon: '🔒', label: t('modes.privacy.label'), description: t('modes.privacy.description'), bgGradient: 'from-rose-50 to-pink-50', borderColor: 'border-rose-100' },
-        { id: 'color', icon: '🎨', label: t('modes.color.label'), description: t('modes.color.description'), bgGradient: 'from-violet-50 to-purple-50', borderColor: 'border-violet-100' },
+        { id: 'full', icon: Sparkles, label: t('modes.full.label'), description: t('modes.full.description'), bgGradient: 'from-purple-50 to-indigo-50', borderColor: 'border-purple-200' },
+        { id: 'hdr', icon: Layers, label: t('modes.hdr.label'), description: t('modes.hdr.description'), bgGradient: 'from-amber-50 to-orange-50', borderColor: 'border-amber-100' },
+        { id: 'window', icon: AppWindow, label: t('modes.window.label'), description: t('modes.window.description'), bgGradient: 'from-sky-50 to-blue-50', borderColor: 'border-sky-100' },
+        { id: 'sky', icon: CloudSun, label: t('modes.sky.label'), description: t('modes.sky.description'), bgGradient: 'from-cyan-50 to-sky-50', borderColor: 'border-cyan-100' },
+        { id: 'white_balance', icon: Scale, label: t('modes.white_balance.label'), description: t('modes.white_balance.description'), bgGradient: 'from-gray-50 to-slate-50', borderColor: 'border-gray-100' },
+        { id: 'perspective', icon: Ruler, label: t('modes.perspective.label'), description: t('modes.perspective.description'), bgGradient: 'from-indigo-50 to-purple-50', borderColor: 'border-indigo-100' },
+        { id: 'relighting', icon: Lightbulb, label: t('modes.relighting.label'), description: t('modes.relighting.description'), bgGradient: 'from-yellow-50 to-amber-50', borderColor: 'border-yellow-100' },
+        { id: 'raw_quality', icon: Camera, label: t('modes.raw_quality.label'), description: t('modes.raw_quality.description'), bgGradient: 'from-emerald-50 to-green-50', borderColor: 'border-emerald-100' },
+        { id: 'privacy', icon: Lock, label: t('modes.privacy.label'), description: t('modes.privacy.description'), bgGradient: 'from-rose-50 to-pink-50', borderColor: 'border-rose-100' },
+        { id: 'color', icon: Palette, label: t('modes.color.label'), description: t('modes.color.description'), bgGradient: 'from-violet-50 to-purple-50', borderColor: 'border-violet-100' },
     ]
 
     const handleImageSelect = async (file: File, preview: string) => {
@@ -261,7 +261,7 @@ export default function EnhancePage() {
                                             <Check className="w-3 h-3 text-white" />
                                         </div>
                                     )}
-                                    <span className="text-3xl mb-1">{mode.icon}</span>
+                                    <mode.icon className={cn("w-8 h-8 mb-2 transition-colors", selectedMode === mode.id ? "text-blue-600" : "text-gray-400 group-hover:text-gray-600")} />
                                     <span className="text-xs font-bold text-center leading-tight">{mode.label}</span>
                                     <span className="hidden md:block text-[10px] text-gray-400 text-center leading-tight line-clamp-2">{mode.description}</span>
                                 </button>
@@ -277,8 +277,8 @@ export default function EnhancePage() {
                                 className="w-full bg-white border-2 border-blue-100 rounded-2xl p-4 flex items-center justify-between shadow-sm active:scale-[0.98] transition-all"
                             >
                                 <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-xl">
-                                        {selectedModeInfo.icon}
+                                    <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center">
+                                        <selectedModeInfo.icon className="w-5 h-5 text-blue-600" />
                                     </div>
                                     <div className="text-left">
                                         <div className="font-bold text-gray-900">{selectedModeInfo.label}</div>
@@ -330,7 +330,7 @@ export default function EnhancePage() {
                                             )}
                                         >
                                             <div className="flex items-center gap-3">
-                                                <div className="text-2xl">{mode.icon}</div>
+                                                <mode.icon className={cn("w-6 h-6", selectedMode === mode.id ? "text-blue-600" : "text-gray-500")} />
                                                 <div>
                                                     <div className={cn("font-bold", selectedMode === mode.id ? "text-blue-700" : "text-gray-900")}>
                                                         {mode.label}
@@ -353,7 +353,7 @@ export default function EnhancePage() {
                 {selectedModeInfo && !isMobile && (
                     <div className="text-center mb-6">
                         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-50 border border-gray-100 text-gray-700 text-sm">
-                            <span className="text-lg">{selectedModeInfo.icon}</span>
+                            <selectedModeInfo.icon className="w-5 h-5 text-gray-500" />
                             <span className="font-medium">{selectedModeInfo.label}:</span>
                             <span className="text-gray-500">{selectedModeInfo.description}</span>
                         </div>
