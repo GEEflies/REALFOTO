@@ -56,13 +56,50 @@ export async function POST(request: NextRequest) {
         let tierName: string = 'Starter'
         let imagesQuota: number = 50
         let stripeSessionIdValue: string = ''
+        let stripeCustomerId: string = ''
+        let stripeSubscriptionId: string = ''
 
-        // Priority 1: Use pre-verified tierData from the client (already verified via /api/checkout/verify)
-        if (tierData && tierData.tier && tierData.images) {
-            tier = tierData.tier
-            tierName = tierData.tierName || 'Pro'
-            imagesQuota = tierData.images
-            stripeSessionIdValue = sessionId || ''
+        // Priority 1: Check for Real Stripe session_id
+        if (sessionId) {
+            try {
+                // Verify the session directly with Stripe for security
+                const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
+                const session = await stripe.checkout.sessions.retrieve(sessionId, {
+                    expand: ['subscription', 'line_items']
+                })
+
+                if (!session || session.payment_status !== 'paid') {
+                    return NextResponse.json(
+                        { message: 'Payment not verified' },
+                        { status: 400 }
+                    )
+                }
+
+                // Extract data
+                stripeSessionIdValue = session.id
+                stripeCustomerId = typeof session.customer === 'string' ? session.customer : session.customer?.id || ''
+                stripeSubscriptionId = typeof session.subscription === 'string' ? session.subscription : session.subscription?.id || ''
+
+                // Determine tier from metadata or price
+                // If we passed metadata in checkout creation, use it
+                // Otherwise use the tierData passed from client as fallback (but secure logic is better)
+                if (session.metadata?.tier) {
+                    tier = session.metadata.tier
+                    tierName = session.metadata.tierName || (tier === 'pro' ? 'Pro' : 'Starter')
+                    imagesQuota = parseInt(session.metadata.images || '50')
+                } else if (tierData) {
+                    tier = tierData.tier
+                    tierName = tierData.tierName
+                    imagesQuota = tierData.images
+                }
+
+            } catch (stripeError) {
+                console.error('Stripe verification failed:', stripeError)
+                return NextResponse.json(
+                    { message: 'Failed to verify payment with provider' },
+                    { status: 500 }
+                )
+            }
         }
         // Priority 2: Verify simulated session (development/testing)
         else if (session) {
@@ -104,13 +141,6 @@ export async function POST(request: NextRequest) {
             imagesQuota = sessionData.images
             stripeSessionIdValue = sessionData.sessionId
         }
-        // Priority 3: Check for Stripe session_id (already verified client-side via /api/checkout/verify)
-        else if (sessionId) {
-            // The client already verified this session via /api/checkout/verify
-            // We trust the tierData that was passed
-            // If no tierData, use defaults (should not happen in normal flow)
-            stripeSessionIdValue = sessionId
-        }
         // No valid session
         else {
             return NextResponse.json(
@@ -130,6 +160,8 @@ export async function POST(request: NextRequest) {
                 imagesQuota: imagesQuota,
                 imagesUsed: 0,
                 stripeSessionId: stripeSessionIdValue,
+                stripeCustomerId: stripeCustomerId,
+                stripeSubscriptionId: stripeSubscriptionId,
                 paymentStatus: 'paid',
             },
         })
@@ -158,6 +190,32 @@ export async function POST(request: NextRequest) {
             )
         }
 
+        const userId = authData.user.id
+
+        // Update Stripe with the User ID so webhooks can match events to users
+        if (stripeCustomerId) {
+            try {
+                const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
+                await stripe.customers.update(stripeCustomerId, {
+                    metadata: {
+                        userId: userId,
+                        email: email
+                    }
+                })
+                // Also update subscription if we have it, to be safe
+                if (stripeSubscriptionId) {
+                    await stripe.subscriptions.update(stripeSubscriptionId, {
+                        metadata: {
+                            userId: userId
+                        }
+                    })
+                }
+            } catch (stripeUpdateError) {
+                console.error('Failed to update Stripe metadata:', stripeUpdateError)
+                // Non-critical error, proceed
+            }
+        }
+
         // Send verification email using invite link
         try {
             await supabaseAdmin.auth.admin.inviteUserByEmail(email, {
@@ -171,7 +229,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({
             success: true,
             message: 'Account created successfully. Please check your email to verify.',
-            userId: authData.user.id,
+            userId: userId,
         })
     } catch (error) {
         console.error('Signup error:', error)

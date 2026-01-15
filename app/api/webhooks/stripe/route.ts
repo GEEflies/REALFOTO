@@ -1,31 +1,39 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { headers } from 'next/headers'
-import { getStripe } from '@/lib/stripe'
 import Stripe from 'stripe'
+import { createClient } from '@supabase/supabase-js'
+
+// Initialize Supabase Admin
+const supabaseAdmin = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    {
+        auth: {
+            autoRefreshToken: false,
+            persistSession: false,
+        },
+    }
+)
 
 export async function POST(request: NextRequest) {
     const body = await request.text()
     const headersList = await headers()
     const signature = headersList.get('stripe-signature')
 
-    if (!signature) {
+    if (!signature || !process.env.STRIPE_WEBHOOK_SECRET) {
         return NextResponse.json(
-            { message: 'Missing stripe-signature header' },
+            { message: 'Missing signature or webhook config' },
             { status: 400 }
-        )
-    }
-
-    if (!process.env.STRIPE_WEBHOOK_SECRET) {
-        return NextResponse.json(
-            { message: 'Webhook secret not configured' },
-            { status: 500 }
         )
     }
 
     let event: Stripe.Event
 
     try {
-        const stripe = getStripe()
+        const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+            apiVersion: '2023-10-16', // Use the version matching your types or 'latest'
+        })
+
         event = stripe.webhooks.constructEvent(
             body,
             signature,
@@ -40,74 +48,100 @@ export async function POST(request: NextRequest) {
     }
 
     try {
-        const stripe = getStripe()
+        const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+            apiVersion: '2023-10-16',
+        })
 
         switch (event.type) {
-            case 'checkout.session.completed': {
-                const session = event.data.object as Stripe.Checkout.Session
-                const userId = session.metadata?.userId
-                const customerId = session.customer as string
+            // Handle successful subscription renewal (Monthly reset)
+            case 'invoice.payment_succeeded': {
+                const invoice = event.data.object as Stripe.Invoice
 
-                if (!userId) {
-                    console.error('No userId in session metadata')
-                    break
+                // Only process subscription invoices
+                if (!invoice.subscription) break
+
+                // Retrieve subscription to get metadata
+                const subscription = await stripe.subscriptions.retrieve(invoice.subscription as string)
+
+                // Try to get userId from subscription metadata, or fallback to customer metadata
+                let userId = subscription.metadata?.userId
+
+                if (!userId && invoice.customer) {
+                    const customer = await stripe.customers.retrieve(invoice.customer as string)
+                    if (!customer.deleted) {
+                        userId = customer.metadata?.userId
+                    }
                 }
 
-                // Get subscription details
-                const subscription = await stripe.subscriptions.retrieve(
-                    session.subscription as string
-                )
-                const priceId = subscription.items.data[0].price.id
+                if (userId) {
+                    console.log(`Resetting usage for user ${userId} (Invoice Paid)`)
+                    // Reset usage in users table
+                    const { error } = await supabaseAdmin
+                        .from('users')
+                        .update({ images_used: 0, updated_at: new Date().toISOString() })
+                        .eq('id', userId)
 
-                // Determine tier based on price ID
-                let tier: 'STARTER' | 'PRO' = 'STARTER'
-                if (priceId === process.env.STRIPE_PRO_PRICE_ID) {
-                    tier = 'PRO'
+                    if (error) console.error('Failed to reset user usage:', error)
+                } else {
+                    console.log('No userId found for invoice payment', invoice.id)
                 }
-
-                // TODO: Update user in database
-                // await prisma.user.update({
-                //   where: { clerkId: userId },
-                //   data: {
-                //     tier,
-                //     stripeCustomerId: customerId,
-                //     imagesUsed: 0, // Reset quota on upgrade
-                //   },
-                // })
-
-                console.log(`User ${userId} upgraded to ${tier}`)
                 break
             }
 
+            // Handle cancelled subscription
             case 'customer.subscription.deleted': {
                 const subscription = event.data.object as Stripe.Subscription
-                const customerId = subscription.customer as string
+                let userId = subscription.metadata?.userId
 
-                // TODO: Downgrade user to free tier
-                // await prisma.user.updateMany({
-                //   where: { stripeCustomerId: customerId },
-                //   data: {
-                //     tier: 'FREE',
-                //     imagesUsed: 0,
-                //   },
-                // })
+                if (!userId && subscription.customer) {
+                    const customer = await stripe.customers.retrieve(subscription.customer as string)
+                    if (!customer.deleted) {
+                        userId = customer.metadata?.userId
+                    }
+                }
 
-                console.log(`Customer ${customerId} subscription cancelled`)
+                if (userId) {
+                    console.log(`Downgrading user ${userId} to Starter (Subscription Deleted)`)
+
+                    // Downgrade to starter
+                    const { error } = await supabaseAdmin
+                        .from('users')
+                        .update({
+                            tier: 'starter',
+                            tier_name: 'Starter',
+                            images_quota: 50, // Starter quota
+                            updated_at: new Date().toISOString()
+                        })
+                        .eq('id', userId)
+
+                    // Also update auth metadata to match
+                    await supabaseAdmin.auth.admin.updateUserById(userId, {
+                        user_metadata: {
+                            tier: 'starter',
+                            tierName: 'Starter',
+                            imagesQuota: 50
+                        }
+                    })
+
+                    if (error) console.error('Failed to downgrade user:', error)
+                }
                 break
             }
 
-            case 'invoice.payment_failed': {
-                const invoice = event.data.object as Stripe.Invoice
-                console.error(`Payment failed for invoice ${invoice.id}`)
-                // TODO: Send email notification to user
+            case 'checkout.session.completed': {
+                // We handle signup separately (Payment -> Redirect -> Signup Form)
+                // But we can log this for debugging
+                const session = event.data.object as Stripe.Checkout.Session
+                console.log('Checkout completed:', session.id)
                 break
             }
 
             default:
-                console.log(`Unhandled event type: ${event.type}`)
+            // console.log(`Unhandled event type: ${event.type}`)
         }
 
         return NextResponse.json({ received: true })
+
     } catch (error) {
         console.error('Webhook handler error:', error)
         return NextResponse.json(
