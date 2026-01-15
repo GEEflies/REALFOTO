@@ -21,9 +21,11 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
     const [timeLeft, setTimeLeft] = useState(300) // 5 minutes in seconds
     const [selectedProTier, setSelectedProTier] = useState(100)
     const [proDropdownOpen, setProDropdownOpen] = useState(false)
+    const [isMobile, setIsMobile] = useState(false)
 
     // Pro tier pricing tiers
-    const proTiers = [
+    const starterTier = { count: 50, price: '16.99', originalPrice: '42.49', per: '0.34' }
+    const standardProTiers = [
         { count: 100, price: '29.99', originalPrice: '74.99', per: '0.30' },
         { count: 200, price: '54.99', originalPrice: '137.99', per: '0.27' },
         { count: 300, price: '74.99', originalPrice: '187.99', per: '0.25' },
@@ -32,7 +34,24 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
         { count: 1000, price: '189.99', originalPrice: '474.99', per: '0.19' },
     ]
 
-    const selectedProPricing = proTiers.find(t => t.count === selectedProTier) || proTiers[0]
+    const proTiers = isMobile ? [starterTier, ...standardProTiers] : standardProTiers
+    const selectedProPricing = proTiers.find(t => t.count === selectedProTier) || (isMobile ? starterTier : standardProTiers[0])
+
+    useEffect(() => {
+        const checkMobile = () => {
+            const mobile = window.innerWidth < 768
+            setIsMobile(mobile)
+            if (mobile && selectedProTier === 100) {
+                setSelectedProTier(50)
+            } else if (!mobile && selectedProTier === 50) {
+                setSelectedProTier(100)
+            }
+        }
+
+        checkMobile()
+        window.addEventListener('resize', checkMobile)
+        return () => window.removeEventListener('resize', checkMobile)
+    }, [])
 
     useEffect(() => {
         if (!open) return
@@ -243,7 +262,7 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
 
                                 <div className="grid md:grid-cols-2 gap-4 sm:gap-6">
                                     {/* Starter Tier */}
-                                    <div className="relative p-5 sm:p-6 rounded-2xl border-2 border-gray-100 bg-white">
+                                    <div className="hidden md:block relative p-5 sm:p-6 rounded-2xl border-2 border-gray-100 bg-white">
                                         <h3 className="text-lg font-bold text-gray-900 mb-2">
                                             {t('limitedOffer.starterName')}
                                         </h3>
@@ -285,7 +304,7 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                                         </div>
 
                                         <h3 className="text-lg font-bold text-gray-900 mb-2 mt-1">
-                                            {t('limitedOffer.proName')}
+                                            {selectedProTier === 50 ? t('limitedOffer.starterName') : t('limitedOffer.proName')}
                                         </h3>
 
                                         <div className="flex items-baseline flex-wrap gap-2 mb-1">
@@ -346,7 +365,7 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                                                         <Check className="w-3 h-3" />
                                                     </div>
                                                     <span className="text-gray-700 text-sm font-medium">
-                                                        {i === 3 ? t('limitedOffer.proFeatures.3') : t(`limitedOffer.features.${i}`)}
+                                                        {i === 3 && selectedProTier !== 50 ? t('limitedOffer.proFeatures.3') : t(`limitedOffer.features.${i}`)}
                                                     </span>
                                                 </div>
                                             ))}
