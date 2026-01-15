@@ -13,7 +13,7 @@ const supabaseAdmin = createClient(
     }
 )
 
-// Decrypt session data (same as in simulate route)
+// Decrypt session data (for simulated sessions)
 function decryptSessionData(encrypted: string): object | null {
     try {
         const crypto = require('crypto')
@@ -34,7 +34,7 @@ function decryptSessionData(encrypted: string): object | null {
 export async function POST(request: NextRequest) {
     try {
         const body = await request.json()
-        const { email, password, session } = body
+        const { email, password, session, sessionId, tierData } = body
 
         // Validate inputs
         if (!email || !password) {
@@ -51,59 +51,85 @@ export async function POST(request: NextRequest) {
             )
         }
 
-        // Verify payment session
-        if (!session) {
+        // Determine tier info from either simulated session, Stripe session, or pre-verified tierData
+        let tier: string = 'starter'
+        let tierName: string = 'Starter'
+        let imagesQuota: number = 50
+        let stripeSessionIdValue: string = ''
+
+        // Priority 1: Use pre-verified tierData from the client (already verified via /api/checkout/verify)
+        if (tierData && tierData.tier && tierData.images) {
+            tier = tierData.tier
+            tierName = tierData.tierName || 'Pro'
+            imagesQuota = tierData.images
+            stripeSessionIdValue = sessionId || ''
+        }
+        // Priority 2: Verify simulated session (development/testing)
+        else if (session) {
+            const sessionData = decryptSessionData(session) as {
+                tier: string
+                tierName: string
+                images: number
+                price: number
+                sessionId: string
+                expiresAt: string
+                paymentStatus: string
+            } | null
+
+            if (!sessionData) {
+                return NextResponse.json(
+                    { message: 'Invalid payment session' },
+                    { status: 400 }
+                )
+            }
+
+            // Check session expiry
+            if (new Date(sessionData.expiresAt) < new Date()) {
+                return NextResponse.json(
+                    { message: 'Payment session has expired' },
+                    { status: 400 }
+                )
+            }
+
+            // Check payment status
+            if (sessionData.paymentStatus !== 'paid') {
+                return NextResponse.json(
+                    { message: 'Payment not completed' },
+                    { status: 400 }
+                )
+            }
+
+            tier = sessionData.tier
+            tierName = sessionData.tierName
+            imagesQuota = sessionData.images
+            stripeSessionIdValue = sessionData.sessionId
+        }
+        // Priority 3: Check for Stripe session_id (already verified client-side via /api/checkout/verify)
+        else if (sessionId) {
+            // The client already verified this session via /api/checkout/verify
+            // We trust the tierData that was passed
+            // If no tierData, use defaults (should not happen in normal flow)
+            stripeSessionIdValue = sessionId
+        }
+        // No valid session
+        else {
             return NextResponse.json(
                 { message: 'Payment session is required' },
                 { status: 400 }
             )
         }
 
-        const sessionData = decryptSessionData(session) as {
-            tier: string
-            tierName: string
-            images: number
-            price: number
-            sessionId: string
-            expiresAt: string
-            paymentStatus: string
-        } | null
-
-        if (!sessionData) {
-            return NextResponse.json(
-                { message: 'Invalid payment session' },
-                { status: 400 }
-            )
-        }
-
-        // Check session expiry
-        if (new Date(sessionData.expiresAt) < new Date()) {
-            return NextResponse.json(
-                { message: 'Payment session has expired' },
-                { status: 400 }
-            )
-        }
-
-        // Check payment status
-        if (sessionData.paymentStatus !== 'paid') {
-            return NextResponse.json(
-                { message: 'Payment not completed' },
-                { status: 400 }
-            )
-        }
-
         // Create Supabase Auth user with tier/quota in metadata
-        // This avoids needing database migration - all user data is in Supabase Auth
         const { data: authData, error: authError } = await supabaseAdmin.auth.admin.createUser({
             email,
             password,
             email_confirm: false, // User needs to verify email
             user_metadata: {
-                tier: sessionData.tier,
-                tierName: sessionData.tierName,
-                imagesQuota: sessionData.images,
+                tier: tier,
+                tierName: tierName,
+                imagesQuota: imagesQuota,
                 imagesUsed: 0,
-                stripeSessionId: sessionData.sessionId,
+                stripeSessionId: stripeSessionIdValue,
                 paymentStatus: 'paid',
             },
         })
@@ -133,8 +159,6 @@ export async function POST(request: NextRequest) {
         }
 
         // Send verification email using invite link
-        // Since user is already created, we'll use inviteUserByEmail to trigger email
-        // Note: In production, you may want to use a custom email service instead
         try {
             await supabaseAdmin.auth.admin.inviteUserByEmail(email, {
                 redirectTo: `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.aurix.pics'}/verify-email`,

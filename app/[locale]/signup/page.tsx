@@ -38,29 +38,54 @@ export default function SignupPage() {
     // Verify session on mount
     useEffect(() => {
         const verifySession = async () => {
-            const session = searchParams.get('session')
+            // Check for simulated session (encrypted token)
+            const simulatedSession = searchParams.get('session')
+            // Check for real Stripe session ID  
+            const stripeSessionId = searchParams.get('session_id')
 
-            if (!session) {
-                setSessionError('No payment session found. Please complete payment first.')
-                setIsVerifying(false)
+            // Handle simulated checkout (development/testing)
+            if (simulatedSession) {
+                try {
+                    const response = await fetch(`/api/checkout/simulate?session=${encodeURIComponent(simulatedSession)}`)
+                    const data = await response.json()
+
+                    if (data.valid) {
+                        setSessionData(data)
+                    } else {
+                        setSessionError(data.message || 'Invalid or expired session')
+                    }
+                } catch (err) {
+                    console.error('Session verification error:', err)
+                    setSessionError('Failed to verify payment session')
+                } finally {
+                    setIsVerifying(false)
+                }
                 return
             }
 
-            try {
-                const response = await fetch(`/api/checkout/simulate?session=${encodeURIComponent(session)}`)
-                const data = await response.json()
+            // Handle real Stripe checkout (production)
+            if (stripeSessionId) {
+                try {
+                    const response = await fetch(`/api/checkout/verify?session_id=${encodeURIComponent(stripeSessionId)}`)
+                    const data = await response.json()
 
-                if (data.valid) {
-                    setSessionData(data)
-                } else {
-                    setSessionError(data.message || 'Invalid or expired session')
+                    if (data.valid) {
+                        setSessionData(data)
+                    } else {
+                        setSessionError(data.message || 'Invalid Stripe session')
+                    }
+                } catch (err) {
+                    console.error('Stripe session verification error:', err)
+                    setSessionError('Failed to verify Stripe payment')
+                } finally {
+                    setIsVerifying(false)
                 }
-            } catch (err) {
-                console.error('Session verification error:', err)
-                setSessionError('Failed to verify payment session')
-            } finally {
-                setIsVerifying(false)
+                return
             }
+
+            // No session parameter found
+            setSessionError('No payment session found. Please complete payment first.')
+            setIsVerifying(false)
         }
 
         verifySession()
@@ -88,7 +113,9 @@ export default function SignupPage() {
         setIsLoading(true)
 
         try {
-            const session = searchParams.get('session')
+            // Get session parameters (either simulated or Stripe)
+            const simulatedSession = searchParams.get('session')
+            const stripeSessionId = searchParams.get('session_id')
 
             const response = await fetch('/api/auth/signup', {
                 method: 'POST',
@@ -96,7 +123,14 @@ export default function SignupPage() {
                 body: JSON.stringify({
                     email,
                     password,
-                    session, // Pass the encrypted session for tier verification
+                    session: simulatedSession, // Simulated session (encrypted)
+                    sessionId: stripeSessionId, // Real Stripe session_id
+                    // Also pass the verified session data
+                    tierData: sessionData ? {
+                        tier: sessionData.tier,
+                        tierName: sessionData.tierName,
+                        images: sessionData.images,
+                    } : null,
                 }),
             })
 
