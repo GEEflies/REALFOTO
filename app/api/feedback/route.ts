@@ -61,7 +61,7 @@ ${message || 'No additional message provided'}
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    from: 'Aurix Feedback <feedback@aurix.pics>',
+                    from: 'Aurix Feedback <onboarding@resend.dev>',
                     to: ['karol@billik.sk'],
                     subject: `Aurix Feedback: ${satisfactionEmoji} ${satisfaction}/5 from ${userEmail}`,
                     text: emailBody,
