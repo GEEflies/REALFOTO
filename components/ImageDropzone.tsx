@@ -126,10 +126,10 @@ export function ImageDropzone({
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         className={cn(
-                            'relative border-2 border-dashed rounded-2xl p-8 md:p-12 transition-all duration-200 cursor-pointer',
+                            'relative border-2 border-dashed rounded-2xl p-6 md:p-12 transition-all duration-200 cursor-pointer group',
                             isDragging
                                 ? 'border-blue-500 bg-blue-50'
-                                : 'border-gray-200 hover:border-gray-300 bg-gray-50 hover:bg-gray-100',
+                                : 'border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-white',
                             disabled && 'opacity-50 cursor-not-allowed'
                         )}
                         onDrop={handleDrop}
@@ -141,18 +141,18 @@ export function ImageDropzone({
                             <motion.div
                                 animate={isDragging ? { scale: 1.1, y: -5 } : { scale: 1, y: 0 }}
                                 className={cn(
-                                    'w-16 h-16 rounded-2xl flex items-center justify-center mb-4',
-                                    isDragging ? 'bg-blue-100' : 'bg-white shadow-md'
+                                    'w-12 h-12 md:w-16 md:h-16 rounded-2xl flex items-center justify-center mb-4 transition-colors',
+                                    isDragging ? 'bg-blue-100' : 'bg-white shadow-sm group-hover:scale-110 group-hover:shadow-md'
                                 )}
                             >
                                 {isDragging ? (
-                                    <Upload className="w-8 h-8 text-blue-500" />
+                                    <Upload className="w-6 h-6 md:w-8 md:h-8 text-blue-500" />
                                 ) : (
-                                    <ImageIcon className="w-8 h-8 text-gray-400" />
+                                    <ImageIcon className="w-6 h-6 md:w-8 md:h-8 text-gray-400 group-hover:text-blue-500 transition-colors" />
                                 )}
                             </motion.div>
 
-                            <p className="text-lg font-medium text-gray-900 mb-1">
+                            <p className="text-base md:text-lg font-medium text-gray-900 mb-1 group-hover:text-blue-600 transition-colors">
                                 {t('dragDrop')}
                             </p>
                             <p className="text-xs text-gray-400 mt-2">

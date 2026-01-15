@@ -230,7 +230,7 @@ export default function EnhancePage() {
 
                 {/* Mode Selection Grid */}
                 <div className="mb-8">
-                    <h2 className="text-lg font-semibold text-gray-800 mb-4 text-center">{t('modeTitle')}</h2>
+                    <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4 text-center">{t('modeTitle')}</h2>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 max-w-4xl mx-auto">
                         {ENHANCE_MODES.map((mode) => (
                             <button
@@ -238,23 +238,23 @@ export default function EnhancePage() {
                                 onClick={() => setSelectedMode(mode.id)}
                                 disabled={processingState === 'processing'}
                                 className={`
-                                    relative flex flex-col items-center gap-1 p-4 rounded-xl transition-all duration-200
-                                    bg-gradient-to-br ${mode.bgGradient} border-2
+                                    relative flex flex-col items-center justify-center gap-2 p-4 rounded-2xl transition-all duration-200 border
                                     ${selectedMode === mode.id
-                                        ? 'border-blue-500 ring-2 ring-blue-200 scale-105 shadow-lg'
-                                        : `${mode.borderColor} hover:scale-102 hover:shadow-md`
+                                        ? 'bg-blue-50 border-blue-500 text-blue-700 shadow-md ring-1 ring-blue-500'
+                                        : 'bg-white border-gray-100 text-gray-600 hover:border-gray-200 hover:bg-gray-50 hover:shadow-sm'
                                     }
                                     ${processingState === 'processing' ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
                                 `}
                             >
                                 {selectedMode === mode.id && (
-                                    <div className="absolute -top-2 -right-2 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
-                                        <Check className="w-4 h-4 text-white" />
+                                    <div className="absolute top-2 right-2 w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center">
+                                        <Check className="w-3 h-3 text-white" />
                                     </div>
                                 )}
-                                <span className="text-2xl">{mode.icon}</span>
-                                <span className="text-sm font-medium text-gray-700">{mode.label}</span>
-                                <span className="text-xs text-gray-500 text-center">{mode.description}</span>
+                                <span className="text-3xl mb-1">{mode.icon}</span>
+                                <span className="text-xs font-bold text-center leading-tight">{mode.label}</span>
+                                {/* Description hidden on mobile grid for cleaner look, shown in selected info */}
+                                <span className="hidden md:block text-[10px] text-gray-400 text-center leading-tight line-clamp-2">{mode.description}</span>
                             </button>
                         ))}
                     </div>
@@ -263,10 +263,10 @@ export default function EnhancePage() {
                 {/* Selected Mode Info */}
                 {selectedModeInfo && (
                     <div className="text-center mb-6">
-                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-50 text-blue-700">
-                            <span className="text-xl">{selectedModeInfo.icon}</span>
-                            <span className="font-medium">{t('selected')}: {selectedModeInfo.label}</span>
-                            <span className="text-blue-500">- {selectedModeInfo.description}</span>
+                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-50 border border-gray-100 text-gray-700 text-sm">
+                            <span className="text-lg">{selectedModeInfo.icon}</span>
+                            <span className="font-medium">{selectedModeInfo.label}:</span>
+                            <span className="text-gray-500">{selectedModeInfo.description}</span>
                         </div>
                     </div>
                 )}
@@ -363,12 +363,12 @@ export default function EnhancePage() {
                                     <motion.div
                                         initial={{ opacity: 0, y: 10 }}
                                         animate={{ opacity: 1, y: 0 }}
-                                        className="mt-6 text-center"
+                                        className="mt-6 text-center px-4"
                                     >
                                         <Button
                                             onClick={processImage}
                                             size="lg"
-                                            className="gap-2 px-8 py-6 text-lg bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/40 transition-all duration-300 cursor-pointer"
+                                            className="w-full sm:w-auto gap-2 px-6 py-4 md:px-8 md:py-6 text-base md:text-lg bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/40 transition-all duration-300 cursor-pointer"
                                         >
                                             <Sparkles className="w-5 h-5" />
                                             {t('enhanceButton')} {selectedModeInfo?.label}

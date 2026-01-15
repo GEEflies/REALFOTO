@@ -88,8 +88,9 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                     </p>
 
                     {/* Premium Tab Switcher - smaller padding */}
-                    <div className="flex justify-center mt-3">
-                        <div className="inline-flex bg-gray-100/80 p-1 rounded-full border border-gray-200/50 backdrop-blur-sm">
+                    {/* Premium Tab Switcher - Horizontal scroll on mobile */}
+                    <div className="flex justify-start md:justify-center mt-4 w-full overflow-x-auto no-scrollbar px-2 sm:px-0 pb-2">
+                        <div className="inline-flex bg-gray-100/80 p-1 rounded-full border border-gray-200/50 backdrop-blur-sm whitespace-nowrap min-w-min">
                             {[
                                 { id: 'payPerImage', label: t('tabs.payPerImage'), icon: Sparkles },
                                 { id: 'limitedOffer', label: t('tabs.limitedOffer'), icon: Flame },
@@ -99,7 +100,7 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                                     key={tab.id}
                                     onClick={() => setActiveTab(tab.id as PricingTab)}
                                     className={cn(
-                                        "relative px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 flex items-center gap-2 z-10 cursor-pointer",
+                                        "relative px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 flex items-center gap-2 z-10 cursor-pointer",
                                         activeTab === tab.id
                                             ? "text-gray-900 shadow-sm"
                                             : "text-gray-500 hover:text-gray-900"
@@ -122,8 +123,8 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                     </div>
                 </div>
 
-                {/* Content Area - Tighter padding */}
-                <div className="flex-1 overflow-y-auto overflow-x-hidden p-5 md:p-6 bg-white">
+                {/* Content Area - Optimized for mobile */}
+                <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 bg-white">
                     <AnimatePresence mode="wait">
                         {activeTab === 'payPerImage' && (
                             <motion.div
@@ -131,26 +132,26 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                                 initial={{ opacity: 0, x: 20 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, x: -20 }}
-                                className="grid lg:grid-cols-2 gap-8 items-center"
+                                className="grid lg:grid-cols-2 gap-6 lg:gap-8 items-center"
                             >
-                                <div className="space-y-4">
+                                <div className="space-y-4 order-2 lg:order-1 text-center lg:text-left">
                                     <div>
-                                        <div className="flex items-center gap-3 mb-1">
-                                            <h3 className="text-2xl font-bold text-gray-900">{t('payPerImage.title')}</h3>
+                                        <div className="flex items-center justify-center lg:justify-start gap-3 mb-1">
+                                            <h3 className="text-xl sm:text-2xl font-bold text-gray-900">{t('payPerImage.title')}</h3>
                                             <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 text-xs font-bold uppercase tracking-wider">
                                                 <Zap className="w-3 h-3" />
-                                                Flexible Usage
+                                                Flexible
                                             </div>
                                         </div>
-                                        <p className="text-gray-600 text-base leading-relaxed">{t('payPerImage.description')}</p>
+                                        <p className="text-gray-600 text-sm sm:text-base leading-relaxed">{t('payPerImage.description')}</p>
                                     </div>
 
-                                    <div className="flex items-baseline gap-2">
-                                        <span className="text-5xl font-bold tracking-tight text-gray-900">€0.69</span>
-                                        <span className="text-lg text-gray-500 font-medium">/ {t('payPerImage.perImage')}</span>
+                                    <div className="flex items-baseline justify-center lg:justify-start gap-2">
+                                        <span className="text-4xl sm:text-5xl font-bold tracking-tight text-gray-900">€0.69</span>
+                                        <span className="text-base sm:text-lg text-gray-500 font-medium">/ {t('payPerImage.perImage')}</span>
                                     </div>
 
-                                    <div className="grid grid-cols-1 gap-2">
+                                    <div className="grid grid-cols-1 gap-2 text-left">
                                         {[0, 1, 2].map((i) => (
                                             <div key={i} className="flex items-center gap-2.5 p-2 rounded-lg bg-gray-50 border border-gray-100">
                                                 <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center shrink-0">
@@ -170,15 +171,12 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                                     </p>
                                 </div>
 
-                                <div className="relative pt-8 px-4 pb-4">
-                                    {/* Abstract background decorative element */}
-                                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-tr from-blue-100/50 via-purple-100/30 to-transparent rounded-full blur-3xl -z-10" />
-
-                                    {/* Container for images to preserve aspect ratio */}
-                                    <div className="relative w-full aspect-[4/3]">
-                                        {/* Before Image - Behind and Higher Up */}
-                                        <div className="absolute -top-16 left-0 w-full h-[90%] rounded-2xl overflow-hidden shadow-lg border border-gray-200 bg-gray-100 z-0 scale-95 origin-top opacity-60 rotate-[-8deg]">
-                                            <div className="absolute top-3 left-3 z-30 bg-black/70 text-white text-[10px] font-bold px-2 py-1 rounded-full backdrop-blur-md">
+                                <div className="relative pt-4 px-4 pb-4 order-1 lg:order-2">
+                                    {/* Container for images - Reduced height on mobile */}
+                                    <div className="relative w-full aspect-video sm:aspect-[4/3] mx-auto max-w-sm lg:max-w-none">
+                                        {/* Before Image */}
+                                        <div className="absolute top-0 left-0 w-[90%] h-[90%] rounded-2xl overflow-hidden shadow-lg border border-gray-200 bg-gray-100 z-0 scale-95 origin-top-left -rotate-3">
+                                            <div className="absolute top-2 left-2 z-30 bg-black/70 text-white text-[10px] font-bold px-2 py-1 rounded-full backdrop-blur-md">
                                                 {t('before')}
                                             </div>
                                             <Image
@@ -190,9 +188,9 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                                             />
                                         </div>
 
-                                        {/* After Image - Front and Lower Down */}
-                                        <div className="absolute -bottom-8 left-0 w-full h-[90%] rounded-2xl overflow-hidden shadow-2xl border-2 border-white bg-white z-10 rotate-[8deg]">
-                                            <div className="absolute top-3 right-3 z-30 bg-blue-600 text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-lg">
+                                        {/* After Image */}
+                                        <div className="absolute bottom-0 right-0 w-[90%] h-[90%] rounded-2xl overflow-hidden shadow-2xl border-2 border-white bg-white z-10 rotate-3">
+                                            <div className="absolute top-2 right-2 z-30 bg-blue-600 text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-lg">
                                                 {t('after')}
                                             </div>
                                             <Image
@@ -216,37 +214,25 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                                 exit={{ opacity: 0, x: -20 }}
                                 className="max-w-3xl mx-auto"
                             >
-                                {/* Urgency Banner */}
+                                {/* Urgency Banner - Simplified */}
                                 <motion.div
                                     initial={{ opacity: 0, y: -10 }}
                                     animate={{ opacity: 1, y: 0 }}
-                                    className="mb-8"
+                                    className="mb-6"
                                 >
-                                    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-orange-500 via-rose-500 to-red-600 p-1 shadow-lg shadow-orange-500/20">
-                                        <div className="absolute top-0 right-0 -mr-16 -mt-16 w-32 h-32 rounded-full bg-white/20 blur-2xl" />
-                                        <div className="absolute bottom-0 left-0 -ml-16 -mb-16 w-32 h-32 rounded-full bg-yellow-400/20 blur-2xl" />
-
-                                        <div className="relative bg-white/10 backdrop-blur-sm rounded-xl py-3 px-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-white">
-                                            <div className="flex items-center gap-2.5">
-                                                <div className="p-1.5 bg-white/20 rounded-lg shrink-0 animate-pulse">
+                                    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-orange-500 to-rose-600 p-4 shadow-lg text-white">
+                                        <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+                                            <div className="flex items-center gap-3">
+                                                <div className="p-2 bg-white/20 rounded-full shrink-0 animate-pulse">
                                                     <Flame className="w-5 h-5 text-yellow-300 fill-yellow-300" />
                                                 </div>
-                                                <div className="flex flex-col">
-                                                    <span className="font-bold text-lg leading-none tracking-tight">
-                                                        {t('banner.sale')}
-                                                    </span>
-                                                    <span className="text-xs font-medium text-orange-50/90 mt-1 flex items-center gap-1.5">
-                                                        <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                                                        {t('banner.spots')}
-                                                    </span>
+                                                <div>
+                                                    <div className="font-bold text-lg leading-tight">{t('banner.sale')}</div>
+                                                    <div className="text-xs font-medium text-orange-100 opacity-90">{t('banner.spots')}</div>
                                                 </div>
                                             </div>
-
-                                            <div className="flex items-center gap-2 bg-black/20 rounded-lg px-3 py-1.5 border border-white/10">
-                                                <span className="text-xs uppercase tracking-wider font-medium text-orange-100/80">
-                                                    {t('banner.expires')}
-                                                </span>
-                                                <span className="font-mono text-xl font-bold tabular-nums tracking-widest text-white">
+                                            <div className="flex items-center gap-2 bg-black/20 rounded-lg px-4 py-2 w-full sm:w-auto justify-center">
+                                                <span className="text-xl font-mono font-bold tracking-widest">
                                                     {Math.floor(timeLeft / 60).toString().padStart(2, '0')}:
                                                     {(timeLeft % 60).toString().padStart(2, '0')}
                                                 </span>
@@ -255,39 +241,36 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                                     </div>
                                 </motion.div>
 
-                                <div className="grid md:grid-cols-2 gap-6">
+                                <div className="grid md:grid-cols-2 gap-4 sm:gap-6">
                                     {/* Starter Tier */}
-                                    <div className="relative p-6 rounded-2xl border-2 border-gray-100 bg-white hover:border-gray-200 hover:shadow-lg transition-all duration-300">
-                                        <h3 className="text-lg font-bold text-gray-900 mb-4">
+                                    <div className="relative p-5 sm:p-6 rounded-2xl border-2 border-gray-100 bg-white">
+                                        <h3 className="text-lg font-bold text-gray-900 mb-2">
                                             {t('limitedOffer.starterName')}
                                         </h3>
 
                                         <div className="flex items-baseline flex-wrap gap-2 mb-1">
-                                            <span className="text-lg text-gray-400 line-through font-medium">€42.49</span>
-                                            <span className="text-4xl font-bold text-gray-900">€16.99</span>
-                                            <span className="text-lg font-medium text-orange-600">{t('limitedOffer.perMonth')}</span>
+                                            <span className="text-base text-gray-400 line-through font-medium">€42.49</span>
+                                            <span className="text-3xl font-bold text-gray-900">€16.99</span>
+                                            <span className="text-sm font-medium text-orange-600">{t('limitedOffer.perMonth')}</span>
                                         </div>
-                                        <div className="flex items-center gap-2 mb-4 text-sm text-gray-500">
+                                        <div className="flex items-center gap-2 mb-4 text-xs text-gray-500">
                                             <span>(€0.34/{t('payPerImage.perImage')})</span>
                                         </div>
 
-                                        <Button className="w-full h-10 text-sm mb-6 rounded-lg bg-gray-900 hover:bg-gray-800">
+                                        <Button className="w-full h-10 text-sm mb-4 rounded-lg bg-gray-900 hover:bg-gray-800">
                                             {t('selectPlan')}
                                         </Button>
 
-                                        <div className="space-y-2.5">
+                                        <div className="space-y-2">
+                                            {/* Features list ... same as before but tighter spacing */}
                                             <div className="text-[10px] font-semibold uppercase tracking-wider text-gray-400">Features</div>
                                             <div className="flex items-center gap-2">
-                                                <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 bg-gray-100 text-gray-500">
-                                                    <Check className="w-3 h-3" />
-                                                </div>
+                                                <Check className="w-4 h-4 text-green-500 shrink-0" />
                                                 <span className="text-gray-700 text-sm font-medium">50 {t('limitedOffer.images').toLowerCase()}</span>
                                             </div>
                                             {[1, 2, 3].map((i) => (
                                                 <div key={i} className="flex items-center gap-2">
-                                                    <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 bg-gray-100 text-gray-500">
-                                                        <Check className="w-3 h-3" />
-                                                    </div>
+                                                    <Check className="w-4 h-4 text-green-500 shrink-0" />
                                                     <span className="text-gray-700 text-sm font-medium">{t(`limitedOffer.features.${i}`)}</span>
                                                 </div>
                                             ))}
@@ -295,32 +278,30 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                                     </div>
 
                                     {/* Pro Tier with Dropdown */}
-                                    <div className="relative p-6 rounded-2xl border-2 border-orange-500/50 bg-orange-50/30 shadow-xl shadow-orange-500/10 transition-all duration-300">
-                                        <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-orange-500 to-red-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg flex items-center gap-1">
+                                    <div className="relative p-5 sm:p-6 rounded-2xl border-2 border-orange-500/50 bg-orange-50/30 shadow-lg">
+                                        <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-orange-500 to-red-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow-md flex items-center gap-1 whitespace-nowrap">
                                             <Flame className="w-3 h-3 fill-current" />
                                             {t('limitedOffer.bestValue')}
                                         </div>
 
-                                        <h3 className="text-lg font-bold text-gray-900 mb-4">
+                                        <h3 className="text-lg font-bold text-gray-900 mb-2 mt-1">
                                             {t('limitedOffer.proName')}
                                         </h3>
 
-
-
                                         <div className="flex items-baseline flex-wrap gap-2 mb-1">
-                                            <span className="text-lg text-gray-400 line-through font-medium">€{selectedProPricing.originalPrice}</span>
-                                            <span className="text-4xl font-bold text-gray-900">€{selectedProPricing.price}</span>
-                                            <span className="text-lg font-medium text-orange-600">{t('limitedOffer.perMonth')}</span>
+                                            <span className="text-base text-gray-400 line-through font-medium">€{selectedProPricing.originalPrice}</span>
+                                            <span className="text-3xl font-bold text-gray-900">€{selectedProPricing.price}</span>
+                                            <span className="text-sm font-medium text-orange-600">{t('limitedOffer.perMonth')}</span>
                                         </div>
-                                        <div className="flex items-center gap-2 mb-4 text-sm text-gray-500">
+                                        <div className="flex items-center gap-2 mb-4 text-xs text-gray-500">
                                             <span>(€{selectedProPricing.per}/{t('payPerImage.perImage')})</span>
                                         </div>
 
-                                        <Button className="w-full h-10 text-sm mb-6 rounded-lg bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white shadow-lg shadow-orange-500/20">
+                                        <Button className="w-full h-10 text-sm mb-4 rounded-lg bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white shadow-md">
                                             {t('selectPlan')}
                                         </Button>
 
-                                        <div className="space-y-2.5">
+                                        <div className="space-y-2">
                                             <div className="text-[10px] font-semibold uppercase tracking-wider text-gray-400">Features</div>
                                             {/* Dropdown in features */}
                                             <div className="flex items-center gap-2">
@@ -339,7 +320,7 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                                                     </button>
 
                                                     {proDropdownOpen && (
-                                                        <div className="absolute top-full left-0 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg z-20 py-1">
+                                                        <div className="absolute top-full left-0 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg z-20 py-1 max-h-48 overflow-y-auto">
                                                             {proTiers.map((tier) => (
                                                                 <button
                                                                     key={tier.count}
@@ -381,33 +362,35 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                                 initial={{ opacity: 0, x: 20 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, x: -20 }}
-                                className="max-w-2xl mx-auto text-center"
+                                className="max-w-md mx-auto"
                             >
-                                <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl shadow-purple-500/20">
-                                    <Building2 className="w-8 h-8 text-white" />
-                                </div>
+                                <div className="bg-white rounded-2xl border-2 border-indigo-100 p-6 shadow-xl shadow-indigo-500/10">
+                                    <div className="w-14 h-14 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center mb-4 shadow-lg shadow-indigo-500/20">
+                                        <Building2 className="w-7 h-7 text-white" />
+                                    </div>
 
-                                <h3 className="text-3xl font-bold text-gray-900 mb-4 font-display">
-                                    {t('enterprise.title')}
-                                </h3>
-                                <p className="text-lg text-gray-500 mb-8 max-w-xl mx-auto leading-relaxed">
-                                    {t('enterprise.description')}
-                                </p>
+                                    <h3 className="text-2xl font-bold text-gray-900 mb-2 font-display">
+                                        {t('enterprise.title')}
+                                    </h3>
+                                    <p className="text-sm text-gray-500 mb-6 leading-relaxed">
+                                        {t('enterprise.description')}
+                                    </p>
 
-                                <div className="grid md:grid-cols-2 gap-3 mb-6">
-                                    {[0, 1, 2, 3].map((i) => (
-                                        <div key={i} className="flex items-center gap-3 p-3 rounded-lg bg-gray-50 border border-gray-100 text-left">
-                                            <div className="w-6 h-6 rounded-lg bg-white border border-gray-200 flex items-center justify-center shadow-sm shrink-0">
-                                                <Check className="w-3.5 h-3.5 text-indigo-600" />
+                                    <div className="space-y-3 mb-8">
+                                        {[0, 1, 2, 3].map((i) => (
+                                            <div key={i} className="flex items-center gap-3">
+                                                <div className="w-5 h-5 rounded-full bg-indigo-100 flex items-center justify-center shrink-0">
+                                                    <Check className="w-3 h-3 text-indigo-600" />
+                                                </div>
+                                                <span className="font-medium text-sm text-gray-700">{t(`enterprise.features.${i}`)}</span>
                                             </div>
-                                            <span className="font-semibold text-xs text-gray-900">{t(`enterprise.features.${i}`)}</span>
-                                        </div>
-                                    ))}
-                                </div>
+                                        ))}
+                                    </div>
 
-                                <Button size="lg" className="px-10 h-12 text-lg bg-gray-900 hover:bg-gray-800 text-white rounded-xl shadow-xl hover:shadow-2xl transition-all">
-                                    {t('enterprise.contact')}
-                                </Button>
+                                    <Button size="lg" className="w-full h-11 text-base bg-gray-900 hover:bg-gray-800 text-white rounded-xl shadow-lg hover:shadow-xl transition-all">
+                                        {t('enterprise.contact')}
+                                    </Button>
+                                </div>
                             </motion.div>
                         )}
                     </AnimatePresence>
