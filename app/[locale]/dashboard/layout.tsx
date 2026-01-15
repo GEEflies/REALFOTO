@@ -39,54 +39,28 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     const router = useRouter()
     const pathname = usePathname()
     const [sidebarOpen, setSidebarOpen] = useState(false)
+    const [logoutConfirmOpen, setLogoutConfirmOpen] = useState(false)
     const [user, setUser] = useState<UserData | null>(null)
     const [isLoading, setIsLoading] = useState(true)
 
-    useEffect(() => {
-        checkAuth()
-    }, [])
-
-    const checkAuth = async () => {
-        try {
-            const session = await getSession()
-
-            if (!session) {
-                // Not logged in - redirect to login
-                router.push('/login')
-                return
-            }
-
-            // Get user data from API
-            const response = await fetch('/api/user/me')
-            if (response.ok) {
-                const userData = await response.json()
-                setUser(userData)
-            } else {
-                // Fallback to session metadata
-                setUser({
-                    id: session.user.id,
-                    email: session.user.email || '',
-                    tier: session.user.user_metadata?.tier || 'starter',
-                    tierName: session.user.user_metadata?.tierName || 'Starter',
-                    imagesUsed: 0,
-                    imagesQuota: session.user.user_metadata?.imagesQuota || 50,
-                })
-            }
-        } catch (error) {
-            console.error('Auth check error:', error)
-            router.push('/login')
-        } finally {
-            setIsLoading(false)
-        }
-    }
+    // ... (useEffect checkAuth)
 
     const handleLogout = async () => {
         const { error } = await signOut()
         if (error) {
             toast.error('Failed to log out')
         } else {
+            // Determine redirect URL (Landing Page)
+            let redirectUrl = 'https://www.aurix.pics'
+            if (typeof window !== 'undefined') {
+                if (window.location.hostname.includes('localhost')) {
+                    redirectUrl = 'http://localhost:3000'
+                }
+            }
+
             toast.success('Logged out successfully')
-            router.push('/')
+            // Force full page navigation to remove 'app' subdomain if present
+            window.location.href = redirectUrl
         }
     }
 
@@ -176,7 +150,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
                     {/* Logout Button */}
                     <button
-                        onClick={handleLogout}
+                        onClick={() => setLogoutConfirmOpen(true)}
                         className="w-full flex items-center gap-3 px-4 py-2 mt-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-all text-sm"
                     >
                         <LogOut className="w-4 h-4" />
@@ -184,6 +158,54 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                     </button>
                 </div>
             </aside>
+
+            {/* Logout Confirmation Modal */}
+            <AnimatePresence>
+                {logoutConfirmOpen && (
+                    <>
+                        {/* Backdrop */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm"
+                            onClick={() => setLogoutConfirmOpen(false)}
+                        />
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[70] w-full max-w-sm bg-white rounded-2xl shadow-xl p-6 border border-gray-100"
+                        >
+                            <div className="flex flex-col items-center text-center">
+                                <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                                    <LogOut className="w-6 h-6 text-red-600" />
+                                </div>
+                                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                                    {t('nav.logoutConfirmTitle', { default: 'Log out?' })}
+                                </h3>
+                                <p className="text-gray-500 mb-6">
+                                    {t('nav.logoutConfirmMessage', { default: 'Are you sure you want to sign out? You will be redirected to the home page.' })}
+                                </p>
+                                <div className="flex gap-3 w-full">
+                                    <button
+                                        onClick={() => setLogoutConfirmOpen(false)}
+                                        className="flex-1 px-4 py-2.5 rounded-xl border border-gray-200 text-gray-700 font-medium hover:bg-gray-50 transition-colors"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        onClick={handleLogout}
+                                        className="flex-1 px-4 py-2.5 rounded-xl bg-red-600 text-white font-medium hover:bg-red-700 transition-colors shadow-lg hover:shadow-red-500/30"
+                                    >
+                                        {t('nav.logout')}
+                                    </button>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </>
+                )}
+            </AnimatePresence>
 
             {/* Mobile Header */}
             <div className="lg:hidden fixed top-0 left-0 right-0 z-40 bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between">
@@ -274,7 +296,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                                     </div>
                                 )}
                                 <button
-                                    onClick={handleLogout}
+                                    onClick={() => setLogoutConfirmOpen(true)}
                                     className="w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-xl transition-all"
                                 >
                                     <LogOut className="w-5 h-5" />
