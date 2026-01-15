@@ -68,15 +68,13 @@ export default async function middleware(request: NextRequest) {
         const isAllowedPath =
             pathname === '/dashboard' ||
             pathname.includes('/dashboard') ||
-            pathname.includes('/login') ||
-            pathname.includes('/forgot-password') ||
             pathname.includes('/auth') ||
             pathname.startsWith('/api') ||
             pathname.startsWith('/_next') ||
             pathname.includes('.'); // static files
 
         if (!isAllowedPath) {
-            // Redirect all other traffic (e.g. /remove, /enhance) to dashboard
+            // Redirect all other traffic (e.g. /remove, /enhance, /login) to dashboard
             return NextResponse.redirect(new URL('/dashboard', request.url));
         }
     }
@@ -99,7 +97,16 @@ export default async function middleware(request: NextRequest) {
         const authenticated = await isAuthenticated(request);
 
         if (!authenticated) {
-            // Redirect to login with return URL
+            // If on app subdomain, redirect to main domain login
+            if (hostname.startsWith('app.')) {
+                const mainDomain = hostname.includes('localhost') ? 'http://localhost:3000' : 'https://www.aurix.pics';
+                const locale = pathname.startsWith('/sk') ? '/sk' : '/en';
+                // Redirect back to the full current URL after login
+                const returnUrl = encodeURIComponent(request.url);
+                return NextResponse.redirect(new URL(`${mainDomain}${locale}/login?redirect=${returnUrl}`));
+            }
+
+            // Normal relative redirect for main domain
             const locale = pathname.startsWith('/sk') ? 'sk' : 'en';
             const loginUrl = new URL(`/${locale}/login`, request.url);
             loginUrl.searchParams.set('redirect', pathname);
