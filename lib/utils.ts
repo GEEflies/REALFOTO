@@ -5,6 +5,10 @@ export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs))
 }
 
+export function getAbsoluteUrl(path: string) {
+    return `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.aurix.pics'}${path}`
+}
+
 export function formatFileSize(bytes: number): string {
     if (bytes === 0) return '0 Bytes'
     const k = 1024

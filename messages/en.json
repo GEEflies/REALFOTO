@@ -747,6 +747,10 @@
             "billing": {
                 "title": "Billing History",
                 "empty": "No billing history available yet."
+            },
+            "portal": {
+                "loading": "Opening Stripe Portal...",
+                "error": "Failed to open portal. Please try again."
             }
         },
         "security": {

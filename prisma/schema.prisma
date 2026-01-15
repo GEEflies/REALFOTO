@@ -19,7 +19,10 @@ model User {
   tier             Tier          @default(FREE)
   stripeCustomerId String?
   stripeSessionId  String?       // Track checkout session for verification
+  stripeSubscriptionId String?   // Track active subscription
   paymentStatus    PaymentStatus @default(PENDING)
+  subscriptionStatus String?     @default("none") // active, canceled, paused, past_due, etc.
+  subscriptionEndDate DateTime?
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
   images           Image[]

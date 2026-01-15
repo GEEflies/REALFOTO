@@ -260,9 +260,62 @@
         "close": "Zavrieť"
     },
     "Settings": {
+        "badge": "Nastavenia",
         "title": "Nastavenia",
         "language": "Jazyk",
-        "languageDesc": "Vyberte preferovaný jazyk"
+        "languageDesc": "Vyberte preferovaný jazyk",
+        "subtitle": "Spravujte svoj účet, predplatné a nastavenia zabezpečenia",
+        "tabs": {
+            "account": "Účet",
+            "subscription": "Predplatné",
+            "security": "Zabezpečenie"
+        },
+        "account": {
+            "profile": {
+                "title": "Profil",
+                "email": "Emailová adresa",
+                "update": "Aktualizovať",
+                "verified": "Email overený"
+            },
+            "danger": {
+                "title": "Nebezpečná zóna",
+                "description": "Trvalo odstrániť účet a všetky súvisiace údaje.",
+                "delete": "Odstrániť účet"
+            }
+        },
+        "subscription": {
+            "current": {
+                "label": "Aktuálny plán",
+                "manage": "Spravovať plán"
+            },
+            "usage": {
+                "title": "Využitie",
+                "images": "Obrázky",
+                "remaining": "Tento mesiac vám zostáva {count} obrázkov."
+            },
+            "billing": {
+                "title": "História platieb",
+                "empty": "Zatiaľ nie sú dostupné žiadne faktúry."
+            },
+            "portal": {
+                "loading": "Otváram portál Stripe...",
+                "error": "Nepodarilo sa otvoriť portál. Skúste to prosím znova."
+            }
+        },
+        "security": {
+            "password": {
+                "title": "Zmena hesla",
+                "current": "Aktuálne heslo",
+                "new": "Nové heslo",
+                "confirm": "Potvrdiť nové heslo",
+                "update": "Aktualizovať heslo"
+            },
+            "sessions": {
+                "title": "Relácie",
+                "description": "Spravujte aktívne relácie a odhláste sa z iných zariadení.",
+                "logout": "Odhlásiť sa zo všetkých zariadení"
+            }
+        }
     },
     "Pricing": {
         "title": "Jednoduchý, transparentný cenník",

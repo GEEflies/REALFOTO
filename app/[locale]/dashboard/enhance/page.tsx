@@ -14,6 +14,7 @@ import { compressImage, cn } from '@/lib/utils'
 import { supabaseAuth } from '@/lib/supabase-auth'
 import { PaywallGate } from '@/components/PaywallGate'
 import { createClient } from '@supabase/supabase-js'
+import { EnhanceModeSelector } from '@/components/EnhanceModeSelector'
 
 type EnhanceMode = 'full' | 'hdr' | 'window' | 'sky' | 'white_balance' | 'perspective' | 'relighting' | 'raw_quality' | 'privacy' | 'color'
 
@@ -40,20 +41,13 @@ export default function DashboardEnhancePage() {
     const [queue, setQueue] = useState<QueueItem[]>([])
     const [isProcessing, setIsProcessing] = useState(false)
     const [selectedMode, setSelectedMode] = useState<EnhanceMode>('full')
-    const [isMobile, setIsMobile] = useState(false)
-    const [modeSheetOpen, setModeSheetOpen] = useState(false)
     const [isLoaded, setIsLoaded] = useState(false)
 
     // Supabase client for insert (History logic)
     // We utilize the client-side supabaseAuth but creating a fresh client if needed or reuse
     // We already have supabaseAuth imported.
 
-    useEffect(() => {
-        const checkMobile = () => setIsMobile(window.innerWidth < 768)
-        checkMobile()
-        window.addEventListener('resize', checkMobile)
-        return () => window.removeEventListener('resize', checkMobile)
-    }, [])
+    // Removed mobile check effect - handled by EnhanceModeSelector component
 
     // Load queue from IndexedDB on mount
     useEffect(() => {
@@ -237,121 +231,13 @@ export default function DashboardEnhancePage() {
             </div>
 
             {/* Mode Selection */}
-            <div className="mb-8">
-                <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">{t('modeTitle')}</h2>
-
-                {/* Desktop Grid */}
-                <div className="hidden md:grid md:grid-cols-5 gap-3">
-                    {ENHANCE_MODES.map((mode) => (
-                        <button
-                            key={mode.id}
-                            onClick={() => setSelectedMode(mode.id)}
-                            disabled={isProcessing || queue.some(i => i.status !== 'pending')}
-                            className={cn(
-                                "relative flex flex-col items-center justify-center gap-2 p-4 rounded-2xl transition-all duration-200 border",
-                                selectedMode === mode.id
-                                    ? 'bg-blue-50 border-blue-500 text-blue-700 shadow-md ring-1 ring-blue-500'
-                                    : 'bg-white border-gray-100 text-gray-600 hover:border-gray-200 hover:bg-gray-50',
-                                (isProcessing || queue.some(i => i.status !== 'pending')) && 'opacity-50 cursor-not-allowed'
-                            )}
-                        >
-                            <mode.icon className={cn("w-8 h-8 mb-2", selectedMode === mode.id ? "text-blue-600" : "text-gray-400")} />
-                            <span className="text-xs font-bold text-center leading-tight">{mode.label}</span>
-                        </button>
-                    ))}
-                </div>
-
-                {/* Mobile Dropdown Trigger */}
-                <div className="md:hidden">
-                    <button
-                        onClick={() => setModeSheetOpen(true)}
-                        disabled={isProcessing || queue.some(i => i.status !== 'pending')}
-                        className={cn(
-                            "w-full flex items-center justify-between p-4 rounded-xl border bg-white transition-all",
-                            (isProcessing || queue.some(i => i.status !== 'pending')) && 'opacity-50 cursor-not-allowed'
-                        )}
-                    >
-                        <div className="flex items-center gap-3">
-                            {(() => {
-                                const selectedModeObj = ENHANCE_MODES.find(m => m.id === selectedMode);
-                                if (selectedModeObj) {
-                                    const IconComponent = selectedModeObj.icon;
-                                    return <IconComponent className="w-6 h-6 text-blue-600" />;
-                                }
-                                return null;
-                            })()}
-                            <div className="text-left">
-                                <div className="font-semibold text-gray-900">{selectedModeInfo?.label}</div>
-                                <div className="text-xs text-gray-500">{selectedModeInfo?.description}</div>
-                            </div>
-                        </div>
-                        <ChevronDown className="w-5 h-5 text-gray-400" />
-                    </button>
-                </div>
-
-                {/* Mobile Mode Sheet */}
-                <AnimatePresence>
-                    {modeSheetOpen && (
-                        <>
-                            {/* Backdrop */}
-                            <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm"
-                                onClick={() => setModeSheetOpen(false)}
-                            />
-                            {/* Bottom Sheet */}
-                            <motion.div
-                                initial={{ opacity: 0, y: 100 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: 100 }}
-                                className="fixed bottom-0 left-0 right-0 z-[70] bg-white rounded-t-2xl shadow-2xl max-h-[80vh] flex flex-col"
-                            >
-                                <div className="p-4 border-b border-gray-100 flex items-center justify-between bg-gray-50 rounded-t-2xl">
-                                    <h3 className="font-bold text-gray-900 text-lg">{t('modeTitle')}</h3>
-                                    <button onClick={() => setModeSheetOpen(false)} className="p-2 rounded-full hover:bg-gray-200 transition-colors">
-                                        <X className="w-5 h-5 text-gray-500" />
-                                    </button>
-                                </div>
-                                <div className="overflow-y-auto p-4 space-y-2">
-                                    {ENHANCE_MODES.map((mode) => (
-                                        <button
-                                            key={mode.id}
-                                            onClick={() => {
-                                                setSelectedMode(mode.id);
-                                                setModeSheetOpen(false);
-                                            }}
-                                            className={cn(
-                                                "w-full flex items-center gap-4 p-4 rounded-xl text-left transition-all border-2",
-                                                selectedMode === mode.id
-                                                    ? "bg-blue-50 border-blue-500"
-                                                    : "hover:bg-gray-50 border-transparent"
-                                            )}
-                                        >
-                                            <div className={cn(
-                                                "w-12 h-12 rounded-xl flex items-center justify-center",
-                                                selectedMode === mode.id ? "bg-blue-100" : "bg-gray-100"
-                                            )}>
-                                                <mode.icon className={cn("w-6 h-6", selectedMode === mode.id ? "text-blue-600" : "text-gray-500")} />
-                                            </div>
-                                            <div className="flex-1">
-                                                <div className={cn("font-semibold", selectedMode === mode.id ? "text-blue-700" : "text-gray-900")}>{mode.label}</div>
-                                                <div className="text-sm text-gray-500">{mode.description}</div>
-                                            </div>
-                                            {selectedMode === mode.id && (
-                                                <div className="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center">
-                                                    <Check className="w-4 h-4 text-white" />
-                                                </div>
-                                            )}
-                                        </button>
-                                    ))}
-                                </div>
-                            </motion.div>
-                        </>
-                    )}
-                </AnimatePresence>
-            </div>
+            <EnhanceModeSelector
+                selectedMode={selectedMode}
+                onSelectMode={setSelectedMode}
+                modes={ENHANCE_MODES}
+                disabled={isProcessing || queue.some(i => i.status !== 'pending')}
+                modeTitle={t('modeTitle')}
+            />
 
             {/* Queue UI */}
             {queue.length === 0 ? (

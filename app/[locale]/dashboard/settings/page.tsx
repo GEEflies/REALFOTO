@@ -128,9 +128,33 @@ export default function DashboardSettingsPage() {
         }
     }
 
-    const handleManageSubscription = () => {
-        // TODO: Open Stripe Customer Portal
-        toast.info('Subscription management coming soon!')
+    const handleManageSubscription = async () => {
+        setIsLoading(true)
+        try {
+            const response = await fetch('/api/stripe/portal', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    locale: locale === 'sk' ? 'sk' : 'en'
+                }),
+            })
+
+            if (!response.ok) throw new Error('Failed to create portal session')
+
+            const { url } = await response.json()
+
+            // Show toast
+            toast.success(t('subscription.portal.loading'))
+
+            // Redirect
+            window.location.href = url
+        } catch (error) {
+            console.error('Error opening portal:', error)
+            toast.error(t('subscription.portal.error'))
+            setIsLoading(false)
+        }
     }
 
     const tabs = [

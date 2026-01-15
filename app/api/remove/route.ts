@@ -53,11 +53,18 @@ export async function POST(request: NextRequest) {
             // --- Authenticated User Logic ---
             const { data: userData, error } = await supabaseAdmin
                 .from('users')
-                .select('images_used, images_quota, tier')
+                .select('images_used, images_quota, tier, subscription_status')
                 .eq('id', userId)
                 .single()
 
             if (userData) {
+                if (userData.subscription_status === 'paused') {
+                    return NextResponse.json(
+                        { message: 'Subscription is paused. Please resume to continue.', error: 'SUBSCRIPTION_PAUSED' },
+                        { status: 403 }
+                    )
+                }
+
                 if (userData.images_used >= userData.images_quota) {
                     return NextResponse.json(
                         { message: 'Quota exceeded. Please upgrade your plan.', error: 'QUOTA_EXCEEDED' },
