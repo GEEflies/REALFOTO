@@ -1,7 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { enhanceImageWithMode, EnhanceMode } from '@/lib/gemini'
 import { upscaleImage } from '@/lib/replicate'
-import { db } from '@/lib/supabase'
+import { db } from '@/lib/supabase' // Public client
+import { createClient } from '@supabase/supabase-js'
+
+// Server-side Supabase client (Admin)
+const supabaseAdmin = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    {
+        auth: {
+            autoRefreshToken: false,
+            persistSession: false,
+        },
+    }
+)
 
 // Max duration for serverless function (60 seconds)
 export const maxDuration = 60
@@ -21,28 +34,63 @@ export async function POST(request: NextRequest) {
         }
 
         const ip = request.headers.get('x-forwarded-for') || 'unknown'
+        let userId: string | null = null
 
-        // Check usage limits
-        const { data: lead, error: leadError } = await db
-            .from('leads')
-            .select('email, usage_count, is_pro')
-            .eq('ip', ip)
-            .single()
-
-        // 1. Check if email is registered (Gate)
-        if (!lead || !lead.email) {
-            return NextResponse.json(
-                { message: 'Email registration required', error: 'EMAIL_REQUIRED' },
-                { status: 401 }
-            )
+        // Check for authenticated user first
+        const authHeader = request.headers.get('authorization')
+        if (authHeader?.startsWith('Bearer ')) {
+            const token = authHeader.substring(7)
+            const { data: { user }, error } = await supabaseAdmin.auth.getUser(token)
+            if (!error && user) {
+                userId = user.id
+            }
         }
 
-        // 2. Check usage limit (Paywall)
-        if (lead.usage_count >= 3 && !lead.is_pro) {
-            return NextResponse.json(
-                { message: 'Usage limit reached', error: 'LIMIT_REACHED' },
-                { status: 403 }
-            )
+        // Logic branching
+        if (userId) {
+            // --- Authenticated User Logic ---
+            const { data: userData, error } = await supabaseAdmin
+                .from('users')
+                .select('images_used, images_quota, tier')
+                .eq('id', userId)
+                .single()
+
+            if (userData) {
+                if (userData.images_used >= userData.images_quota) {
+                    return NextResponse.json(
+                        { message: 'Quota exceeded. Please upgrade your plan.', error: 'QUOTA_EXCEEDED' },
+                        { status: 403 }
+                    )
+                }
+            } else {
+                return NextResponse.json(
+                    { message: 'User record not found.', error: 'USER_NOT_FOUND' },
+                    { status: 404 }
+                )
+            }
+        } else {
+            // --- Anonymous / IP-based Logic (Leads) ---
+            const { data: lead, error: leadError } = await db
+                .from('leads')
+                .select('email, usage_count, is_pro')
+                .eq('ip', ip)
+                .single()
+
+            // 1. Check if email is registered (Gate)
+            if (!lead || !lead.email) {
+                return NextResponse.json(
+                    { message: 'Email registration required', error: 'EMAIL_REQUIRED' },
+                    { status: 401 }
+                )
+            }
+
+            // 2. Check usage limit (Paywall)
+            if (lead.usage_count >= 3 && !lead.is_pro) {
+                return NextResponse.json(
+                    { message: 'Usage limit reached', error: 'LIMIT_REACHED' },
+                    { status: 403 }
+                )
+            }
         }
 
         // Process image with Gemini using specified mode (defaults to 'full')
@@ -52,7 +100,6 @@ export async function POST(request: NextRequest) {
         console.log('✅ [API] Gemini enhancement complete, image size:', enhancedBase64.length, 'bytes')
 
         // Step 2: Upscale with Replicate (Real-ESRGAN) to 4K
-        // enhancedBase64 comes as "data:image/jpeg;base64,..."
         let upscaledUrl: string | null = null
         console.log('🔄 [API] Starting Replicate upscaling step...')
         try {
@@ -66,23 +113,26 @@ export async function POST(request: NextRequest) {
 
         console.log('📦 [API] Preparing response - Enhanced:', !!enhancedBase64, 'Upscaled:', !!upscaledUrl)
 
-        // Increment usage count
-        await db.rpc('increment_usage', { user_ip: ip })
-            // Fallback to direct update if RPC doesn't exist (though RPC is safer for concurrency)
-            .then(({ error }) => {
-                if (error) {
-                    // Try direct update
-                    return db.from('leads')
-                        .update({ usage_count: lead.usage_count + 1 })
-                        .eq('ip', ip)
+        // Increment usage count based on user type
+        if (userId) {
+            // Call RPC to increment user usage
+            const { error } = await supabaseAdmin.rpc('increment_image_usage', { user_id: userId })
+            if (error) {
+                console.error('Failed to increment user usage via RPC:', error)
+                // Fallback direct update
+                await supabaseAdmin.rpc('increment_image_usage', { user_id: userId })
+            }
+        } else {
+            // Call RPC to increment lead usage
+            const { error } = await db.rpc('increment_lead_usage', { lead_ip: ip })
+            if (error) {
+                // Fallback to direct update if RPC fails or not exists
+                const { data: lead } = await db.from('leads').select('usage_count').eq('ip', ip).single()
+                if (lead) {
+                    await db.from('leads').update({ usage_count: lead.usage_count + 1 }).eq('ip', ip)
                 }
-            })
-        // Simple direct increment as fallback logic for now since we didn't define RPC function yet
-        // actually let's just do direct update for MVP simplicity, race conditions unlikely at this scale
-
-        await db.from('leads')
-            .update({ usage_count: lead.usage_count + 1 })
-            .eq('ip', ip)
+            }
+        }
 
         return NextResponse.json({
             enhanced: enhancedBase64,  // Original Gemini enhancement

@@ -53,12 +53,33 @@ export async function GET(request: NextRequest) {
             )
         }
 
-        // Get user metadata from Supabase Auth
-        // This works even before database migration is run
-        const { data: { user } } = await supabaseAdmin.auth.admin.getUserById(userId)
+        // Query public.users table
+        let imagesQuota = 50
+        let imagesUsed = 0
 
-        const imagesQuota = user?.user_metadata?.imagesQuota || 50
-        const imagesUsed = user?.user_metadata?.imagesUsed || 0
+        try {
+            const { data, error } = await supabaseAdmin
+                .from('users')
+                .select('images_quota, images_used')
+                .eq('id', userId)
+                .single()
+
+            if (!error && data) {
+                imagesQuota = data.images_quota
+                imagesUsed = data.images_used
+            } else {
+                // Fallback to auth metadata if user record missing
+                const { data: { user } } = await supabaseAdmin.auth.admin.getUserById(userId)
+                imagesQuota = user?.user_metadata?.imagesQuota || 50
+                imagesUsed = user?.user_metadata?.imagesUsed || 0
+            }
+        } catch (e) {
+            console.error('Error fetching stats:', e)
+            // Fallback to auth metadata
+            const { data: { user } } = await supabaseAdmin.auth.admin.getUserById(userId)
+            imagesQuota = user?.user_metadata?.imagesQuota || 50
+            imagesUsed = user?.user_metadata?.imagesUsed || 0
+        }
 
         // Estimate enhanced/removed based on total used
         const estimatedEnhanced = Math.floor(imagesUsed * 0.7)

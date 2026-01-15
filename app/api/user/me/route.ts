@@ -53,7 +53,24 @@ export async function GET(request: NextRequest) {
             )
         }
 
-        // Get user from Supabase Auth (works without database migration)
+        // query public.users table for up-to-date data
+        let userData = null
+
+        try {
+            const { data, error } = await supabaseAdmin
+                .from('users')
+                .select('*')
+                .eq('id', userId)
+                .single()
+
+            if (!error && data) {
+                userData = data
+            }
+        } catch (e) {
+            console.error('Error fetching from users table:', e)
+        }
+
+        // Get user from Supabase Auth as fallback/base
         const { data: { user: supabaseUser }, error } = await supabaseAdmin.auth.admin.getUserById(userId)
 
         if (error || !supabaseUser) {
@@ -63,11 +80,11 @@ export async function GET(request: NextRequest) {
             )
         }
 
-        // Extract user data from Supabase user metadata
-        const tier = supabaseUser.user_metadata?.tier || 'starter'
-        const tierName = supabaseUser.user_metadata?.tierName || 'Starter'
-        const imagesQuota = supabaseUser.user_metadata?.imagesQuota || 50
-        const imagesUsed = supabaseUser.user_metadata?.imagesUsed || 0
+        // Use users table data if available, otherwise fallback to metadata
+        const tier = userData?.tier || supabaseUser.user_metadata?.tier || 'starter'
+        const tierName = userData?.tier_name || supabaseUser.user_metadata?.tierName || 'Starter'
+        const imagesQuota = userData?.images_quota || supabaseUser.user_metadata?.imagesQuota || 50
+        const imagesUsed = userData?.images_used || supabaseUser.user_metadata?.imagesUsed || 0
 
         return NextResponse.json({
             id: supabaseUser.id,

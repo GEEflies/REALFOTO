@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button'
 import { ImageDropzone } from '@/components/ImageDropzone'
 import { BeforeAfter } from '@/components/BeforeAfter'
 import { compressImage, cn } from '@/lib/utils'
+import { supabaseAuth } from '@/lib/supabase-auth'
 
 type ProcessingState = 'idle' | 'processing' | 'done' | 'error'
 type EnhanceMode = 'full' | 'hdr' | 'window' | 'sky' | 'white_balance' | 'perspective' | 'relighting' | 'raw_quality' | 'privacy' | 'color'
@@ -72,9 +73,16 @@ export default function DashboardEnhancePage() {
         try {
             const { base64, mimeType } = await compressImage(originalFile, 4, 2048)
 
+            // Get session token for authenticated request
+            const { data: { session } } = await supabaseAuth.auth.getSession()
+            const token = session?.access_token
+
             const response = await fetch('/api/enhance', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+                },
                 body: JSON.stringify({
                     image: base64,
                     mimeType: mimeType,

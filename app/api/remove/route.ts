@@ -1,6 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { removeObject } from '@/lib/gemini'
 import { db } from '@/lib/supabase'
+import { createClient } from '@supabase/supabase-js'
+
+// Server-side Supabase client (Admin)
+const supabaseAdmin = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    {
+        auth: {
+            autoRefreshToken: false,
+            persistSession: false,
+        },
+    }
+)
 
 export async function POST(request: NextRequest) {
     try {
@@ -23,28 +36,63 @@ export async function POST(request: NextRequest) {
         }
 
         const ip = request.headers.get('x-forwarded-for') || 'unknown'
+        let userId: string | null = null
 
-        // Check usage limits
-        const { data: lead, error: leadError } = await db
-            .from('leads')
-            .select('email, usage_count, is_pro')
-            .eq('ip', ip)
-            .single()
-
-        // 1. Check if email is registered (Gate)
-        if (!lead || !lead.email) {
-            return NextResponse.json(
-                { message: 'Email registration required', error: 'EMAIL_REQUIRED' },
-                { status: 401 }
-            )
+        // Check for authenticated user first
+        const authHeader = request.headers.get('authorization')
+        if (authHeader?.startsWith('Bearer ')) {
+            const token = authHeader.substring(7)
+            const { data: { user }, error } = await supabaseAdmin.auth.getUser(token)
+            if (!error && user) {
+                userId = user.id
+            }
         }
 
-        // 2. Check usage limit (Paywall)
-        if (lead.usage_count >= 3 && !lead.is_pro) {
-            return NextResponse.json(
-                { message: 'Usage limit reached', error: 'LIMIT_REACHED' },
-                { status: 403 }
-            )
+        // Logic branching
+        if (userId) {
+            // --- Authenticated User Logic ---
+            const { data: userData, error } = await supabaseAdmin
+                .from('users')
+                .select('images_used, images_quota, tier')
+                .eq('id', userId)
+                .single()
+
+            if (userData) {
+                if (userData.images_used >= userData.images_quota) {
+                    return NextResponse.json(
+                        { message: 'Quota exceeded. Please upgrade your plan.', error: 'QUOTA_EXCEEDED' },
+                        { status: 403 }
+                    )
+                }
+            } else {
+                return NextResponse.json(
+                    { message: 'User record not found.', error: 'USER_NOT_FOUND' },
+                    { status: 404 }
+                )
+            }
+        } else {
+            // --- Anonymous / IP-based Logic (Leads) ---
+            const { data: lead, error: leadError } = await db
+                .from('leads')
+                .select('email, usage_count, is_pro')
+                .eq('ip', ip)
+                .single()
+
+            // 1. Check if email is registered (Gate)
+            if (!lead || !lead.email) {
+                return NextResponse.json(
+                    { message: 'Email registration required', error: 'EMAIL_REQUIRED' },
+                    { status: 401 }
+                )
+            }
+
+            // 2. Check usage limit (Paywall)
+            if (lead.usage_count >= 3 && !lead.is_pro) {
+                return NextResponse.json(
+                    { message: 'Usage limit reached', error: 'LIMIT_REACHED' },
+                    { status: 403 }
+                )
+            }
         }
 
         // Process image with Gemini
@@ -54,10 +102,24 @@ export async function POST(request: NextRequest) {
             mimeType || 'image/jpeg'
         )
 
-        // Increment usage count
-        await db.from('leads')
-            .update({ usage_count: lead.usage_count + 1 })
-            .eq('ip', ip)
+        // Increment usage count based on user type
+        if (userId) {
+            // Call RPC to increment user usage
+            const { error } = await supabaseAdmin.rpc('increment_image_usage', { user_id: userId })
+            if (error) {
+                console.error('Failed to increment user usage via RPC:', error)
+            }
+        } else {
+            // Call RPC to increment lead usage
+            const { error } = await db.rpc('increment_lead_usage', { lead_ip: ip })
+            if (error) {
+                // Fallback to direct update if RPC fails
+                const { data: lead } = await db.from('leads').select('usage_count').eq('ip', ip).single()
+                if (lead) {
+                    await db.from('leads').update({ usage_count: lead.usage_count + 1 }).eq('ip', ip)
+                }
+            }
+        }
 
         return NextResponse.json({
             processed: processedBase64,
