@@ -144,9 +144,19 @@ export default function VerifyEmailPage() {
                             </p>
                         )}
 
-                        <div className="bg-gray-50 rounded-xl p-4 mb-6">
+                        <div className="bg-gray-50 rounded-xl p-4 mb-4">
                             <p className="text-sm text-gray-600">
                                 {t('pending.instruction')}
+                            </p>
+                        </div>
+
+                        {/* Spam Warning */}
+                        <div className="bg-orange-50 border-2 border-orange-300 rounded-xl p-4 mb-6">
+                            <p className="text-sm font-semibold text-orange-900 mb-1">
+                                ⚠️ {t('pending.spamWarning')}
+                            </p>
+                            <p className="text-xs text-orange-700">
+                                {t('pending.spamHint')}
                             </p>
                         </div>
 

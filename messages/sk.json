@@ -541,5 +541,29 @@
             "title": "Podmienky používania",
             "content": "Prosím, prečítajte si pozorne naše podmienky."
         }
+    },
+    "VerifyEmail": {
+        "pending": {
+            "title": "Skontrolujte svoj e-mail",
+            "subtitle": "Poslali sme overovací odkaz na",
+            "instruction": "Kliknite na odkaz v e-maile pre overenie účtu a prístup k nástenke.",
+            "spamWarning": "Nenašli ste e-mail? Skontrolujte SPAM priečinok!",
+            "spamHint": "Naše e-maily niekedy skončia v spame. Hľadajte e-mail od noreply@mail.app.supabase.io",
+            "resend": "Znova odoslať overovací e-mail"
+        },
+        "verifying": {
+            "title": "Overuje sa e-mail",
+            "subtitle": "Prosím čakajte..."
+        },
+        "verified": {
+            "title": "E-mail overený!",
+            "subtitle": "Váš účet je pripravený. Poďme vylepšovať fotky.",
+            "continueButton": "Prejsť na nástenku"
+        },
+        "error": {
+            "title": "Overenie zlyhalo",
+            "subtitle": "Overovací odkaz mohol vypršať alebo je neplatný.",
+            "resend": "Poslať nový overovací e-mail"
+        }
     }
 }

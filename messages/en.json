@@ -603,6 +603,8 @@
             "title": "Check Your Email",
             "subtitle": "We've sent a verification link to",
             "instruction": "Click the link in your email to verify your account and access the dashboard.",
+            "spamWarning": "Can't find the email? Check your SPAM folder!",
+            "spamHint": "Our emails sometimes end up in spam. Look for an email from noreply@mail.app.supabase.io",
             "resend": "Resend Verification Email"
         },
         "verifying": {
