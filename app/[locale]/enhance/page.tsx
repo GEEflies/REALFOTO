@@ -2,14 +2,14 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Download, Loader2, Sparkles, RotateCcw, Check } from 'lucide-react'
+import { Download, Loader2, Sparkles, RotateCcw, Check, ChevronDown, X } from 'lucide-react'
 import { toast } from 'sonner'
 import { useTranslations } from 'next-intl'
 
 import { Button } from '@/components/ui/button'
 import { ImageDropzone } from '@/components/ImageDropzone'
 import { BeforeAfter } from '@/components/BeforeAfter'
-import { compressImage } from '@/lib/utils'
+import { compressImage, cn } from '@/lib/utils'
 import { EmailGate } from '@/components/EmailGate'
 import { PaywallGate } from '@/components/PaywallGate'
 import { Footer } from '@/components/Footer'
@@ -37,6 +37,8 @@ export default function EnhancePage() {
     const [upscaledImage, setUpscaledImage] = useState<string | null>(null)
     const [processingState, setProcessingState] = useState<ProcessingState>('idle')
     const [selectedMode, setSelectedMode] = useState<EnhanceMode>('full')
+    const [isMobile, setIsMobile] = useState(false)
+    const [modeSheetOpen, setModeSheetOpen] = useState(false)
 
     // Gate States
     const [emailGateOpen, setEmailGateOpen] = useState(false)
@@ -47,6 +49,10 @@ export default function EnhancePage() {
 
     useEffect(() => {
         checkUsage()
+        const checkMobile = () => setIsMobile(window.innerWidth < 768)
+        checkMobile()
+        window.addEventListener('resize', checkMobile)
+        return () => window.removeEventListener('resize', checkMobile)
     }, [])
 
     const checkUsage = async () => {
@@ -229,36 +235,119 @@ export default function EnhancePage() {
                 </div>
 
                 {/* Mode Selection Grid */}
+                {/* Mode Selection Grid - Desktop & Mobile Trigger */}
                 <div className="mb-8">
                     <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4 text-center">{t('modeTitle')}</h2>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 max-w-4xl mx-auto">
-                        {ENHANCE_MODES.map((mode) => (
+
+                    {/* Desktop Grid */}
+                    {!isMobile && (
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 max-w-4xl mx-auto">
+                            {ENHANCE_MODES.map((mode) => (
+                                <button
+                                    key={mode.id}
+                                    onClick={() => setSelectedMode(mode.id)}
+                                    disabled={processingState === 'processing'}
+                                    className={`
+                                        relative flex flex-col items-center justify-center gap-2 p-4 rounded-2xl transition-all duration-200 border
+                                        ${selectedMode === mode.id
+                                            ? 'bg-blue-50 border-blue-500 text-blue-700 shadow-md ring-1 ring-blue-500'
+                                            : 'bg-white border-gray-100 text-gray-600 hover:border-gray-200 hover:bg-gray-50 hover:shadow-sm'
+                                        }
+                                        ${processingState === 'processing' ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
+                                    `}
+                                >
+                                    {selectedMode === mode.id && (
+                                        <div className="absolute top-2 right-2 w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center">
+                                            <Check className="w-3 h-3 text-white" />
+                                        </div>
+                                    )}
+                                    <span className="text-3xl mb-1">{mode.icon}</span>
+                                    <span className="text-xs font-bold text-center leading-tight">{mode.label}</span>
+                                    <span className="hidden md:block text-[10px] text-gray-400 text-center leading-tight line-clamp-2">{mode.description}</span>
+                                </button>
+                            ))}
+                        </div>
+                    )}
+
+                    {/* Mobile Trigger Button */}
+                    {isMobile && selectedModeInfo && (
+                        <div className="px-4">
                             <button
-                                key={mode.id}
-                                onClick={() => setSelectedMode(mode.id)}
-                                disabled={processingState === 'processing'}
-                                className={`
-                                    relative flex flex-col items-center justify-center gap-2 p-4 rounded-2xl transition-all duration-200 border
-                                    ${selectedMode === mode.id
-                                        ? 'bg-blue-50 border-blue-500 text-blue-700 shadow-md ring-1 ring-blue-500'
-                                        : 'bg-white border-gray-100 text-gray-600 hover:border-gray-200 hover:bg-gray-50 hover:shadow-sm'
-                                    }
-                                    ${processingState === 'processing' ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
-                                `}
+                                onClick={() => setModeSheetOpen(true)}
+                                className="w-full bg-white border-2 border-blue-100 rounded-2xl p-4 flex items-center justify-between shadow-sm active:scale-[0.98] transition-all"
                             >
-                                {selectedMode === mode.id && (
-                                    <div className="absolute top-2 right-2 w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center">
-                                        <Check className="w-3 h-3 text-white" />
+                                <div className="flex items-center gap-3">
+                                    <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-xl">
+                                        {selectedModeInfo.icon}
                                     </div>
-                                )}
-                                <span className="text-3xl mb-1">{mode.icon}</span>
-                                <span className="text-xs font-bold text-center leading-tight">{mode.label}</span>
-                                {/* Description hidden on mobile grid for cleaner look, shown in selected info */}
-                                <span className="hidden md:block text-[10px] text-gray-400 text-center leading-tight line-clamp-2">{mode.description}</span>
+                                    <div className="text-left">
+                                        <div className="font-bold text-gray-900">{selectedModeInfo.label}</div>
+                                        <div className="text-xs text-gray-500">{selectedModeInfo.description}</div>
+                                    </div>
+                                </div>
+                                <ChevronDown className="w-5 h-5 text-gray-400" />
                             </button>
-                        ))}
-                    </div>
+                        </div>
+                    )}
                 </div>
+
+                {/* Mobile Action Sheet */}
+                <AnimatePresence>
+                    {modeSheetOpen && (
+                        <>
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm"
+                                onClick={() => setModeSheetOpen(false)}
+                            />
+                            <motion.div
+                                initial={{ opacity: 0, y: 100 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: 100 }}
+                                className="fixed bottom-0 left-0 w-full z-[70] bg-white rounded-t-2xl shadow-2xl overflow-hidden max-h-[85vh] flex flex-col"
+                            >
+                                <div className="p-4 border-b border-gray-100 flex items-center justify-between bg-gray-50">
+                                    <h3 className="font-bold text-gray-900 text-lg">{t('modeTitle')}</h3>
+                                    <button onClick={() => setModeSheetOpen(false)} className="p-1 rounded-full hover:bg-gray-200">
+                                        <X className="w-5 h-5 text-gray-500" />
+                                    </button>
+                                </div>
+                                <div className="overflow-y-auto p-2 pb-8">
+                                    {ENHANCE_MODES.map((mode) => (
+                                        <button
+                                            key={mode.id}
+                                            onClick={() => {
+                                                setSelectedMode(mode.id)
+                                                setModeSheetOpen(false)
+                                            }}
+                                            className={cn(
+                                                "w-full flex items-center justify-between p-4 rounded-xl mb-1 text-left transition-all",
+                                                selectedMode === mode.id
+                                                    ? "bg-blue-50 border-2 border-blue-500 shadow-sm"
+                                                    : "hover:bg-gray-50 border-2 border-transparent"
+                                            )}
+                                        >
+                                            <div className="flex items-center gap-3">
+                                                <div className="text-2xl">{mode.icon}</div>
+                                                <div>
+                                                    <div className={cn("font-bold", selectedMode === mode.id ? "text-blue-700" : "text-gray-900")}>
+                                                        {mode.label}
+                                                    </div>
+                                                    <div className="text-xs text-gray-500">{mode.description}</div>
+                                                </div>
+                                            </div>
+                                            {selectedMode === mode.id && (
+                                                <Check className="w-5 h-5 text-blue-600" />
+                                            )}
+                                        </button>
+                                    ))}
+                                </div>
+                            </motion.div>
+                        </>
+                    )}
+                </AnimatePresence>
 
                 {/* Selected Mode Info */}
                 {selectedModeInfo && (
