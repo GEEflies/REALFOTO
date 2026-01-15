@@ -4,11 +4,19 @@ import { Link } from '@/navigation'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { Facebook, Instagram, Linkedin, Twitter, Youtube } from 'lucide-react'
+import { SocialModal } from './SocialModal'
+import { useState } from 'react'
 
 export function Footer() {
     const t = useTranslations('Footer')
+    const [isSocialModalOpen, setIsSocialModalOpen] = useState(false)
 
     const currentYear = new Date().getFullYear()
+
+    const handleSocialClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault()
+        setIsSocialModalOpen(true)
+    }
 
     return (
         <footer className="bg-gray-50 pt-16 pb-8 border-t border-gray-100">
@@ -33,16 +41,16 @@ export function Footer() {
                             {t('description')}
                         </p>
                         <div className="flex items-center gap-4">
-                            <a href="#" className="text-gray-400 hover:text-blue-600 transition-colors">
+                            <a href="#" onClick={handleSocialClick} className="text-gray-400 hover:text-blue-600 transition-colors">
                                 <Linkedin className="w-5 h-5" />
                             </a>
-                            <a href="#" className="text-gray-400 hover:text-blue-600 transition-colors">
+                            <a href="#" onClick={handleSocialClick} className="text-gray-400 hover:text-blue-600 transition-colors">
                                 <Facebook className="w-5 h-5" />
                             </a>
-                            <a href="#" className="text-gray-400 hover:text-blue-600 transition-colors">
+                            <a href="#" onClick={handleSocialClick} className="text-gray-400 hover:text-blue-600 transition-colors">
                                 <Twitter className="w-5 h-5" />
                             </a>
-                            <a href="#" className="text-gray-400 hover:text-blue-600 transition-colors">
+                            <a href="#" onClick={handleSocialClick} className="text-gray-400 hover:text-blue-600 transition-colors">
                                 <Instagram className="w-5 h-5" />
                             </a>
                         </div>
@@ -102,6 +110,11 @@ export function Footer() {
                     </div>
                 </div>
             </div>
+
+            <SocialModal
+                isOpen={isSocialModalOpen}
+                onClose={() => setIsSocialModalOpen(false)}
+            />
         </footer>
     )
 }

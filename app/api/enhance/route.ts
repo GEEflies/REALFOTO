@@ -137,16 +137,51 @@ export async function POST(request: NextRequest) {
         // ... existing enhancement/upscale logic ...
 
         // Determine final URL to save
-        // Ideally we upload the Gemini result to storage if Replicate failed or wasn't used
-        // For now, we prefer Replicate URL. If not available, we currently return base64.
-        // To save to history, we really should have a URL.
-        // We will try to upload the base64 to 'enhancements' bucket if possible, strictly for history.
-        let finalHistoryUrl = upscaledUrl
+        // We prefer Replicate URL. If not available, we return base64.
+        // To save to history, we MUST have a URL.
+        // We will try to upload the base64 (either upscaled or enhanced) to 'enhancements' bucket.
+        let finalHistoryUrl = null
 
+        // If upscaledUrl is a Data URI (Base64), we MUST upload it to storage to get a real URL
+        if (upscaledUrl && upscaledUrl.startsWith('data:')) {
+            console.log('📦 [API] Upscaled image is Base64, uploading to storage...')
+            try {
+                const fileName = `${userId}/${Date.now()}_upscaled.jpg`
+                // Extract base64 part
+                const base64Data = upscaledUrl.split(',')[1]
+                const buffer = Buffer.from(base64Data, 'base64')
+                const { data: uploadData, error: uploadError } = await supabaseAdmin.storage
+                    .from('enhancements')
+                    .upload(fileName, buffer, {
+                        contentType: 'image/jpeg',
+                        upsert: true
+                    })
+
+                if (!uploadError && uploadData) {
+                    const { data: { publicUrl } } = supabaseAdmin.storage
+                        .from('enhancements')
+                        .getPublicUrl(fileName)
+                    finalHistoryUrl = publicUrl
+                    // Update upscaledUrl to be the public URL so the client gets it too
+                    upscaledUrl = publicUrl
+                    console.log('✅ [API] Uploaded upscaled Base64 to storage:', finalHistoryUrl)
+                } else {
+                    console.warn('[API] Failed to upload upscaled image to storage:', uploadError)
+                }
+            } catch (e) {
+                console.error('[API] Storage upload exception for upscaled:', e)
+            }
+        }
+        // If upscaledUrl is already a normal URL (e.g. from Replicate directly), use it
+        else if (upscaledUrl && upscaledUrl.startsWith('http')) {
+            finalHistoryUrl = upscaledUrl
+        }
+
+        // Fallback: If no upscaled URL (failed) but we have enhancedBase64, upload that
         if (!finalHistoryUrl && enhancedBase64 && userId) {
+            console.log('📦 [API] No upscaled URL, uploading enhanced (Gemini) image to storage...')
             try {
                 const fileName = `${userId}/${Date.now()}_enhanced.jpg`
-                // Convert base64 to Buffer/Blob - Node environment
                 const buffer = Buffer.from(enhancedBase64, 'base64')
                 const { data: uploadData, error: uploadError } = await supabaseAdmin.storage
                     .from('enhancements')
@@ -160,11 +195,12 @@ export async function POST(request: NextRequest) {
                         .from('enhancements')
                         .getPublicUrl(fileName)
                     finalHistoryUrl = publicUrl
+                    console.log('✅ [API] Uploaded enhanced Base64 to storage:', finalHistoryUrl)
                 } else {
-                    console.warn('[API] Failed to upload enhanced image to storage used for history:', uploadError)
+                    console.warn('[API] Failed to upload enhanced image to storage:', uploadError)
                 }
             } catch (e) {
-                console.error('[API] Storage upload exception:', e)
+                console.error('[API] Storage upload exception for enhanced:', e)
             }
         }
 

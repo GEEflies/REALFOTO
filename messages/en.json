@@ -700,6 +700,12 @@
             "startEnhancing": "Start by enhancing your first photo"
         }
     },
+    "SocialModal": {
+        "title": "Coming Soon!",
+        "message": "We just launched this service recently and we don't have our social media accounts set up yet. But if you have any questions, I'll be more than happy to help you at",
+        "email": "karol.jr@billik.sk",
+        "close": "Close"
+    },
     "Settings": {
         "badge": "Settings",
         "title": "Settings",

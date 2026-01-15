@@ -249,6 +249,12 @@
         "removeError": "Odstránenie zlyhalo. Skúste to prosím znova.",
         "limitReached": "Dosiahli ste limit 3 obrázkov zdarma. Pre viac upgradujte."
     },
+    "SocialModal": {
+        "title": "Čoskoro!",
+        "message": "Práve sme nedávno spustili túto službu a zatiaľ nemáme nastavené naše účty na sociálnych sieťach. Ale ak máte nejaké otázky, rád vám pomôžem na",
+        "email": "karol.jr@billik.sk",
+        "close": "Zavrieť"
+    },
     "Settings": {
         "title": "Nastavenia",
         "language": "Jazyk",
