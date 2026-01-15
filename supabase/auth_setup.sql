@@ -3,7 +3,7 @@
 -- Run this in your Supabase SQL Editor
 -- =====================================================
 
--- 1. Create users table for additional user data (only if it doesn't exist)
+-- 1. Create users table for additional user data
 CREATE TABLE IF NOT EXISTS public.users (
     id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
     email TEXT UNIQUE NOT NULL,
@@ -21,11 +21,7 @@ CREATE TABLE IF NOT EXISTS public.users (
 -- 2. Enable Row Level Security
 ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
 
--- 3. Drop existing policies if they exist, then recreate
-DROP POLICY IF EXISTS "Users can view own data" ON public.users;
-DROP POLICY IF EXISTS "Users can update own data" ON public.users;
-DROP POLICY IF EXISTS "Service role can insert users" ON public.users;
-
+-- 3. Create policies for users table
 -- Users can read their own data
 CREATE POLICY "Users can view own data" ON public.users
     FOR SELECT USING (auth.uid() = id);
@@ -51,8 +47,7 @@ BEGIN
         COALESCE((NEW.raw_user_meta_data->>'imagesQuota')::INTEGER, 3),
         0,
         COALESCE(NEW.raw_user_meta_data->>'paymentStatus', 'none')
-    )
-    ON CONFLICT (id) DO NOTHING; -- Skip if user already exists
+    );
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
@@ -94,7 +89,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
--- 8. Create indexes for faster lookups (only if they don't exist)
+-- 8. Index for faster lookups
 CREATE INDEX IF NOT EXISTS idx_users_email ON public.users(email);
 CREATE INDEX IF NOT EXISTS idx_users_stripe_customer_id ON public.users(stripe_customer_id);
 
