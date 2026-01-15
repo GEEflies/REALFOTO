@@ -64,6 +64,10 @@ export default async function middleware(request: NextRequest) {
 
     // Strict App Subdomain Restriction
     // Prevent access to public landing pages (like /remove, /enhance) on the app subdomain
+    if (request.method === 'OPTIONS') {
+        return NextResponse.next();
+    }
+
     if (hostname.startsWith('app.')) {
         const isAllowedPath =
             pathname === '/dashboard' ||
