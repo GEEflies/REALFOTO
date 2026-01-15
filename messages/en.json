@@ -93,43 +93,43 @@
         "modes": {
             "full": {
                 "label": "Full Enhance",
-                "description": "All features combined"
+                "description": "Apply all enhancements at once for professional results"
             },
             "hdr": {
                 "label": "HDR Merge",
-                "description": "Shadows & highlight"
+                "description": "Balance bright and dark areas for natural lighting"
             },
             "window": {
                 "label": "Window Pull",
-                "description": "Crystal clear views"
+                "description": "Brighten window views to show outside clearly"
             },
             "sky": {
                 "label": "Sky Replace",
-                "description": "Blue sky & clouds"
+                "description": "Replace gray sky with beautiful blue sky and clouds"
             },
             "white_balance": {
                 "label": "White Balance",
-                "description": "Color temperature fix"
+                "description": "Fix orange or blue color tints for accurate colors"
             },
             "perspective": {
                 "label": "Perspective",
-                "description": "Straighten lines"
+                "description": "Straighten walls and vertical lines automatically"
             },
             "relighting": {
                 "label": "Relighting",
-                "description": "Even illumination"
+                "description": "Balance brightness throughout the image evenly"
             },
             "raw_quality": {
                 "label": "RAW Quality",
-                "description": "4K maximum detail"
+                "description": "Enhance image to sharp 4K resolution with details"
             },
             "privacy": {
                 "label": "Auto Privacy",
-                "description": "Blur plates & faces"
+                "description": "Automatically blur license plates and faces for privacy"
             },
             "color": {
                 "label": "Color Fix",
-                "description": "Vibrant colors"
+                "description": "Make colors pop and look more vibrant and appealing"
             }
         },
         "geminiCard": {

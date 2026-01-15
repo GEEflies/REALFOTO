@@ -93,43 +93,43 @@
         "modes": {
             "full": {
                 "label": "Kompletné Vylepšenie",
-                "description": "Všetky funkcie spolu"
+                "description": "Použite všetky vylepšenia naraz pre profesionálne výsledky"
             },
             "hdr": {
                 "label": "HDR Zlúčenie",
-                "description": "Tiene a svetlá"
+                "description": "Vyvážte svetlé a tmavé oblasti pre prirodzené osvetlenie"
             },
             "window": {
                 "label": "Zjasnenie Okien",
-                "description": "Krištáľovo čistý výhľad"
+                "description": "Zjasnite výhľad cez okná pre jasný pohľad von"
             },
             "sky": {
                 "label": "Výmena Oblohy",
-                "description": "Modrá obloha a oblaky"
+                "description": "Nahraďte sivú oblohu krásnou modrou oblohou s oblakmi"
             },
             "white_balance": {
                 "label": "Vyváženie Bielej",
-                "description": "Oprava teploty farieb"
+                "description": "Opravte oranžové alebo modré odtiene pre presné farby"
             },
             "perspective": {
                 "label": "Perspektíva",
-                "description": "Vyrovnanie línií"
+                "description": "Automaticky narovnajte steny a zvislé čiary"
             },
             "relighting": {
                 "label": "Nasvietenie",
-                "description": "Rovnomerné osvetlenie"
+                "description": "Rovnomerne vyvážte jas v celom obrázku"
             },
             "raw_quality": {
                 "label": "RAW Kvalita",
-                "description": "4K maximálny detail"
+                "description": "Vylepšite obrázok na ostré 4K rozlíšenie s detailmi"
             },
             "privacy": {
                 "label": "Auto Súkromie",
-                "description": "Rozmazanie ŠPZ a tvárí"
+                "description": "Automaticky rozmaže ŠPZ a tváre pre súkromie"
             },
             "color": {
                 "label": "Oprava Farieb",
-                "description": "Živé farby"
+                "description": "Zvýraznite farby pre živší a príťažlivejší vzhľad"
             }
         },
         "geminiCard": {
