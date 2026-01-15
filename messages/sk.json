@@ -52,6 +52,33 @@
         },
         "quota": {
             "title": "Kvóta obrázkov"
+        },
+        "home": {
+            "welcome": "Vitajte v Aurix",
+            "subtitle": "Začnite vylepšovať vaše realitné fotografie s pomocou AI",
+            "quickActions": "Rýchle akcie",
+            "enhance": {
+                "title": "Vylepšiť fotku",
+                "description": "AI HDR, výmena oblohy a ďalšie"
+            },
+            "remove": {
+                "title": "Odstrániť objekty",
+                "description": "Vymažte nechcené prvky z vašich fotiek"
+            },
+            "stats": {
+                "enhanced": "Vylepšených fotiek",
+                "removed": "Odstránených objektov",
+                "remaining": "Zostávajúcich obrázkov",
+                "total": "Celkovo použité"
+            },
+            "quota": {
+                "title": "Vaša kvóta obrázkov",
+                "description": "Použili ste {used} z {total} obrázkov tento mesiac.",
+                "upgrade": "Inovovať plán"
+            },
+            "recentActivity": "Nedávna aktivita",
+            "noActivity": "Zatiaľ žiadna aktivita",
+            "startEnhancing": "Začnite vylepšením vašej prvej fotky"
         }
     },
     "quota": {
