@@ -64,8 +64,8 @@ export function EnhanceModeSelector({
     }
 
     return (
-        <div className="mb-8">
-            <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4 text-center md:text-left">
+        <div className="mb-8 relative max-w-2xl mx-auto">
+            <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4 text-center">
                 {modeTitle}
             </h2>
 

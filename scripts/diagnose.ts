@@ -34,21 +34,24 @@ async function main() {
 
     // 1. Check DB Connection and Users
     try {
-        console.log('Checking Users...');
+        console.log('Checking Users and Table Structure...');
 
+        // Select * to see column names (keys)
         const { data: users, error } = await db
             .from('users')
-            .select('email, id, images_used, images_quota, subscription_status')
-            .order('created_at', { ascending: false })
-            .limit(5);
+            .select('*')
+            .limit(1);
 
         if (error) {
             console.error('❌ DB Error fetching users:', error);
         } else {
-            console.log('✅ Users found:', users?.length);
-            users?.forEach((u: any) => {
-                console.log(`- User: ${u.email} | Used: ${u.images_used}/${u.images_quota} | Status: ${u.subscription_status}`);
-            });
+            if (users && users.length > 0) {
+                console.log('✅ User record keys (columns):', Object.keys(users[0]));
+                // Log the first user for reference
+                console.log('Sample User:', users[0]);
+            } else {
+                console.log('✅ Users table accessible but empty.');
+            }
         }
     } catch (e) {
         console.error('❌ DB Exception:', e);

@@ -10,19 +10,19 @@ generator client {
 
 model User {
   id               String        @id @default(cuid())
-  clerkId          String?       @unique // Keep for backwards compat
-  supabaseId       String?       @unique // Supabase Auth user ID
+  clerkId          String?       @unique @map("clerk_id") // Keep for backwards compat
+  supabaseId       String?       @unique @map("supabase_id") // Supabase Auth user ID
   email            String?
-  emailVerified    Boolean       @default(false)
-  imagesUsed       Int           @default(0)
-  imagesQuota      Int           @default(0) // Max images for their plan
+  emailVerified    Boolean       @default(false) @map("email_verified")
+  imagesUsed       Int           @default(0) @map("images_used")
+  imagesQuota      Int           @default(0) @map("images_quota") // Max images for their plan
   tier             Tier          @default(FREE)
-  stripeCustomerId String?
-  stripeSessionId  String?       // Track checkout session for verification
-  stripeSubscriptionId String?   // Track active subscription
-  paymentStatus    PaymentStatus @default(PENDING)
-  subscriptionStatus String?     @default("none") // active, canceled, paused, past_due, etc.
-  subscriptionEndDate DateTime?
+  stripeCustomerId String?       @map("stripe_customer_id")
+  stripeSessionId  String?       @map("stripe_session_id")       // Track checkout session for verification
+  stripeSubscriptionId String?   @map("stripe_subscription_id")   // active subscription
+  paymentStatus    PaymentStatus @default(PENDING) @map("payment_status")
+  subscriptionStatus String?     @default("none") @map("subscription_status") // active, canceled, paused, past_due, etc.
+  subscriptionEndDate DateTime?  @map("subscription_end_date")
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
   images           Image[]
