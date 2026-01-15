@@ -48,6 +48,7 @@ export async function createCheckoutSession(
     const checkoutSession: Stripe.Checkout.SessionCreateParams = {
         mode: 'subscription',
         payment_method_types: ['card'],
+        allow_promotion_codes: true, // Enable promo/coupon codes
         line_items: [
             {
                 price: priceId,
