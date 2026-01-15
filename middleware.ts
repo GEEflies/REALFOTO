@@ -92,8 +92,9 @@ export default async function middleware(request: NextRequest) {
         }
     }
 
-    // Check if route requires authentication
-    const isProtectedRoute = protectedRoutes.some(route =>
+    // Check if route requires authentication (only for main domain)
+    // App subdomain auth is handled client-side to avoid cookie sharing issues
+    const isProtectedRoute = !hostname.startsWith('app.') && protectedRoutes.some(route =>
         pathname === route || pathname.startsWith(`${route}/`)
     );
 
@@ -101,15 +102,6 @@ export default async function middleware(request: NextRequest) {
         const authenticated = await isAuthenticated(request);
 
         if (!authenticated) {
-            // If on app subdomain, redirect to main domain login
-            if (hostname.startsWith('app.')) {
-                const mainDomain = hostname.includes('localhost') ? 'http://localhost:3000' : 'https://www.aurix.pics';
-                const locale = pathname.startsWith('/sk') ? '/sk' : '/en';
-                // Redirect back to the full current URL after login
-                const returnUrl = encodeURIComponent(request.url);
-                return NextResponse.redirect(new URL(`${mainDomain}${locale}/login?redirect=${returnUrl}`));
-            }
-
             // Normal relative redirect for main domain
             const locale = pathname.startsWith('/sk') ? 'sk' : 'en';
             const loginUrl = new URL(`/${locale}/login`, request.url);

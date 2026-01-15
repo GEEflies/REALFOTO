@@ -41,19 +41,17 @@ export default function LoginPage() {
             if (data.session) {
                 toast.success('Logged in successfully!')
 
-                // Check if there's a redirect URL
-                let redirectTo = searchParams.get('redirect') || '/dashboard'
+                // Get redirect parameter
+                const redirectParam = searchParams.get('redirect')
 
-                // In production, ensure dashboard redirects go to the app subdomain
-                if (process.env.NODE_ENV === 'production' &&
-                    (redirectTo === '/dashboard' || redirectTo.startsWith('/dashboard/')) &&
-                    !window.location.hostname.includes('app.')) {
-                    redirectTo = `https://app.aurix.pics${redirectTo}`
-                }
-
-                if (redirectTo.startsWith('http')) {
-                    window.location.href = redirectTo
+                // If redirect param contains full URL (from app subdomain), use it
+                if (redirectParam && redirectParam.startsWith('http')) {
+                    // Use window.location.href to force full navigation to app subdomain
+                    // This ensures cookie is readable on the target domain
+                    window.location.href = decodeURIComponent(redirectParam)
                 } else {
+                    // Normal local redirect on same domain
+                    const redirectTo = redirectParam || '/dashboard'
                     router.push(redirectTo)
                 }
             }

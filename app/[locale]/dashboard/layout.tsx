@@ -43,7 +43,58 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     const [user, setUser] = useState<UserData | null>(null)
     const [isLoading, setIsLoading] = useState(true)
 
-    // ... (useEffect checkAuth)
+    const checkAuth = async () => {
+        console.log('checkAuth started')
+        try {
+            const session = await getSession()
+            console.log('getSession result:', session ? 'Session found' : 'No session')
+
+            if (!session) {
+                console.log('No session found, redirecting to login...')
+
+                // If on app subdomain, redirect to main domain login with return URL
+                if (typeof window !== 'undefined' && window.location.hostname.startsWith('app.')) {
+                    const mainDomain = window.location.hostname.includes('localhost')
+                        ? 'http://localhost:3000'
+                        : 'https://www.aurix.pics';
+                    const returnUrl = encodeURIComponent(window.location.href);
+                    const locale = pathname.startsWith('/sk') ? 'sk' : 'en';
+                    window.location.href = `${mainDomain}/${locale}/login?redirect=${returnUrl}`;
+                } else {
+                    // Normal redirect on same domain
+                    router.push('/login');
+                }
+                return
+            }
+
+            // Get user data from API
+            console.log('Fetching user data...')
+            const response = await fetch('/api/user/me')
+            console.log('User data response status:', response.status)
+
+            if (response.ok) {
+                const userData = await response.json()
+                setUser(userData)
+            } else {
+                console.warn('Failed to fetch user data, falling back to session')
+                // Fallback to session metadata
+                setUser({
+                    id: session.user.id,
+                    email: session.user.email || '',
+                    tier: session.user.user_metadata?.tier || 'starter',
+                    tierName: session.user.user_metadata?.tierName || 'Starter',
+                    imagesUsed: 0,
+                    imagesQuota: session.user.user_metadata?.imagesQuota || 50,
+                })
+            }
+        } catch (error) {
+            console.error('Auth check error:', error)
+            router.push('/login')
+        } finally {
+            console.log('Setting isLoading false')
+            setIsLoading(false)
+        }
+    }
 
     const handleLogout = async () => {
         const { error } = await signOut()
