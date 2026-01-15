@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
-import { Check, Flame, X, Sparkles, Building2, Crown, Zap } from 'lucide-react'
+import { Check, Flame, X, Sparkles, Building2, Crown, Zap, ChevronDown } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
@@ -114,7 +114,7 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                                 { id: 'payPerImage', label: t('tabs.payPerImage'), icon: Sparkles },
                                 { id: 'limitedOffer', label: t('tabs.limitedOffer'), icon: Flame },
                                 { id: 'enterprise', label: t('tabs.enterprise'), icon: Building2 }
-                            ].map((tab) => (
+                            ].filter(tab => !isMobile || tab.id !== 'enterprise').map((tab) => (
                                 <button
                                     key={tab.id}
                                     onClick={() => setActiveTab(tab.id as PricingTab)}
@@ -304,7 +304,7 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                                         </div>
 
                                         <h3 className="text-lg font-bold text-gray-900 mb-2 mt-1">
-                                            {selectedProTier === 50 ? t('limitedOffer.starterName') : t('limitedOffer.proName')}
+                                            {t('limitedOffer.proName')}
                                         </h3>
 
                                         <div className="flex items-baseline flex-wrap gap-2 mb-1">
@@ -329,34 +329,12 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                                                 </div>
                                                 <div className="relative flex-1">
                                                     <button
-                                                        onClick={() => setProDropdownOpen(!proDropdownOpen)}
+                                                        onClick={() => setProDropdownOpen(true)}
                                                         className="w-full flex items-center justify-between text-sm text-gray-700 font-medium bg-white border border-gray-200 rounded-lg px-3 py-1.5 hover:border-orange-400 transition-colors cursor-pointer"
                                                     >
                                                         <span>{selectedProTier} {t('limitedOffer.images').toLowerCase()}</span>
-                                                        <svg className={cn("w-4 h-4 transition-transform", proDropdownOpen && "rotate-180")} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                                        </svg>
+                                                        <ChevronDown className="w-4 h-4 text-gray-400" />
                                                     </button>
-
-                                                    {proDropdownOpen && (
-                                                        <div className="absolute top-full left-0 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg z-20 py-1 max-h-48 overflow-y-auto">
-                                                            {proTiers.map((tier) => (
-                                                                <button
-                                                                    key={tier.count}
-                                                                    onClick={() => {
-                                                                        setSelectedProTier(tier.count)
-                                                                        setProDropdownOpen(false)
-                                                                    }}
-                                                                    className={cn(
-                                                                        "w-full text-left px-3 py-2 text-sm hover:bg-orange-50 transition-colors cursor-pointer",
-                                                                        selectedProTier === tier.count && "bg-orange-100 font-semibold"
-                                                                    )}
-                                                                >
-                                                                    {tier.count} {t('limitedOffer.images').toLowerCase()}
-                                                                </button>
-                                                            ))}
-                                                        </div>
-                                                    )}
                                                 </div>
                                             </div>
                                             {[1, 2, 3].map((i) => (
@@ -374,6 +352,65 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                                 </div>
                             </motion.div>
                         )}
+
+                        {/* Global Dropdown Overlay */}
+                        <AnimatePresence>
+                            {proDropdownOpen && (
+                                <>
+                                    {/* Backdrop */}
+                                    <motion.div
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        exit={{ opacity: 0 }}
+                                        className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm"
+                                        onClick={() => setProDropdownOpen(false)}
+                                    />
+                                    {/* Bottom Sheet / Modal */}
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 100 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: 100 }}
+                                        className="fixed bottom-0 sm:bottom-auto sm:top-1/2 left-0 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 w-full sm:w-[400px] z-[70] bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl overflow-hidden max-h-[80vh] flex flex-col"
+                                    >
+                                        <div className="p-4 border-b border-gray-100 flex items-center justify-between bg-gray-50">
+                                            <h3 className="font-bold text-gray-900 text-lg">Select Image Count</h3>
+                                            <button onClick={() => setProDropdownOpen(false)} className="p-1 rounded-full hover:bg-gray-200">
+                                                <X className="w-5 h-5 text-gray-500" />
+                                            </button>
+                                        </div>
+                                        <div className="overflow-y-auto p-2">
+                                            {proTiers.map((tier) => (
+                                                <button
+                                                    key={tier.count}
+                                                    onClick={() => {
+                                                        setSelectedProTier(tier.count)
+                                                        setProDropdownOpen(false)
+                                                    }}
+                                                    className={cn(
+                                                        "w-full flex items-center justify-between p-4 rounded-xl mb-1 text-left transition-all",
+                                                        selectedProTier === tier.count
+                                                            ? "bg-orange-50 border-2 border-orange-500 shadow-sm"
+                                                            : "hover:bg-gray-50 border-2 border-transparent"
+                                                    )}
+                                                >
+                                                    <div className="flex flex-col">
+                                                        <span className={cn("font-bold text-lg", selectedProTier === tier.count ? "text-orange-700" : "text-gray-900")}>
+                                                            {tier.count} {t('limitedOffer.images').toLowerCase()}
+                                                        </span>
+                                                        <span className="text-xs text-gray-500">
+                                                            €{tier.per}/{t('payPerImage.perImage')}
+                                                        </span>
+                                                    </div>
+                                                    <span className={cn("text-lg font-bold", selectedProTier === tier.count ? "text-orange-600" : "text-gray-900")}>
+                                                        €{tier.price}
+                                                    </span>
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </motion.div>
+                                </>
+                            )}
+                        </AnimatePresence>
 
                         {activeTab === 'enterprise' && (
                             <motion.div
