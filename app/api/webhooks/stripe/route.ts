@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { headers } from 'next/headers'
 import Stripe from 'stripe'
 import { createClient } from '@supabase/supabase-js'
+import { stripe } from '@/lib/stripe'
 
 // Initialize Supabase Admin
 const supabaseAdmin = createClient(
@@ -30,10 +31,6 @@ export async function POST(request: NextRequest) {
     let event: Stripe.Event
 
     try {
-        const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-            apiVersion: '2023-10-16', // Use the version matching your types or 'latest'
-        })
-
         event = stripe.webhooks.constructEvent(
             body,
             signature,
@@ -48,14 +45,10 @@ export async function POST(request: NextRequest) {
     }
 
     try {
-        const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-            apiVersion: '2023-10-16',
-        })
-
         switch (event.type) {
             // Handle successful subscription renewal (Monthly reset)
             case 'invoice.payment_succeeded': {
-                const invoice = event.data.object as Stripe.Invoice
+                const invoice = event.data.object as any
 
                 // Only process subscription invoices
                 if (!invoice.subscription) break
@@ -90,7 +83,7 @@ export async function POST(request: NextRequest) {
 
             // Handle cancelled subscription
             case 'customer.subscription.deleted': {
-                const subscription = event.data.object as Stripe.Subscription
+                const subscription = event.data.object as any
                 let userId = subscription.metadata?.userId
 
                 if (!userId && subscription.customer) {
