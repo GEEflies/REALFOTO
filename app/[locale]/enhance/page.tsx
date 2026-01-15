@@ -52,6 +52,15 @@ export default function EnhancePage() {
         const checkMobile = () => setIsMobile(window.innerWidth < 768)
         checkMobile()
         window.addEventListener('resize', checkMobile)
+
+        // Check if user returned from Stripe checkout cancel
+        const urlParams = new URLSearchParams(window.location.search)
+        if (urlParams.get('showPaywall') === 'true') {
+            setPaywallGateOpen(true)
+            // Clean up the URL without reloading the page
+            window.history.replaceState({}, '', window.location.pathname)
+        }
+
         return () => window.removeEventListener('resize', checkMobile)
     }, [])
 

@@ -35,6 +35,14 @@ export default function RemovePage() {
 
     useEffect(() => {
         checkUsage()
+
+        // Check if user returned from Stripe checkout cancel
+        const urlParams = new URLSearchParams(window.location.search)
+        if (urlParams.get('showPaywall') === 'true') {
+            setPaywallGateOpen(true)
+            // Clean up the URL without reloading the page
+            window.history.replaceState({}, '', window.location.pathname)
+        }
     }, [])
 
     const checkUsage = async () => {

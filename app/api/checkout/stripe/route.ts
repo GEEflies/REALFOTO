@@ -27,7 +27,7 @@ const STRIPE_PRICE_IDS: Record<string, string> = {
 export async function POST(request: NextRequest) {
     try {
         const body = await request.json()
-        const { tier } = body as { tier: string }
+        const { tier, returnUrl } = body as { tier: string; returnUrl?: string }
 
         if (!tier || !STRIPE_PRICE_IDS[tier]) {
             return NextResponse.json(
@@ -48,7 +48,8 @@ export async function POST(request: NextRequest) {
             null, // customerId - null for new customers
             priceId,
             userId,
-            tier // Pass tier for metadata
+            tier, // Pass tier for metadata
+            returnUrl // Pass return URL for cancel redirect
         )
 
         return NextResponse.json({

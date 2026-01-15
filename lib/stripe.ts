@@ -36,7 +36,8 @@ export async function createCheckoutSession(
     customerId: string | null,
     priceId: string,
     userId: string,
-    tierKey?: string // Optional tier identifier for metadata
+    tierKey?: string, // Optional tier identifier for metadata
+    returnUrl?: string // Optional return URL for cancel button
 ) {
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.aurix.pics'
 
@@ -44,6 +45,9 @@ export async function createCheckoutSession(
     const tierConfig = tierKey && tierKey in TIER_CONFIG
         ? TIER_CONFIG[tierKey as keyof typeof TIER_CONFIG]
         : null
+
+    // Determine cancel URL - use provided returnUrl or default to pricing
+    const cancelUrl = returnUrl || `${baseUrl}/#pricing`
 
     const checkoutSession: Stripe.Checkout.SessionCreateParams = {
         mode: 'subscription',
@@ -65,7 +69,7 @@ export async function createCheckoutSession(
         },
         // Redirect to success page with session_id for verification
         success_url: `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${baseUrl}/#pricing`,
+        cancel_url: cancelUrl,
     }
 
     if (customerId) {

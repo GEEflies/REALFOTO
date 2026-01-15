@@ -80,10 +80,17 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
     const handleSelectPlan = async (tier: string) => {
         setIsLoading(true)
         try {
+            // Build return URL with showPaywall parameter so paywall auto-opens on cancel
+            const currentUrl = window.location.href.split('?')[0] // Get base URL without query params
+            const returnUrl = `${currentUrl}?showPaywall=true`
+
             const response = await fetch('/api/checkout/stripe', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ tier }),
+                body: JSON.stringify({
+                    tier,
+                    returnUrl // Pass the return URL for cancel button
+                }),
             })
 
             if (!response.ok) {
@@ -93,7 +100,7 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
             const data = await response.json()
 
             if (data.url) {
-                // Redirect to success page with session
+                // Redirect to Stripe checkout
                 router.push(data.url)
             } else {
                 throw new Error('No checkout URL returned')
