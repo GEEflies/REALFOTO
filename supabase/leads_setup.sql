@@ -1,10 +1,13 @@
 -- =====================================================
--- AURIX LEADS TABLE SQL
+-- AURIX LEADS TABLE SQL (FIXED)
 -- For email collection and usage tracking (pre-signup)
 -- Run this in your Supabase SQL Editor
 -- =====================================================
 
--- 1. Create leads table
+-- 1. Drop existing table if you want a fresh start (OPTIONAL - uncomment if needed)
+-- DROP TABLE IF EXISTS public.leads CASCADE;
+
+-- 2. Create leads table
 CREATE TABLE IF NOT EXISTS public.leads (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     email TEXT UNIQUE NOT NULL,
@@ -15,10 +18,54 @@ CREATE TABLE IF NOT EXISTS public.leads (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- 2. Enable Row Level Security
+-- 3. Add ip_address column if it doesn't exist (for existing tables)
+DO $$ 
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.columns 
+        WHERE table_schema = 'public' 
+        AND table_name = 'leads' 
+        AND column_name = 'ip_address'
+    ) THEN
+        ALTER TABLE public.leads ADD COLUMN ip_address TEXT;
+    END IF;
+END $$;
+
+-- 4. Add usage_count column if it doesn't exist
+DO $$ 
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.columns 
+        WHERE table_schema = 'public' 
+        AND table_name = 'leads' 
+        AND column_name = 'usage_count'
+    ) THEN
+        ALTER TABLE public.leads ADD COLUMN usage_count INTEGER DEFAULT 0;
+    END IF;
+END $$;
+
+-- 5. Add is_pro column if it doesn't exist
+DO $$ 
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.columns 
+        WHERE table_schema = 'public' 
+        AND table_name = 'leads' 
+        AND column_name = 'is_pro'
+    ) THEN
+        ALTER TABLE public.leads ADD COLUMN is_pro BOOLEAN DEFAULT false;
+    END IF;
+END $$;
+
+-- 6. Enable Row Level Security
 ALTER TABLE public.leads ENABLE ROW LEVEL SECURITY;
 
--- 3. Create RLS policies
+-- 7. Drop existing policies if they exist
+DROP POLICY IF EXISTS "Anyone can insert leads" ON public.leads;
+DROP POLICY IF EXISTS "Service role can read leads" ON public.leads;
+DROP POLICY IF EXISTS "Service role can update leads" ON public.leads;
+
+-- 8. Create RLS policies
 -- Allow anonymous users to insert their email (for email gate)
 CREATE POLICY "Anyone can insert leads" ON public.leads
     FOR INSERT WITH CHECK (true);
@@ -30,13 +77,11 @@ CREATE POLICY "Service role can read leads" ON public.leads
 CREATE POLICY "Service role can update leads" ON public.leads
     FOR UPDATE USING (true);
 
--- 4. Create index on IP address for faster lookups
+-- 9. Create indexes
 CREATE INDEX IF NOT EXISTS idx_leads_ip_address ON public.leads(ip_address);
-
--- 5. Create index on email for faster lookups
 CREATE INDEX IF NOT EXISTS idx_leads_email ON public.leads(email);
 
--- 6. Create function to increment usage count
+-- 10. Create function to increment usage count
 CREATE OR REPLACE FUNCTION public.increment_lead_usage(lead_email TEXT)
 RETURNS INTEGER AS $$
 DECLARE
@@ -52,7 +97,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
--- 7. Create function to get or create lead by IP
+-- 11. Create function to get or create lead by IP
 CREATE OR REPLACE FUNCTION public.get_or_create_lead_by_ip(user_ip TEXT)
 RETURNS TABLE (
     id UUID,
