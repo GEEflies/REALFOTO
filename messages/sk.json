@@ -243,6 +243,7 @@
     "Paywall": {
         "title": "Odomknite plný potenciál",
         "subtitle": "Vyberte si plán, ktorý vám vyhovuje a začnite vylepšovať fotky ešte dnes",
+        "selectImageCount": "Vyberte počet obrázkov",
         "tabs": {
             "payPerImage": "Platba za obrázok",
             "limitedOffer": "Limitovaná ponuka",

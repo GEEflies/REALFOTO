@@ -107,9 +107,12 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                     </p>
 
                     {/* Premium Tab Switcher - smaller padding */}
-                    {/* Premium Tab Switcher - Horizontal scroll on mobile */}
-                    <div className="flex justify-start md:justify-center mt-4 w-full overflow-x-auto no-scrollbar px-2 sm:px-0 pb-2">
-                        <div className="inline-flex bg-gray-100/80 p-1 rounded-full border border-gray-200/50 backdrop-blur-sm whitespace-nowrap min-w-min">
+                    {/* Premium Tab Switcher - Clean Button Design */}
+                    <div className="mt-6 px-2 sm:px-0">
+                        <div className={cn(
+                            "grid gap-3",
+                            isMobile ? "grid-cols-2" : "flex justify-center"
+                        )}>
                             {[
                                 { id: 'payPerImage', label: t('tabs.payPerImage'), icon: Sparkles },
                                 { id: 'limitedOffer', label: t('tabs.limitedOffer'), icon: Flame },
@@ -119,23 +122,14 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                                     key={tab.id}
                                     onClick={() => setActiveTab(tab.id as PricingTab)}
                                     className={cn(
-                                        "relative px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 flex items-center gap-2 z-10 cursor-pointer",
+                                        "relative px-4 py-2.5 rounded-xl text-sm font-bold transition-all duration-200 flex items-center justify-center gap-2",
                                         activeTab === tab.id
-                                            ? "text-gray-900 shadow-sm"
-                                            : "text-gray-500 hover:text-gray-900"
+                                            ? "bg-gray-900 text-white shadow-lg scale-[1.02]"
+                                            : "bg-gray-100 text-gray-600 hover:bg-gray-200 border border-transparent"
                                     )}
                                 >
-                                    {activeTab === tab.id && (
-                                        <motion.div
-                                            layoutId="activeTab"
-                                            className="absolute inset-0 bg-white rounded-full"
-                                            transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                                        />
-                                    )}
-                                    <span className="relative z-10 flex items-center gap-1.5">
-                                        <tab.icon className={cn("w-3.5 h-3.5", activeTab === tab.id && "text-blue-600")} />
-                                        {tab.label}
-                                    </span>
+                                    <tab.icon className={cn("w-4 h-4", activeTab === tab.id ? "text-blue-300" : "text-gray-500")} />
+                                    <span className="whitespace-nowrap">{tab.label}</span>
                                 </button>
                             ))}
                         </div>
@@ -373,7 +367,7 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                                         className="fixed bottom-0 sm:bottom-auto sm:top-1/2 left-0 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 w-full sm:w-[400px] z-[70] bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl overflow-hidden max-h-[80vh] flex flex-col"
                                     >
                                         <div className="p-4 border-b border-gray-100 flex items-center justify-between bg-gray-50">
-                                            <h3 className="font-bold text-gray-900 text-lg">Select Image Count</h3>
+                                            <h3 className="font-bold text-gray-900 text-lg">{t('selectImageCount')}</h3>
                                             <button onClick={() => setProDropdownOpen(false)} className="p-1 rounded-full hover:bg-gray-200">
                                                 <X className="w-5 h-5 text-gray-500" />
                                             </button>

@@ -243,6 +243,7 @@
     "Paywall": {
         "title": "Upgrade Your Plan",
         "subtitle": "Choose the perfect plan to continue enhancing your images",
+        "selectImageCount": "Select Image Count",
         "tabs": {
             "payPerImage": "Pay per image",
             "limitedOffer": "Limited offer",
