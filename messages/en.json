@@ -22,7 +22,8 @@
             "cost": "10x Cheaper"
         },
         "animatedHero": {
-            "static": "Real Estate Photos with",
+            "static": "Real Estate Photos",
+            "withPrefix": "with",
             "rotating": {
                 "0": "Perfect Skies",
                 "1": "Straight Lines",

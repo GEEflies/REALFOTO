@@ -23,6 +23,7 @@
         },
         "animatedHero": {
             "static": "Realitné fotografie s",
+            "withPrefix": "",
             "rotating": {
                 "0": "dokonalou oblohou",
                 "1": "rovnými líniami",

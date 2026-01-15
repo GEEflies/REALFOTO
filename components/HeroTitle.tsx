@@ -28,28 +28,40 @@ export function HeroTitle() {
         return () => clearInterval(interval)
     }, [phrases.length])
 
+    // Get the "with" prefix - will be empty string for Slovak, "with" for English
+    const withPrefix = t('withPrefix')
+
     return (
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight leading-[1.2] flex flex-col md:block">
-            <span className="text-gray-900 mr-2 md:mr-3 relative z-10">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight leading-[1.2] flex flex-col">
+            {/* First row: "Real Estate Photos" */}
+            <span className="text-gray-900 relative z-10">
                 {t('static')}
             </span>
-            <span className="inline-grid grid-cols-1 grid-rows-1 h-[1.3em] align-top overflow-hidden relative z-0">
-                <AnimatePresence mode="popLayout" initial={false}>
-                    <motion.span
-                        key={index}
-                        initial={{ y: "100%", opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        exit={{ y: "-100%", opacity: 0, transition: { duration: 0.2, ease: "easeIn" } }}
-                        transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-                        className="row-start-1 col-start-1 block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500 whitespace-nowrap pl-1"
-                    >
-                        {phrases[index]}
-                    </motion.span>
-                </AnimatePresence>
+            {/* Second row: "with" + animated feature inline on desktop for English */}
+            <span className="flex items-baseline">
+                {withPrefix && (
+                    <span className="text-gray-900 mr-2 md:mr-3 relative z-10">
+                        {withPrefix}
+                    </span>
+                )}
+                <span className="inline-grid grid-cols-1 grid-rows-1 h-[1.3em] align-top overflow-hidden relative z-0">
+                    <AnimatePresence mode="popLayout" initial={false}>
+                        <motion.span
+                            key={index}
+                            initial={{ y: "100%", opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            exit={{ y: "-100%", opacity: 0, transition: { duration: 0.2, ease: "easeIn" } }}
+                            transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+                            className="row-start-1 col-start-1 block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500 whitespace-nowrap pl-1"
+                        >
+                            {phrases[index]}
+                        </motion.span>
+                    </AnimatePresence>
 
-                {/* Invisible duplicate to force width to be the max necessary */}
-                <span className="row-start-1 col-start-1 opacity-0 pointer-events-none invisible whitespace-nowrap pl-1" aria-hidden="true">
-                    {phrases.sort((a, b) => b.length - a.length)[0]}
+                    {/* Invisible duplicate to force width to be the max necessary */}
+                    <span className="row-start-1 col-start-1 opacity-0 pointer-events-none invisible whitespace-nowrap pl-1" aria-hidden="true">
+                        {phrases.sort((a, b) => b.length - a.length)[0]}
+                    </span>
                 </span>
             </span>
         </h1>

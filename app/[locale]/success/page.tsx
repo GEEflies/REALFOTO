@@ -27,30 +27,58 @@ export default function SuccessPage() {
 
     useEffect(() => {
         const verifySession = async () => {
-            const session = searchParams.get('session')
+            // Check for simulated session (encrypted token)
+            const simulatedSession = searchParams.get('session')
+            // Check for real Stripe session ID
+            const stripeSessionId = searchParams.get('session_id')
 
-            if (!session) {
-                setError('No payment session found. Please complete the payment first.')
-                setStatus('error')
+            // Handle simulated checkout (development/testing)
+            if (simulatedSession) {
+                try {
+                    const response = await fetch(`/api/checkout/simulate?session=${encodeURIComponent(simulatedSession)}`)
+                    const data = await response.json()
+
+                    if (data.valid) {
+                        setSessionData(data)
+                        setStatus('verified')
+                    } else {
+                        setError(data.message || 'Invalid or expired session')
+                        setStatus('error')
+                    }
+                } catch (err) {
+                    console.error('Session verification error:', err)
+                    setError('Failed to verify payment. Please try again.')
+                    setStatus('error')
+                }
                 return
             }
 
-            try {
-                const response = await fetch(`/api/checkout/simulate?session=${encodeURIComponent(session)}`)
-                const data = await response.json()
+            // Handle real Stripe checkout (production)
+            if (stripeSessionId) {
+                try {
+                    // TODO: Create /api/checkout/verify endpoint to verify Stripe session
+                    // For now, show error prompting real Stripe implementation
+                    const response = await fetch(`/api/checkout/verify?session_id=${encodeURIComponent(stripeSessionId)}`)
+                    const data = await response.json()
 
-                if (data.valid) {
-                    setSessionData(data)
-                    setStatus('verified')
-                } else {
-                    setError(data.message || 'Invalid or expired session')
+                    if (data.valid) {
+                        setSessionData(data)
+                        setStatus('verified')
+                    } else {
+                        setError(data.message || 'Invalid Stripe session')
+                        setStatus('error')
+                    }
+                } catch (err) {
+                    console.error('Stripe session verification error:', err)
+                    setError('Failed to verify Stripe payment. Please contact support.')
                     setStatus('error')
                 }
-            } catch (err) {
-                console.error('Session verification error:', err)
-                setError('Failed to verify payment. Please try again.')
-                setStatus('error')
+                return
             }
+
+            // No session parameter found
+            setError('No payment session found. Please complete the payment first.')
+            setStatus('error')
         }
 
         verifySession()
@@ -58,9 +86,15 @@ export default function SuccessPage() {
 
     const handleContinueToSignup = () => {
         if (sessionData) {
-            // Pass session data to signup page via URL params (already encrypted)
-            const session = searchParams.get('session')
-            router.push(`/signup?session=${encodeURIComponent(session || '')}`)
+            // Pass session data to signup page
+            const simulatedSession = searchParams.get('session')
+            const stripeSessionId = searchParams.get('session_id')
+
+            if (simulatedSession) {
+                router.push(`/signup?session=${encodeURIComponent(simulatedSession)}`)
+            } else if (stripeSessionId) {
+                router.push(`/signup?session_id=${encodeURIComponent(stripeSessionId)}`)
+            }
         }
     }
 
