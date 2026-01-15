@@ -214,7 +214,12 @@ export default function DashboardEnhancePage() {
 
     return (
         <div className="p-6 lg:p-8">
-            <PaywallGate open={showPaywall} onClose={() => setShowPaywall(false)} />
+            <PaywallGate
+                open={showPaywall}
+                onClose={() => setShowPaywall(false)}
+                defaultTab="payPerImage"
+                showOnlyPayPerImage={true}
+            />
 
             {/* Header */}
             <div className="mb-8">

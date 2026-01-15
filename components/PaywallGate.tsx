@@ -13,14 +13,16 @@ import { toast } from 'sonner'
 interface PaywallGateProps {
     open: boolean
     onClose?: () => void
+    defaultTab?: PricingTab
+    showOnlyPayPerImage?: boolean
 }
 
 type PricingTab = 'payPerImage' | 'limitedOffer' | 'enterprise'
 
-export function PaywallGate({ open, onClose }: PaywallGateProps) {
+export function PaywallGate({ open, onClose, defaultTab = 'limitedOffer', showOnlyPayPerImage = false }: PaywallGateProps) {
     const t = useTranslations('Paywall')
     const router = useRouter()
-    const [activeTab, setActiveTab] = useState<PricingTab>('limitedOffer')
+    const [activeTab, setActiveTab] = useState<PricingTab>(defaultTab)
     const [timeLeft, setTimeLeft] = useState(300) // 5 minutes in seconds
     const [selectedProTier, setSelectedProTier] = useState(100)
     const [proDropdownOpen, setProDropdownOpen] = useState(false)
@@ -165,40 +167,41 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                         {t('subtitle')}
                     </p>
 
-                    {/* Premium Tab Switcher - smaller padding */}
                     {/* Premium Tab Switcher - Clean Button Design */}
-                    <div className="mt-6 px-2 sm:px-0">
-                        <div className={cn(
-                            "grid gap-3",
-                            isMobile ? "grid-cols-2" : "flex justify-center"
-                        )}>
-                            {[
-                                { id: 'payPerImage', label: t('tabs.payPerImage'), icon: Sparkles },
-                                { id: 'limitedOffer', label: t('tabs.limitedOffer'), icon: Flame },
-                                { id: 'enterprise', label: t('tabs.enterprise'), icon: Building2 }
-                            ].filter(tab => !isMobile || tab.id !== 'enterprise').map((tab) => (
-                                <button
-                                    key={tab.id}
-                                    onClick={() => setActiveTab(tab.id as PricingTab)}
-                                    className={cn(
-                                        "relative px-4 py-2.5 rounded-xl text-sm font-bold transition-all duration-200 flex items-center justify-center gap-2",
-                                        activeTab === tab.id
-                                            ? "bg-gray-900 text-white shadow-lg scale-[1.02]"
-                                            : "bg-gray-100 text-gray-600 hover:bg-gray-200 border border-transparent"
-                                    )}
-                                >
-                                    <tab.icon className={cn("w-6 h-6", activeTab === tab.id ? "text-blue-300" : "text-gray-500")} />
-                                    <span className="whitespace-nowrap">{tab.label}</span>
-                                </button>
-                            ))}
+                    {!showOnlyPayPerImage && (
+                        <div className="mt-6 px-2 sm:px-0">
+                            <div className={cn(
+                                "grid gap-3",
+                                isMobile ? "grid-cols-2" : "flex justify-center"
+                            )}>
+                                {[
+                                    { id: 'payPerImage', label: t('tabs.payPerImage'), icon: Sparkles },
+                                    { id: 'limitedOffer', label: t('tabs.limitedOffer'), icon: Flame },
+                                    { id: 'enterprise', label: t('tabs.enterprise'), icon: Building2 }
+                                ].filter(tab => !isMobile || tab.id !== 'enterprise').map((tab) => (
+                                    <button
+                                        key={tab.id}
+                                        onClick={() => setActiveTab(tab.id as PricingTab)}
+                                        className={cn(
+                                            "relative px-4 py-2.5 rounded-xl text-sm font-bold transition-all duration-200 flex items-center justify-center gap-2",
+                                            activeTab === tab.id
+                                                ? "bg-gray-900 text-white shadow-lg scale-[1.02]"
+                                                : "bg-gray-100 text-gray-600 hover:bg-gray-200 border border-transparent"
+                                        )}
+                                    >
+                                        <tab.icon className={cn("w-6 h-6", activeTab === tab.id ? "text-blue-300" : "text-gray-500")} />
+                                        <span className="whitespace-nowrap">{tab.label}</span>
+                                    </button>
+                                ))}
+                            </div>
                         </div>
-                    </div>
+                    )}
                 </div>
 
                 {/* Content Area - Optimized for mobile */}
                 <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 bg-white">
                     <AnimatePresence mode="wait">
-                        {activeTab === 'payPerImage' && (
+                        {(activeTab === 'payPerImage' || showOnlyPayPerImage) && (
                             <motion.div
                                 key="payPerImage"
                                 initial={{ opacity: 0, x: 20 }}
@@ -283,7 +286,7 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                             </motion.div>
                         )}
 
-                        {activeTab === 'limitedOffer' && (
+                        {!showOnlyPayPerImage && activeTab === 'limitedOffer' && (
                             <motion.div
                                 key="limitedOffer"
                                 initial={{ opacity: 0, x: 20 }}
@@ -483,7 +486,7 @@ export function PaywallGate({ open, onClose }: PaywallGateProps) {
                             )}
                         </AnimatePresence>
 
-                        {activeTab === 'enterprise' && (
+                        {!showOnlyPayPerImage && activeTab === 'enterprise' && (
                             <motion.div
                                 key="enterprise"
                                 initial={{ opacity: 0, x: 20 }}

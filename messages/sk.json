@@ -28,7 +28,10 @@
             "history": "História",
             "settings": "Nastavenia",
             "logout": "Odhlásiť sa",
-            "newEnhancement": "Nové vylepšenie"
+            "newEnhancement": "Nové vylepšenie",
+            "logoutConfirmTitle": "Odhlásiť sa?",
+            "logoutConfirmMessage": "Naozaj sa chcete odhlásiť? Budete presmerovaný na domovskú stránku.",
+            "logoutConfirmCancel": "Zrušiť"
         },
         "history": {
             "title": "História úprav",

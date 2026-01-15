@@ -10,6 +10,7 @@ import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { compressImage } from '@/lib/utils'
 import { supabaseAuth } from '@/lib/supabase-auth'
+import { PaywallGate } from '@/components/PaywallGate'
 
 type ProcessingState = 'idle' | 'processing' | 'done' | 'error'
 
@@ -22,6 +23,7 @@ export default function DashboardRemovePage() {
     const [processingState, setProcessingState] = useState<ProcessingState>('idle')
     const [prompt, setPrompt] = useState<string>('')
     const [isMobile, setIsMobile] = useState(false)
+    const [showPaywall, setShowPaywall] = useState(false)
 
     useEffect(() => {
         const checkMobile = () => setIsMobile(window.innerWidth < 768)
@@ -104,6 +106,15 @@ export default function DashboardRemovePage() {
 
             if (!response.ok) {
                 const error = await response.json()
+
+                // Check for Quota Exceeded
+                if (response.status === 403 && error.error === 'QUOTA_EXCEEDED') {
+                    setProcessingState('idle')
+                    setShowPaywall(true)
+                    toast.error(error.message || 'Quota exceeded')
+                    return
+                }
+
                 if (response.status === 403 && error.error === 'LIMIT_REACHED') {
                     toast.error(tToast('limitReached'))
                     setProcessingState('idle')
@@ -160,6 +171,13 @@ export default function DashboardRemovePage() {
 
     return (
         <div className="p-6 lg:p-8">
+            <PaywallGate
+                open={showPaywall}
+                onClose={() => setShowPaywall(false)}
+                defaultTab="payPerImage"
+                showOnlyPayPerImage={true}
+            />
+
             {/* Header */}
             <div className="mb-8">
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-100 text-purple-700 text-sm font-medium mb-4">

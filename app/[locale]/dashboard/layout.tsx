@@ -153,16 +153,6 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                     </Link>
                 </div>
 
-                {/* Primary Action Button (New Chat style) */}
-                <div className="px-4 mb-6">
-                    <Link href="/dashboard/enhance">
-                        <button className="w-full flex items-center gap-3 px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all shadow-lg shadow-blue-900/20 group">
-                            <Sparkles className="w-5 h-5 transition-transform group-hover:scale-110" />
-                            <span className="font-medium">{t('nav.newEnhancement')}</span>
-                        </button>
-                    </Link>
-                </div>
-
                 {/* Navigation */}
                 <nav className="flex-1 px-4">
                     <div className="mb-2 text-xs font-semibold text-slate-500 uppercase tracking-wider px-4">Menu</div>
@@ -247,7 +237,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                                         onClick={() => setLogoutConfirmOpen(false)}
                                         className="flex-1 px-4 py-2.5 rounded-xl border border-gray-200 text-gray-700 font-medium hover:bg-gray-50 transition-colors"
                                     >
-                                        Cancel
+                                        {t('nav.logoutConfirmCancel')}
                                     </button>
                                     <button
                                         onClick={handleLogout}

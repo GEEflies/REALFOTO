@@ -651,7 +651,10 @@
             "history": "History",
             "settings": "Settings",
             "logout": "Logout",
-            "newEnhancement": "New Enhancement"
+            "newEnhancement": "New Enhancement",
+            "logoutConfirmTitle": "Log out?",
+            "logoutConfirmMessage": "Are you sure you want to sign out? You will be redirected to the home page.",
+            "logoutConfirmCancel": "Cancel"
         },
         "history": {
             "title": "Enhancement History",
