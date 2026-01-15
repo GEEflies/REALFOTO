@@ -18,7 +18,13 @@
         "or": "alebo",
         "googleLogin": "Pokračovať s Google",
         "noAccount": "Nemáte účet?",
-        "getStarted": "Začať"
+        "getStarted": "Začať",
+        "success": "Úspešne prihlásený!",
+        "errors": {
+            "fillAll": "Prosím vyplňte všetky polia",
+            "googleLogin": "Nepodarilo sa spustiť prihlásenie cez Google",
+            "generic": "Nepodarilo sa prihlásiť"
+        }
     },
     "Dashboard": {
         "nav": {
@@ -239,7 +245,8 @@
         "enhanceAnother": "Vylepšiť ďalšiu fotku",
         "enhanceButton": "Vylepšiť obrázok",
         "applying": "Aplikuje sa",
-        "timeEstimate": "Zvyčajne to trvá 20-30 sekúnd"
+        "timeEstimate": "Zvyčajne to trvá 20-30 sekúnd",
+        "errorLabel": "Chyba"
     },
     "Remove": {
         "badge": "AI Odstránenie Objektov",
@@ -726,6 +733,61 @@
         "terms": {
             "title": "Podmienky používania",
             "content": "Prosím, prečítajte si pozorne naše podmienky."
+        }
+    },
+    "Success": {
+        "verifying": {
+            "title": "Overovanie platby",
+            "subtitle": "Prosím čakajte, kým potvrdíme vašu platbu..."
+        },
+        "success": {
+            "title": "Platba úspešná!",
+            "subtitle": "Vaša platba bola úspešne spracovaná.",
+            "images": "Obrázky",
+            "price": "Zaplatená cena",
+            "continueButton": "Pokračovať na registráciu",
+            "note": "V ďalšom kroku si vytvoríte účet."
+        },
+        "error": {
+            "title": "Overenie platby zlyhalo",
+            "subtitle": "Nepodarilo sa nám overiť vašu platbu.",
+            "retryButton": "Skúsiť znova",
+            "invalidSession": "Neplatná alebo expirovaná relácia",
+            "verificationFailed": "Nepodarilo sa overiť platbu. Skúste to prosím znova.",
+            "stripeInvalid": "Neplatná Stripe relácia",
+            "stripeFailed": "Nepodarilo sa overiť Stripe platbu. Kontaktujte podporu.",
+            "noSession": "Nenašla sa žiadna platobná relácia. Najskôr dokončite platbu."
+        }
+    },
+    "Signup": {
+        "title": "Vytvorte si účet",
+        "verifying": "Overujem platbu...",
+        "email": "Emailová adresa",
+        "emailPlaceholder": "vas@email.com",
+        "password": "Heslo",
+        "passwordPlaceholder": "Aspoň 8 znakov",
+        "confirmPassword": "Potvrdiť heslo",
+        "confirmPasswordPlaceholder": "Zopakujte heslo",
+        "createAccount": "Vytvoriť účet",
+        "or": "alebo",
+        "googleSignup": "Pokračovať s Google",
+        "terms": "Registráciou súhlasíte s našimi Podmienkami používania a Ochranou súkromia.",
+        "haveAccount": "Máte už účet?",
+        "login": "Prihlásiť sa",
+        "error": {
+            "title": "Prístup zamietnutý",
+            "goToPricing": "Zobraziť cenník"
+        },
+        "errors": {
+            "fillAll": "Prosím vyplňte všetky polia",
+            "sessionVerify": "Nepodarilo sa overiť platobnú reláciu",
+            "stripeVerify": "Nepodarilo sa overiť Stripe platbu",
+            "noSession": "Nenašla sa žiadna platobná relácia. Najskôr dokončite platbu.",
+            "googleSignup": "Nepodarilo sa spustiť registráciu cez Google",
+            "generic": "Registrácia zlyhala"
+        },
+        "success": {
+            "accountCreated": "Účet vytvorený! Skontrolujte si email pre overenie."
         }
     },
     "VerifyEmail": {

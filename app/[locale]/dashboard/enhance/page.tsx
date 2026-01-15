@@ -267,7 +267,7 @@ export default function DashboardEnhancePage() {
                                         </div>
                                     )}
                                     {item.status === 'error' && (
-                                        <div className="absolute inset-0 bg-red-500/50 flex items-center justify-center text-white font-bold">Error</div>
+                                        <div className="absolute inset-0 bg-red-500/50 flex items-center justify-center text-white font-bold">{t('errorLabel')}</div>
                                     )}
                                     {item.status === 'completed' && (
                                         <div className="absolute inset-0 bg-green-500/20 flex items-center justify-center">

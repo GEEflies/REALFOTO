@@ -42,12 +42,12 @@ export default function SuccessPage() {
                         setSessionData(data)
                         setStatus('verified')
                     } else {
-                        setError(data.message || 'Invalid or expired session')
+                        setError(data.message || t('error.invalidSession'))
                         setStatus('error')
                     }
                 } catch (err) {
                     console.error('Session verification error:', err)
-                    setError('Failed to verify payment. Please try again.')
+                    setError(t('error.verificationFailed'))
                     setStatus('error')
                 }
                 return
@@ -65,19 +65,19 @@ export default function SuccessPage() {
                         setSessionData(data)
                         setStatus('verified')
                     } else {
-                        setError(data.message || 'Invalid Stripe session')
+                        setError(data.message || t('error.stripeInvalid'))
                         setStatus('error')
                     }
                 } catch (err) {
                     console.error('Stripe session verification error:', err)
-                    setError('Failed to verify Stripe payment. Please contact support.')
+                    setError(t('error.stripeFailed'))
                     setStatus('error')
                 }
                 return
             }
 
             // No session parameter found
-            setError('No payment session found. Please complete the payment first.')
+            setError(t('error.noSession'))
             setStatus('error')
         }
 

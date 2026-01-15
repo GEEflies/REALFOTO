@@ -20,6 +20,7 @@ interface SessionData {
 
 export default function SignupPage() {
     const t = useTranslations('Signup')
+    const tToast = useTranslations('Toasts')
     const router = useRouter()
     const searchParams = useSearchParams()
 
@@ -56,7 +57,7 @@ export default function SignupPage() {
                     }
                 } catch (err) {
                     console.error('Session verification error:', err)
-                    setSessionError('Failed to verify payment session')
+                    setSessionError(t('errors.sessionVerify'))
                 } finally {
                     setIsVerifying(false)
                 }
@@ -76,7 +77,7 @@ export default function SignupPage() {
                     }
                 } catch (err) {
                     console.error('Stripe session verification error:', err)
-                    setSessionError('Failed to verify Stripe payment')
+                    setSessionError(t('errors.stripeVerify'))
                 } finally {
                     setIsVerifying(false)
                 }
@@ -84,7 +85,7 @@ export default function SignupPage() {
             }
 
             // No session parameter found
-            setSessionError('No payment session found. Please complete payment first.')
+            setSessionError(t('errors.noSession'))
             setIsVerifying(false)
         }
 
@@ -96,17 +97,17 @@ export default function SignupPage() {
 
         // Validation
         if (!email || !password) {
-            toast.error('Please fill in all fields')
+            toast.error(t('errors.fillAll'))
             return
         }
 
         if (password !== confirmPassword) {
-            toast.error('Passwords do not match')
+            toast.error(tToast('passwordMatch'))
             return
         }
 
         if (password.length < 8) {
-            toast.error('Password must be at least 8 characters')
+            toast.error(tToast('passwordLength'))
             return
         }
 
@@ -137,15 +138,15 @@ export default function SignupPage() {
             const data = await response.json()
 
             if (!response.ok) {
-                throw new Error(data.message || 'Signup failed')
+                throw new Error(data.message || t('errors.generic'))
             }
 
             // Success - show verification email sent message
-            toast.success('Account created! Please check your email to verify.')
+            toast.success(t('success.accountCreated'))
             router.push('/verify-email?email=' + encodeURIComponent(email))
         } catch (error) {
             console.error('Signup error:', error)
-            toast.error(error instanceof Error ? error.message : 'Failed to create account')
+            toast.error(error instanceof Error ? error.message : t('errors.generic'))
         } finally {
             setIsLoading(false)
         }
@@ -177,7 +178,7 @@ export default function SignupPage() {
             if (error) throw error
         } catch (error) {
             console.error('Google signup error:', error)
-            toast.error('Failed to initiate Google signup')
+            toast.error(t('errors.googleSignup'))
         }
     }
 

@@ -155,7 +155,8 @@
         "enhanceAnother": "Enhance Another Photo",
         "enhanceButton": "Enhance with",
         "applying": "Applying",
-        "timeEstimate": "This usually takes 20-30 seconds"
+        "timeEstimate": "This usually takes 20-30 seconds",
+        "errorLabel": "Error"
     },
     "Remove": {
         "badge": "AI Object Removal",
@@ -595,7 +596,12 @@
         "error": {
             "title": "Payment Verification Failed",
             "subtitle": "We couldn't verify your payment session.",
-            "retryButton": "Try Again"
+            "retryButton": "Try Again",
+            "invalidSession": "Invalid or expired session",
+            "verificationFailed": "Failed to verify payment. Please try again.",
+            "stripeInvalid": "Invalid Stripe session",
+            "stripeFailed": "Failed to verify Stripe payment. Please contact support.",
+            "noSession": "No payment session found. Please complete the payment first."
         }
     },
     "Signup": {
@@ -616,6 +622,17 @@
         "error": {
             "title": "Access Denied",
             "goToPricing": "View Pricing Plans"
+        },
+        "errors": {
+            "fillAll": "Please fill in all fields",
+            "sessionVerify": "Failed to verify payment session",
+            "stripeVerify": "Failed to verify Stripe payment",
+            "noSession": "No payment session found. Please complete payment first.",
+            "googleSignup": "Failed to initiate Google signup",
+            "generic": "Signup failed"
+        },
+        "success": {
+            "accountCreated": "Account created! Please check your email to verify."
         }
     },
     "VerifyEmail": {
@@ -654,7 +671,13 @@
         "or": "or",
         "googleLogin": "Continue with Google",
         "noAccount": "Don't have an account?",
-        "getStarted": "Get Started"
+        "getStarted": "Get Started",
+        "success": "Logged in successfully!",
+        "errors": {
+            "fillAll": "Please fill in all fields",
+            "googleLogin": "Failed to initiate Google login",
+            "generic": "Failed to log in"
+        }
     },
     "Dashboard": {
         "nav": {

@@ -25,7 +25,7 @@ export default function LoginPage() {
         e.preventDefault()
 
         if (!email || !password) {
-            toast.error('Please fill in all fields')
+            toast.error(t('errors.fillAll'))
             return
         }
 
@@ -39,7 +39,7 @@ export default function LoginPage() {
             }
 
             if (data.session) {
-                toast.success('Logged in successfully!')
+                toast.success(t('success'))
 
                 // Get redirect parameter
                 const redirectParam = searchParams.get('redirect')
@@ -68,7 +68,7 @@ export default function LoginPage() {
             }
         } catch (error) {
             console.error('Login error:', error)
-            toast.error(error instanceof Error ? error.message : 'Failed to log in')
+            toast.error(error instanceof Error ? error.message : t('errors.generic'))
         } finally {
             setIsLoading(false)
         }
@@ -87,7 +87,7 @@ export default function LoginPage() {
             await signInWithGoogle(`${redirectBase}${redirectParams}`)
         } catch (error) {
             console.error('Google login error:', error)
-            toast.error('Failed to initiate Google login')
+            toast.error(t('errors.googleLogin'))
         }
     }
 
