@@ -145,7 +145,7 @@
             "download": "Stiahnuť 4K Ultra HD Verziu"
         },
         "enhanceAnother": "Vylepšiť ďalšiu fotku",
-        "enhanceButton": "Vylepšiť pomocou",
+        "enhanceButton": "Vylepšiť obrázok",
         "applying": "Aplikuje sa",
         "timeEstimate": "Zvyčajne to trvá 20-30 sekúnd"
     },
@@ -241,12 +241,12 @@
         "currentPlan": "Aktuálny Plán"
     },
     "Paywall": {
-        "title": "Odomknite plný potenciál",
+        "title": "Vylepšiť plán",
         "subtitle": "Vyberte si plán, ktorý vám vyhovuje a začnite vylepšovať fotky ešte dnes",
         "selectImageCount": "Vyberte počet obrázkov",
         "tabs": {
-            "payPerImage": "Platba za obrázok",
-            "limitedOffer": "Limitovaná ponuka",
+            "payPerImage": "Jednorazovo",
+            "limitedOffer": "Výhodne",
             "enterprise": "Podnikové riešenie"
         },
         "before": "Pred",
