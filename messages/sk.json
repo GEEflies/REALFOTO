@@ -1,8 +1,18 @@
 {
     "Navbar": {
         "home": "Domov",
-        "enhance": "Vylepšiť",
-        "remove": "Odstrániť",
+        "history": "História",
+        "settings": "Nastavenia",
+        "logout": "Odhlásiť sa"
+    },
+    "history": {
+        "title": "História úprav",
+        "empty": {
+            "title": "Zatiaľ žiadna história",
+            "description": "Vaše upravené obrázky sa zobrazia tu"
+        }
+    },
+    "quota": {
         "signIn": "Login",
         "authDisabled": "Auth Vypnuté"
     },
@@ -193,6 +203,11 @@
         "removeSuccess": "Objekt úspešne odstránený!",
         "removeError": "Odstránenie zlyhalo. Skúste to prosím znova.",
         "limitReached": "Dosiahli ste limit 3 obrázkov zdarma. Pre viac upgradujte."
+    },
+    "Settings": {
+        "title": "Nastavenia",
+        "language": "Jazyk",
+        "languageDesc": "Vyberte preferovaný jazyk"
     },
     "Pricing": {
         "title": "Jednoduchý, transparentný cenník",

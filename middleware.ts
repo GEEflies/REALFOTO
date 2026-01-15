@@ -62,6 +62,15 @@ export default async function middleware(request: NextRequest) {
         request = new NextRequest(url, request);
     }
 
+    // IP-based Localization (Auto-detect Slovak)
+    // Only applies to root path '/' (landing page entry)
+    if (pathname === '/') {
+        const country = (request as any).geo?.country || request.headers.get('x-vercel-ip-country');
+        if (country === 'SK') {
+            return NextResponse.redirect(new URL('/sk', request.url));
+        }
+    }
+
     // Check if route requires authentication
     const isProtectedRoute = protectedRoutes.some(route =>
         pathname === route || pathname.startsWith(`${route}/`)

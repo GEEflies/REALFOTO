@@ -14,7 +14,8 @@ import {
     X,
     Home,
     ChevronRight,
-    User
+    User,
+    Clock
 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { supabaseAuth, signOut, getSession } from '@/lib/supabase-auth'
@@ -93,6 +94,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         { href: '/dashboard', icon: Home, label: t('nav.home') },
         { href: '/dashboard/enhance', icon: Sparkles, label: t('nav.enhance') },
         { href: '/dashboard/remove', icon: Eraser, label: t('nav.remove') },
+        { href: '/dashboard/history', icon: Clock, label: t('nav.history') },
         { href: '/dashboard/settings', icon: Settings, label: t('nav.settings') },
     ]
 

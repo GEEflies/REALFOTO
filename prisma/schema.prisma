@@ -22,6 +22,26 @@ model User {
   paymentStatus    PaymentStatus @default(PENDING)
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
+  images           Image[]
+}
+
+model Image {
+  id          String      @id @default(cuid())
+  userId      String
+  user        User        @relation(fields: [userId], references: [supabaseId])
+  originalUrl String
+  enhancedUrl String?
+  status      ImageStatus @default(PENDING)
+  createdAt   DateTime    @default(now())
+
+  @@index([userId])
+}
+
+enum ImageStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
 }
 
 enum Tier {

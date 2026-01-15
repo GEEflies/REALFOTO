@@ -641,8 +641,16 @@
             "home": "Home",
             "enhance": "Enhance",
             "remove": "Remove",
+            "history": "History",
             "settings": "Settings",
-            "logout": "Log Out"
+            "logout": "Logout"
+        },
+        "history": {
+            "title": "Enhancement History",
+            "empty": {
+                "title": "No history yet",
+                "description": "Your enhanced images will appear here"
+            }
         },
         "quota": {
             "title": "Image Quota"
@@ -677,7 +685,9 @@
     },
     "Settings": {
         "badge": "Settings",
-        "title": "Account Settings",
+        "title": "Settings",
+        "language": "Language",
+        "languageDesc": "Choose your preferred language",
         "subtitle": "Manage your account, subscription, and security settings",
         "tabs": {
             "account": "Account",

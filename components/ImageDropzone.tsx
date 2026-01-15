@@ -6,10 +6,13 @@ import { Upload, X, Image as ImageIcon, AlertCircle } from 'lucide-react'
 import { cn, formatFileSize, isValidImageType } from '@/lib/utils'
 
 interface ImageDropzoneProps {
-    onImageSelect: (file: File, preview: string) => void
+    onImageSelect?: (file: File, preview: string) => void
+    onImagesSelect?: (files: File[]) => void
     disabled?: boolean
     currentPreview?: string | null
     onClear?: () => void
+    multiple?: boolean
+    maxFiles?: number
 }
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024 // 10MB
@@ -18,36 +21,51 @@ import { useTranslations } from 'next-intl'
 
 export function ImageDropzone({
     onImageSelect,
+    onImagesSelect,
     disabled = false,
     currentPreview,
     onClear,
+    multiple = false,
+    maxFiles = 20
 }: ImageDropzoneProps) {
     const t = useTranslations('Dropzone')
     const [isDragging, setIsDragging] = useState(false)
     const [error, setError] = useState<string | null>(null)
 
-    const handleFile = useCallback(
-        (file: File) => {
+    const handleFiles = useCallback(
+        (files: File[]) => {
             setError(null)
 
-            if (!isValidImageType(file.type)) {
-                setError(t('errorFormat'))
+            if (multiple && files.length > maxFiles) {
+                setError(`Maximum ${maxFiles} files allowed`)
                 return
             }
 
-            if (file.size > MAX_FILE_SIZE) {
-                setError(t('errorSize', { maxSize: formatFileSize(MAX_FILE_SIZE) }))
-                return
+            // Filter valid files
+            const validFiles = files.filter(file => {
+                if (!isValidImageType(file.type)) return false
+                if (file.size > MAX_FILE_SIZE) return false
+                return true
+            })
+
+            if (validFiles.length !== files.length) {
+                setError(t('errorFormat')) // Simplification
             }
 
-            const reader = new FileReader()
-            reader.onload = () => {
-                const preview = reader.result as string
-                onImageSelect(file, preview)
+            if (validFiles.length === 0) return
+
+            if (multiple && onImagesSelect) {
+                onImagesSelect(validFiles)
+            } else if (onImageSelect && validFiles.length > 0) {
+                const file = validFiles[0]
+                const reader = new FileReader()
+                reader.onload = () => {
+                    onImageSelect(file, reader.result as string)
+                }
+                reader.readAsDataURL(file)
             }
-            reader.readAsDataURL(file)
         },
-        [onImageSelect, t]
+        [onImageSelect, onImagesSelect, multiple, maxFiles, t]
     )
 
     const handleDrop = useCallback(
@@ -57,12 +75,12 @@ export function ImageDropzone({
 
             if (disabled) return
 
-            const file = e.dataTransfer.files[0]
-            if (file) {
-                handleFile(file)
+            const droppedFiles = Array.from(e.dataTransfer.files)
+            if (droppedFiles.length > 0) {
+                handleFiles(droppedFiles)
             }
         },
-        [disabled, handleFile]
+        [disabled, handleFiles]
     )
 
     const handleDragOver = useCallback(
@@ -84,15 +102,16 @@ export function ImageDropzone({
         if (disabled) return
         const input = document.createElement('input')
         input.type = 'file'
+        input.multiple = multiple
         input.accept = 'image/jpeg,image/png,image/webp'
         input.onchange = (e) => {
-            const file = (e.target as HTMLInputElement).files?.[0]
-            if (file) {
-                handleFile(file)
+            const files = (e.target as HTMLInputElement).files
+            if (files && files.length > 0) {
+                handleFiles(Array.from(files))
             }
         }
         input.click()
-    }, [disabled, handleFile])
+    }, [disabled, handleFiles, multiple])
 
     return (
         <div className="w-full">
