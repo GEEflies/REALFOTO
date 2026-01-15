@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Loader2, Mail } from 'lucide-react'
+import { Loader2, Sparkles } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { toast } from 'sonner'
 
@@ -43,38 +43,44 @@ export function EmailGate({ open, onSuccess }: EmailGateProps) {
 
     return (
         <Dialog open={open}>
-            <DialogContent className="sm:max-w-md [&>button]:hidden"> {/* Hide close button */}
-                <DialogHeader>
-                    <div className="mx-auto w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mb-4">
-                        <Mail className="w-6 h-6 text-blue-600" />
+            <DialogContent className="sm:max-w-md [&>button]:hidden overflow-hidden p-0 border-0 shadow-2xl">
+                <div className="bg-gradient-to-b from-blue-50 to-white px-6 pt-10 pb-6 text-center">
+                    <div className="mx-auto w-16 h-16 rounded-full bg-white shadow-sm border border-blue-100 flex items-center justify-center mb-6">
+                        <Sparkles className="w-8 h-8 text-blue-600" />
                     </div>
-                    <DialogTitle className="text-center text-xl">{t('emailTitle')}</DialogTitle>
-                    <DialogDescription className="text-center">
+                    <DialogTitle className="text-2xl font-bold text-gray-900 mb-2">{t('emailTitle')}</DialogTitle>
+                    <DialogDescription className="text-gray-600 text-base max-w-xs mx-auto">
                         {t('emailSubtitle')}
                     </DialogDescription>
-                </DialogHeader>
-                <form onSubmit={handleSubmit} className="space-y-4 py-4">
-                    <Input
-                        type="email"
-                        placeholder={t('emailPlaceholder')}
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                        className="text-lg py-6"
-                    />
-                    <Button
-                        type="submit"
-                        className="w-full text-lg py-6"
-                        disabled={loading}
-                    >
-                        {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : t('emailButton')}
-                    </Button>
-                </form>
-                <DialogFooter className="sm:justify-center">
-                    <p className="text-xs text-gray-400 text-center">
+                </div>
+
+                <div className="px-6 pb-8">
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                        <div className="space-y-2">
+                            <Input
+                                type="email"
+                                placeholder={t('emailPlaceholder')}
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                                className="h-14 text-lg px-4 bg-gray-50 border-gray-200 focus:bg-white transition-colors"
+                            />
+                        </div>
+                        <Button
+                            type="submit"
+                            className="w-full h-14 text-lg font-medium bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/20 transition-all duration-300 transform hover:scale-[1.02]"
+                            disabled={loading}
+                        >
+                            {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : t('emailButton')}
+                        </Button>
+                    </form>
+                    <p className="mt-6 text-center text-xs text-gray-400 flex items-center justify-center gap-1.5">
+                        <svg viewBox="0 0 24 24" fill="none" className="w-3 h-3 text-green-500" stroke="currentColor" strokeWidth="3">
+                            <path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
                         {t('promise')}
                     </p>
-                </DialogFooter>
+                </div>
             </DialogContent>
         </Dialog>
     )

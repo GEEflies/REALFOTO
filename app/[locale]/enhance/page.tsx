@@ -107,8 +107,8 @@ export default function EnhancePage() {
     const handleEmailSuccess = () => {
         setHasEmail(true)
         setEmailGateOpen(false)
-        // Retry processing after a brief delay to ensure state update
-        setTimeout(processImage, 100)
+        // Pass true to bypass the local state check since we just successfully registered
+        processImage(true)
     }
 
     const ENHANCE_MODES: ModeOption[] = [
@@ -133,14 +133,14 @@ export default function EnhancePage() {
         // Don't auto-process - wait for user to select mode and click enhance
     }
 
-    const processImage = async () => {
+    const processImage = async (bypassEmailCheck = false) => {
         if (!originalFile) {
             toast.error(tToast('selectImage'))
             return
         }
 
         // Gate Checks
-        if (!hasEmail) {
+        if (!hasEmail && !bypassEmailCheck) {
             setEmailGateOpen(true)
             return
         }
@@ -373,7 +373,7 @@ export default function EnhancePage() {
                                         className="mt-6 text-center px-4"
                                     >
                                         <Button
-                                            onClick={processImage}
+                                            onClick={() => processImage(false)}
                                             size="lg"
                                             className="w-full sm:w-auto gap-2 px-6 py-4 md:px-8 md:py-6 text-base md:text-lg bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/40 transition-all duration-300 cursor-pointer"
                                         >

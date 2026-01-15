@@ -294,13 +294,15 @@
         "loading": "Načítavam..."
     },
     "Gates": {
-        "emailTitle": "Získajte bezplatné vylepšenie",
-        "emailSubtitle": "Zadajte svoj e-mail a výsledok odomkneme.",
+        "emailTitle": "Odomknite svoje vylepšenie",
+        "emailSubtitle": "Zadajte svoj e-mail pre získanie výsledku. Sľubujeme, že ho nikomu neposkytneme.",
         "emailPlaceholder": "vas@email.com",
-        "emailButton": "Pokračovať",
-        "promise": "Sľubujeme, že nebudeme spamovať.",
-        "limitTitle": "Dosiahli ste bezplatný limit",
-        "limitSubtitle": "Využili ste všetky 3 bezplatné vylepšenia. Pre neobmedzený prístup prejdite na Pro.",
+        "emailButton": "Pokračovať a odomknúť",
+        "promise": "Váš e-mail je u nás v bezpečí.",
+        "paywallTitle": "Využili ste limit zdarma",
+        "paywallSubtitle": "Odomknite profesionálne funkcie",
+        "payPerImage": "Zaplatiť za obrázok",
+        "subscribe": "Predplatné",
         "limitButton": "Zobraziť cenník"
     },
     "Toasts": {

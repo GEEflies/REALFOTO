@@ -204,11 +204,15 @@
         "loading": "Loading..."
     },
     "Gates": {
-        "emailTitle": "Unlock Your Free Enhancement",
-        "emailSubtitle": "Enter your email to get your result instantly.",
+        "emailTitle": "Unlock Your Enhancement",
+        "emailSubtitle": "Enter your email to get your result. We promise not to share it.",
         "emailPlaceholder": "name@example.com",
-        "emailButton": "Continue",
-        "promise": "We promise not to spam you.",
+        "emailButton": "Continue & Unlock",
+        "promise": "Your email is safe with us.",
+        "paywallTitle": "Free Limit Reached",
+        "paywallSubtitle": "Unlock professional features",
+        "payPerImage": "Pay Per Image",
+        "subscribe": "Subscribe",
         "limitTitle": "Free Limit Reached",
         "limitSubtitle": "You've used all 3 free enhancements. Upgrade to Pro for unlimited access.",
         "limitButton": "View Pricing"
