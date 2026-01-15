@@ -152,11 +152,33 @@ export default function SignupPage() {
     }
 
     const handleGoogleSignup = async () => {
-        toast.info('Google signup will be configured soon!')
-        // TODO: Implement Google OAuth with Supabase
-        // const { signInWithGoogle } = await import('@/lib/supabase-auth')
-        // const session = searchParams.get('session')
-        // await signInWithGoogle(`/dashboard?session=${session}`)
+        try {
+            const session = searchParams.get('session')
+            const stripeSessionId = searchParams.get('session_id')
+
+            // Build redirect URL with session params
+            let redirectUrl = `${window.location.origin}/dashboard`
+            const params = new URLSearchParams()
+            if (session) params.append('session', session)
+            if (stripeSessionId) params.append('session_id', stripeSessionId)
+            if (params.toString()) {
+                redirectUrl += `?${params.toString()}`
+            }
+
+            // In production, redirect to app subdomain
+            if (process.env.NODE_ENV === 'production' && !window.location.hostname.includes('app.')) {
+                redirectUrl = redirectUrl.replace('www.aurix.pics', 'app.aurix.pics')
+            }
+
+            // Dynamic import to avoid server-side issues content
+            const { signInWithGoogle } = await import('@/lib/supabase-auth')
+            const { error } = await signInWithGoogle(redirectUrl)
+
+            if (error) throw error
+        } catch (error) {
+            console.error('Google signup error:', error)
+            toast.error('Failed to initiate Google signup')
+        }
     }
 
     // Loading state
