@@ -1,15 +1,53 @@
 {
     "Navbar": {
         "home": "Domov",
-        "history": "História",
-        "settings": "Nastavenia",
-        "logout": "Odhlásiť sa"
+        "enhance": "Vylepšiť",
+        "remove": "Odstrániť",
+        "signIn": "Prihlásiť sa",
+        "authDisabled": "Auth Vypnuté"
     },
-    "history": {
-        "title": "História úprav",
-        "empty": {
-            "title": "Zatiaľ žiadna história",
-            "description": "Vaše upravené obrázky sa zobrazia tu"
+    "Login": {
+        "title": "Vitajte späť",
+        "subtitle": "Prihláste sa do svojho Aurix účtu",
+        "email": "Emailová adresa",
+        "emailPlaceholder": "vas@email.com",
+        "password": "Heslo",
+        "passwordPlaceholder": "Zadajte svoje heslo",
+        "forgotPassword": "Zabudli ste heslo?",
+        "loginButton": "Prihlásiť sa",
+        "or": "alebo",
+        "googleLogin": "Pokračovať s Google",
+        "noAccount": "Nemáte účet?",
+        "getStarted": "Začať"
+    },
+    "Dashboard": {
+        "nav": {
+            "home": "Domov",
+            "enhance": "Vylepšiť",
+            "remove": "Odstrániť",
+            "history": "História",
+            "settings": "Nastavenia",
+            "logout": "Odhlásiť sa",
+            "newEnhancement": "Nové vylepšenie"
+        },
+        "history": {
+            "title": "História úprav",
+            "empty": {
+                "title": "Zatiaľ žiadna história",
+                "description": "Vaše upravené obrázky sa zobrazia tu"
+            },
+            "actions": {
+                "select": "Vybrať obrázky",
+                "cancel": "Zrušiť výber",
+                "selectAll": "Vybrať všetky",
+                "deselectAll": "Zrušiť všetko",
+                "downloadZip": "Stiahnuť ZIP",
+                "selected": "{count} vybratých",
+                "downloadImage": "Stiahnuť obrázok"
+            }
+        },
+        "quota": {
+            "title": "Kvóta obrázkov"
         }
     },
     "quota": {
@@ -148,6 +186,13 @@
             "badge": "Štandardná Kvalita",
             "slider": "Posuvník: Pôvodná vs. Vylepšená",
             "download": "Stiahnuť Štandardnú Verziu"
+        },
+        "batch": {
+            "title": "Hromadné spracovanie (Max 20 obrázkov)",
+            "addMore": "Pridať ďalšie",
+            "clearAll": "Vymazať všetko",
+            "start": "Spustiť hromadné vylepšenie",
+            "processing": "Spracováva sa..."
         },
         "replicateCard": {
             "title": "4K Upscaled (Replicate)",

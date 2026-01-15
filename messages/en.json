@@ -139,6 +139,13 @@
             "slider": "Slider: Original vs Enhanced",
             "download": "Download Standard Enhanced"
         },
+        "batch": {
+            "title": "Batch Process (Max 20 images)",
+            "addMore": "Add More",
+            "clearAll": "Clear All",
+            "start": "Start Batch Enhancement",
+            "processing": "Processing..."
+        },
         "replicateCard": {
             "title": "4K Upscaled (Replicate)",
             "badge": "Ultra HD",
@@ -643,13 +650,23 @@
             "remove": "Remove",
             "history": "History",
             "settings": "Settings",
-            "logout": "Logout"
+            "logout": "Logout",
+            "newEnhancement": "New Enhancement"
         },
         "history": {
             "title": "Enhancement History",
             "empty": {
                 "title": "No history yet",
                 "description": "Your enhanced images will appear here"
+            },
+            "actions": {
+                "select": "Select Images",
+                "cancel": "Cancel Selection",
+                "selectAll": "Select All",
+                "deselectAll": "Deselect All",
+                "downloadZip": "Download Zip",
+                "selected": "{count} selected",
+                "downloadImage": "Download Image"
             }
         },
         "quota": {

@@ -129,7 +129,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                     <Link href="/dashboard/enhance">
                         <button className="w-full flex items-center gap-3 px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all shadow-lg shadow-blue-900/20 group">
                             <Sparkles className="w-5 h-5 transition-transform group-hover:scale-110" />
-                            <span className="font-medium">New Enhancement</span>
+                            <span className="font-medium">{t('nav.newEnhancement')}</span>
                         </button>
                     </Link>
                 </div>

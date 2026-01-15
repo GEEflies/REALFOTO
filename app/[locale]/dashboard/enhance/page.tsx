@@ -176,7 +176,8 @@ export default function DashboardEnhancePage() {
                 }
 
                 const data = await response.json()
-                const enhancedUrl = data.enhanced
+                // Use upscaled URL if available (4K), otherwise fallback to enhanced (Gemini)
+                const enhancedUrl = data.upscaled || data.enhanced
 
                 // API now handles History insertion. We don't need to insert here.
 
@@ -220,7 +221,7 @@ export default function DashboardEnhancePage() {
                     {t('title')}
                 </h1>
                 <p className="text-gray-600">
-                    Batch Process (Max 20 images) - {queue.length}/20 Selected
+                    {t('batch.title')} - {queue.length}/20 {t('selected')}
                 </p>
             </div>
 
@@ -300,7 +301,7 @@ export default function DashboardEnhancePage() {
                                 {/* Hidden input hack or specific component */}
                                 <div className="text-center">
                                     <Layers className="w-6 h-6 mx-auto text-gray-300 mb-2" />
-                                    <span className="text-xs text-gray-400">Add More</span>
+                                    <span className="text-xs text-gray-400">{t('batch.addMore')}</span>
                                 </div>
                                 {/* Actually better to use ImageDropzone condensed, or just allow drop on main area? For now, simplistic. */}
                             </div>
@@ -309,7 +310,7 @@ export default function DashboardEnhancePage() {
 
                     <div className="flex justify-end gap-4 sticky bottom-6 bg-white/80 p-4 backdrop-blur-md rounded-xl shadow-lg border border-gray-100">
                         <Button variant="ghost" onClick={clearQueue} disabled={isProcessing}>
-                            Clear All
+                            {t('batch.clearAll')}
                         </Button>
                         <Button
                             onClick={processQueue}
@@ -319,12 +320,12 @@ export default function DashboardEnhancePage() {
                             {isProcessing ? (
                                 <>
                                     <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                                    Processing...
+                                    {t('batch.processing')}
                                 </>
                             ) : (
                                 <>
                                     <Sparkles className="w-4 h-4 mr-2" />
-                                    Start Batch Enhancement
+                                    {t('batch.start')}
                                 </>
                             )}
                         </Button>
