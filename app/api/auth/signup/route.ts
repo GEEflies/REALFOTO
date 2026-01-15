@@ -137,7 +137,7 @@ export async function POST(request: NextRequest) {
         // Note: In production, you may want to use a custom email service instead
         try {
             await supabaseAdmin.auth.admin.inviteUserByEmail(email, {
-                redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/verify-email`,
+                redirectTo: `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.aurix.pics'}/verify-email`,
             })
         } catch (emailError) {
             console.error('Email verification error:', emailError)

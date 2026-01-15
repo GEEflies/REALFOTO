@@ -38,7 +38,7 @@ export async function createCheckoutSession(
     userId: string,
     tierKey?: string // Optional tier identifier for metadata
 ) {
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.aurix.pics'
 
     // Get tier config if provided
     const tierConfig = tierKey && tierKey in TIER_CONFIG

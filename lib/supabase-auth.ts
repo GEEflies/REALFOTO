@@ -48,7 +48,7 @@ export async function signUpWithEmail(email: string, password: string, metadata?
         password,
         options: {
             data: metadata, // Store tier/quota info in user metadata
-            emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/verify-email`,
+            emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.aurix.pics'}/verify-email`,
         },
     })
     return { data, error }
@@ -68,7 +68,7 @@ export async function signInWithGoogle(redirectTo?: string) {
     const { data, error } = await supabaseAuth.auth.signInWithOAuth({
         provider: 'google',
         options: {
-            redirectTo: redirectTo || `${process.env.NEXT_PUBLIC_APP_URL}/dashboard`,
+            redirectTo: redirectTo || `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.aurix.pics'}/dashboard`,
         },
     })
     return { data, error }

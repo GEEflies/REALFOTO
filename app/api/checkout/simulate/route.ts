@@ -78,7 +78,7 @@ export async function POST(request: NextRequest) {
         const encryptedSession = encryptSessionData(sessionData)
 
         // Build success URL with encrypted session
-        const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+        const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.aurix.pics'
         const successUrl = `${baseUrl}/success?session=${encryptedSession}`
 
         return NextResponse.json({
