@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import { Settings, User, CreditCard, Shield, LogOut, Loader2, Mail, Key, Check, AlertCircle } from 'lucide-react'
 import { toast } from 'sonner'
 import { useTranslations, useLocale } from 'next-intl'
-import { useRouter, usePathname } from 'next/navigation'
+import { useRouter, usePathname } from '@/navigation'
 
 import { Button } from '@/components/ui/button'
 import { signOut, getSession } from '@/lib/supabase-auth'
@@ -248,12 +248,7 @@ export default function DashboardSettingsPage() {
                                     <p className="text-sm text-gray-500 mb-3">{t('languageDesc')}</p>
                                     <div className="flex flex-wrap gap-3">
                                         <button
-                                            onClick={() => {
-                                                if (locale !== 'en') {
-                                                    const newPath = pathname.replace(/^\/sk/, '') || '/'
-                                                    router.push(newPath)
-                                                }
-                                            }}
+                                            onClick={() => router.push(pathname, { locale: 'en' })}
                                             className={`flex-1 min-w-[140px] px-4 py-2.5 rounded-xl border text-sm font-medium transition-all cursor-pointer flex items-center justify-center gap-2 ${locale === 'en'
                                                 ? 'bg-blue-50 border-blue-200 text-blue-700 shadow-sm'
                                                 : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50'
@@ -262,12 +257,7 @@ export default function DashboardSettingsPage() {
                                             <span className="text-lg">🇬🇧</span> English
                                         </button>
                                         <button
-                                            onClick={() => {
-                                                if (locale !== 'sk') {
-                                                    const newPath = `/sk${pathname}`
-                                                    router.push(newPath)
-                                                }
-                                            }}
+                                            onClick={() => router.push(pathname, { locale: 'sk' })}
                                             className={`flex-1 min-w-[140px] px-4 py-2.5 rounded-xl border text-sm font-medium transition-all cursor-pointer flex items-center justify-center gap-2 ${locale === 'sk'
                                                 ? 'bg-blue-50 border-blue-200 text-blue-700 shadow-sm'
                                                 : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50'

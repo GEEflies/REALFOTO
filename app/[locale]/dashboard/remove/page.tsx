@@ -186,7 +186,7 @@ export default function DashboardRemovePage() {
             />
 
             {/* Header */}
-            <div className="mb-8">
+            <div className="mb-6">
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-100 text-purple-700 text-sm font-medium mb-4">
                     <Eraser className="w-4 h-4" />
                     <span>{t('badge')}</span>
@@ -194,30 +194,26 @@ export default function DashboardRemovePage() {
                 <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
                     {t('title')}
                 </h1>
-                <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
-                    {t('title')}
-                </h1>
             </div>
 
             {/* Removal Prompt Input (Redesigned) */}
-            <div className="bg-white rounded-2xl border border-gray-200 p-1 mb-8 shadow-sm">
+            <div className="bg-white rounded-2xl border border-gray-200 p-1 mb-8 shadow-sm max-w-3xl">
                 <div className="relative">
-                    <div className="absolute top-4 left-4 pointer-events-none">
+                    <div className="absolute top-5 left-5 pointer-events-none">
                         <Wand2 className="w-5 h-5 text-gray-400" />
                     </div>
                     <textarea
                         value={prompt}
                         onChange={(e) => setPrompt(e.target.value)}
                         placeholder={t('prompt.placeholder')}
-                        className="w-full min-h-[100px] pl-12 pr-4 py-4 rounded-xl border-none focus:ring-0 text-lg placeholder:text-gray-400 resize-none bg-transparent"
+                        className="w-full min-h-[100px] pl-14 pr-4 py-4 rounded-xl border-none focus:ring-0 text-lg placeholder:text-gray-400 resize-none bg-transparent"
                         disabled={isProcessing || queue.some(i => i.status === 'processing')}
                     />
-                    <div className="px-4 pb-3 flex justify-between items-center border-t border-gray-100 pt-3">
+                    <div className="px-5 pb-4 flex justify-between items-center border-t border-gray-100 pt-3">
                         <span className="text-xs font-medium text-gray-500 flex items-center gap-1.5">
                             <AlertCircle className="w-3.5 h-3.5" />
-                            {t('prompt.batchHint') || 'Tip: Be specific about what to remove'}
+                            {t('prompt.batchHint')}
                         </span>
-                        {/* Character count or extra actions could go here */}
                     </div>
                 </div>
             </div>
@@ -250,7 +246,7 @@ export default function DashboardRemovePage() {
                                         </div>
                                     )}
                                     {item.status === 'error' && (
-                                        <div className="absolute inset-0 bg-red-500/50 flex items-center justify-center text-white font-bold">{t('errorLabel') || 'Error'}</div>
+                                        <div className="absolute inset-0 bg-red-500/50 flex items-center justify-center text-white font-bold">{t('errorLabel')}</div>
                                     )}
                                     {item.status === 'completed' && (
                                         <div className="absolute inset-0 bg-green-500/20 flex items-center justify-center">
@@ -279,9 +275,6 @@ export default function DashboardRemovePage() {
                     </div>
 
                     <div className="flex justify-end gap-4 sticky bottom-6 ml-auto w-fit bg-white/80 p-4 backdrop-blur-md rounded-xl shadow-lg border border-gray-100 z-40">
-                        <Button variant="ghost" onClick={clearQueue} disabled={isProcessing} className="w-32">
-                            {t('batch.clearAll') || 'Clear All'}
-                        </Button>
                         <Button
                             onClick={processQueue}
                             disabled={isProcessing || queue.filter(i => i.status === 'pending').length === 0 || !prompt.trim()}
@@ -295,7 +288,7 @@ export default function DashboardRemovePage() {
                             ) : (
                                 <>
                                     <Eraser className="w-4 h-4 mr-2" />
-                                    {t('removeButton') || 'Start Removal'}
+                                    {t('removeButton')}
                                 </>
                             )}
                         </Button>
