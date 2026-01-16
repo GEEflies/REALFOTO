@@ -209,6 +209,7 @@
         "emailPlaceholder": "name@example.com",
         "emailButton": "Continue & Unlock",
         "promise": "Your email is safe with us.",
+        "emailDuplicate": "This email is already currently in our database. Please use a different email.",
         "paywallTitle": "Free Limit Reached",
         "paywallSubtitle": "Unlock professional features",
         "payPerImage": "Pay Per Image",

@@ -300,6 +300,7 @@
         "emailPlaceholder": "vas@email.com",
         "emailButton": "Pokračovať a odomknúť",
         "promise": "Váš e-mail je u nás v bezpečí.",
+        "emailDuplicate": "Tento email v databáze už evidujeme. Prosím, použite iný email.",
         "paywallTitle": "Využili ste limit zdarma",
         "paywallSubtitle": "Odomknite profesionálne funkcie",
         "payPerImage": "Zaplatiť za obrázok",

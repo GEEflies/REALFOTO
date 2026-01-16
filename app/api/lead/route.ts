@@ -11,6 +11,17 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ message: 'Email required' }, { status: 400 })
         }
 
+        // Check if email already exists
+        const { data: existingUser } = await db
+            .from('leads')
+            .select('id')
+            .eq('email', email)
+            .single()
+
+        if (existingUser) {
+            return NextResponse.json({ message: 'Email already exists' }, { status: 409 })
+        }
+
         // Upsert lead: if IP exists, update email; if not, insert new
         // Note: The unique constraint is on IP. 
         // If a user with same IP tries new email, we update the email associated with that IP.

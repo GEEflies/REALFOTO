@@ -30,6 +30,11 @@ export function EmailGate({ open, onSuccess }: EmailGateProps) {
                 body: JSON.stringify({ email }),
             })
 
+            if (response.status === 409) {
+                toast.error(t('emailDuplicate'))
+                return
+            }
+
             if (!response.ok) throw new Error('Failed to register')
 
             onSuccess()
