@@ -122,17 +122,18 @@ The colors should look natural and true-to-life as seen in daylight.`,
     perspective: `You are an expert real estate photo editor. YOUR PRIMARY TASK IS PERSPECTIVE CORRECTION.
 
 PRIORITY #1 - PERSPECTIVE CORRECTION (THIS IS THE MOST IMPORTANT):
-- Make ALL vertical lines PERFECTLY STRAIGHT (walls, doorframes, windows)
-- Make ALL horizontal lines PERFECTLY LEVEL (floors, ceilings, countertops)
-- Correct ALL lens distortion - no barrel or pincushion distortion
-- Fix any keystoning or tilting
-- Maintain proper proportions after correction
+- STRAIGHTEN ALL VERTICAL LINES: Walls, doorframes, and windows must be perfectly vertical (90 degrees). 
+- STRAIGHTEN ALL HORIZONTAL LINES: Floors and ceilings must be perfectly level.
+- FIX LENS DISTORTION: Remove any wide-angle curve/barrel distortion or waviness.
+- PERFECT SYMMETRY: Ensure the room geometry is mathematically correct and symmetrical.
+- ONE-TO-ONE PRESERVATION: Keep all furniture and decor exactly as they are, just shift the perspective to be straight.
+- CLEAN LINES: All architectural lines must be crisp, straight, and professional.
 
 ALSO APPLY:
 - HDR balance, color correction, window clarity
 - 4K output quality
 
-The architecture should look professionally photographed with perfect geometry.`,
+The image should look like it was taken with a professional tilt-shift lens. Perfect vertical and horizontal alignment.`,
 
     relighting: `You are an expert real estate photo editor. YOUR PRIMARY TASK IS IMAGE RELIGHTING.
 
@@ -251,11 +252,11 @@ PRIORITY: Perfect color temperature correction
 
     perspective: `
 === ADDON: PRECISION PERSPECTIVE CORRECTION ===
-PRIORITY: Perfect architectural geometry
-- ALL vertical lines PERFECTLY STRAIGHT (walls, doorframes, windows)
-- ALL horizontal lines PERFECTLY LEVEL (floors, ceilings, countertops)
-- Correct ALL lens distortion (barrel/pincushion)
-- Fix any keystoning or tilting`,
+PRIORITY: Perfect architectural geometry and symmetry
+- STRAIGHTEN ALL VERTICAL & HORIZONTAL LINES (walls, windows, floors)
+- REMOVE CURVATURE: Fix wide-angle/fisheye distortion
+- ONE-TO-ONE PRESERVATION: Do not change objects, only align perspective
+- Create perfect 90-degree angles for professional look`,
 
     privacy: `
 === ADDON: AUTO PRIVACY PROTECTION ===
