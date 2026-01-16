@@ -244,7 +244,8 @@
         "logoutSuccess": "Logged out successfully",
         "portalError": "Failed to create portal session",
         "loginRequired": "Please log in to view history",
-        "accountNotFound": "Account not found. Please sign up first."
+        "accountNotFound": "Account not found. Please sign up first.",
+        "preparingDownload": "Preparing download..."
     },
     "Pricing": {
         "title": "Simple, Transparent Pricing",

@@ -226,8 +226,8 @@ export default function EnhancePage() {
                 const logo = new Image()
                 logo.crossOrigin = 'anonymous'
                 logo.onload = () => {
-                    // Calculate logo size (e.g., 20% of image width)
-                    const logoWidth = img.width * 0.2
+                    // Calculate logo size (7% of image width for subtle watermark)
+                    const logoWidth = img.width * 0.07
                     const logoAspectRatio = logo.width / logo.height
                     const logoHeight = logoWidth / logoAspectRatio
 
@@ -236,8 +236,8 @@ export default function EnhancePage() {
                     const x = img.width - logoWidth - padding
                     const y = img.height - logoHeight - padding
 
-                    // Draw logo with opacity
-                    ctx.globalAlpha = 0.5
+                    // Draw logo with subtle opacity
+                    ctx.globalAlpha = 0.3
                     ctx.drawImage(logo, x, y, logoWidth, logoHeight)
                     ctx.globalAlpha = 1.0
 

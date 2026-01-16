@@ -333,7 +333,8 @@
         "logoutSuccess": "Úspešne odhlásený",
         "portalError": "Nepodarilo sa vytvoriť reláciu portálu",
         "loginRequired": "Pre zobrazenie histórie sa prosím prihláste",
-        "accountNotFound": "Účet nenájdený. Najskôr sa zaregistrujte."
+        "accountNotFound": "Účet nenájdený. Najskôr sa zaregistrujte.",
+        "preparingDownload": "Pripravuje sa sťahovanie..."
     },
     "SocialModal": {
         "title": "Už čoskoro!",
