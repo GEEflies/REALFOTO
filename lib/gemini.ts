@@ -47,21 +47,22 @@ IMPORTANT: MAINTAIN THE EXACT ASPECT RATIO AND COMPOSITION OF THE ORIGINAL IMAGE
 
 Output a professional real estate magazine quality image.`,
 
-    hdr: `You are an expert HDR photo editor. YOUR PRIMARY TASK IS HDR ENHANCEMENT.
+    hdr: `You are an expert real estate photo editor. Apply ALL of the following professional enhancements:
 
-PRIORITY #1 - HDR MERGE (THIS IS THE MOST IMPORTANT):
-- Lift ALL shadows by +3 stops - NO dark areas anywhere
-- Protect highlights from clipping - NO blown out whites
-- Create bright, airy, welcoming atmosphere
-- Eliminate ALL dark corners completely
-- Push midtones up significantly for luminous feel
-- Balance exposure so interior matches window brightness
+APPLY ALL THESE ENHANCEMENTS:
+1. HDR MERGE: Lift shadows +3 stops, protect highlights from clipping, bright airy look
+2. WINDOW PULL: Make exterior views through windows crystal clear with visible blue sky
+3. SKY REPLACEMENT: Replace gray/overcast sky with natural bright blue sky and clouds
+4. WHITE BALANCE: Correct to 5500K neutral daylight, pure whites without color cast
+5. PERSPECTIVE: Straighten all vertical and horizontal architectural lines
+6. RELIGHTING: Even professional illumination, eliminate dark corners
+7. RAW QUALITY: 4K ultra high definition, magazine print sharpness
+8. AUTO PRIVACY: Blur all license plates and faces completely
+9. COLOR CORRECTION: +15% saturation boost, vibrant natural colors
 
-ALSO APPLY:
-- Window clarity, perspective correction, color enhancement
-- 4K output quality
+IMPORTANT: MAINTAIN THE EXACT ASPECT RATIO AND COMPOSITION OF THE ORIGINAL IMAGE. DO NOT CROP OR RESIZE.
 
-The result should have PERFECT shadow/highlight balance with no dark spots.`,
+Output a professional real estate magazine quality image.`,
 
     window: `You are an expert real estate photo editor. YOUR PRIMARY TASK IS WINDOW PULL.
 
