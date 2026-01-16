@@ -141,13 +141,13 @@ export default function HomePage() {
                   <div className="absolute bottom-0 left-0 right-0 z-10 bg-black/30 backdrop-blur-sm px-3 py-1.5 flex items-center justify-center gap-2">
                     <div className="flex items-center -space-x-1.5">
                       <div className="w-6 h-6 rounded-full border border-white/30 overflow-hidden">
-                        <Image src="/testimonials/Gemini_Generated_Image_339lzr339lzr339l.png" alt="User" width={80} height={80} className="w-full h-full object-cover" />
+                        <Image src="/testimonials/Gemini_Generated_Image_339lzr339lzr339l.png" alt="User" width={160} height={160} className="w-full h-full object-cover" quality={100} />
                       </div>
                       <div className="w-6 h-6 rounded-full border border-white/30 overflow-hidden">
-                        <Image src="/testimonials/Gemini_Generated_Image_job9rjob9rjob9rj.png" alt="User" width={80} height={80} className="w-full h-full object-cover" />
+                        <Image src="/testimonials/Gemini_Generated_Image_job9rjob9rjob9rj.png" alt="User" width={160} height={160} className="w-full h-full object-cover" quality={100} />
                       </div>
                       <div className="w-6 h-6 rounded-full border border-white/30 overflow-hidden">
-                        <Image src="/testimonials/Gemini_Generated_Image_l0v0vll0v0vll0v0.png" alt="User" width={80} height={80} className="w-full h-full object-cover" />
+                        <Image src="/testimonials/Gemini_Generated_Image_l0v0vll0v0vll0v0.png" alt="User" width={160} height={160} className="w-full h-full object-cover" quality={100} />
                       </div>
                     </div>
                     <div className="flex items-center gap-0.5">
@@ -219,13 +219,13 @@ export default function HomePage() {
                 <div className="absolute bottom-0 left-0 right-0 z-10 bg-black/20 backdrop-blur-sm border-t border-white/60 px-6 py-3 flex items-center justify-center gap-4">
                   <div className="flex items-center -space-x-2.5">
                     <div className="w-10 h-10 rounded-full border-2 border-white/20 overflow-hidden bg-gray-200">
-                      <Image src="/testimonials/Gemini_Generated_Image_339lzr339lzr339l.png" alt="User" width={40} height={40} className="w-full h-full object-cover" />
+                      <Image src="/testimonials/Gemini_Generated_Image_339lzr339lzr339l.png" alt="User" width={160} height={160} className="w-full h-full object-cover" quality={100} />
                     </div>
                     <div className="w-10 h-10 rounded-full border-2 border-white/20 overflow-hidden bg-gray-200">
-                      <Image src="/testimonials/Gemini_Generated_Image_job9rjob9rjob9rj.png" alt="User" width={40} height={40} className="w-full h-full object-cover" />
+                      <Image src="/testimonials/Gemini_Generated_Image_job9rjob9rjob9rj.png" alt="User" width={160} height={160} className="w-full h-full object-cover" quality={100} />
                     </div>
                     <div className="w-10 h-10 rounded-full border-2 border-white/20 overflow-hidden bg-gray-200">
-                      <Image src="/testimonials/Gemini_Generated_Image_l0v0vll0v0vll0v0.png" alt="User" width={40} height={40} className="w-full h-full object-cover" />
+                      <Image src="/testimonials/Gemini_Generated_Image_l0v0vll0v0vll0v0.png" alt="User" width={160} height={160} className="w-full h-full object-cover" quality={100} />
                     </div>
                   </div>
                   <div className="flex items-center gap-0.5">
