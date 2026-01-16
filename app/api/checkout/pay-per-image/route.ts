@@ -29,85 +29,80 @@ export async function POST(request: NextRequest) {
         const body = await request.json()
         const { returnUrl } = body as { returnUrl?: string }
 
-        // Check for authenticated user
+        // Try to get authenticated user (optional)
         const authHeader = request.headers.get('authorization')
-        if (!authHeader?.startsWith('Bearer ')) {
-            return NextResponse.json(
-                { message: 'Authentication required' },
-                { status: 401 }
-            )
-        }
+        let userId: string | null = null
+        let userData: any = null
 
-        const token = authHeader.substring(7)
-        const { data: { user }, error: authError } = await supabaseAdmin.auth.getUser(token)
+        if (authHeader?.startsWith('Bearer ')) {
+            const token = authHeader.substring(7)
+            const { data: { user }, error: authError } = await supabaseAdmin.auth.getUser(token)
 
-        if (authError || !user) {
-            return NextResponse.json(
-                { message: 'Invalid authentication' },
-                { status: 401 }
-            )
-        }
+            if (!authError && user) {
+                userId = user.id
 
-        // Get user's Stripe customer ID
-        const { data: userData, error: userError } = await supabaseAdmin
-            .from('users')
-            .select('stripe_customer_id, pay_per_image_enabled, pay_per_image_subscription_id')
-            .eq('id', user.id)
-            .single()
-
-        if (userError) {
-            console.error('Error fetching user data:', userError)
-            return NextResponse.json(
-                { message: 'Failed to fetch user data' },
-                { status: 500 }
-            )
-        }
-
-        // Check if user already has pay-per-image enabled
-        if (userData?.pay_per_image_enabled && userData?.pay_per_image_subscription_id) {
-            return NextResponse.json({
-                success: true,
-                message: 'Pay-per-image is already enabled',
-                alreadyEnabled: true,
-            })
-        }
-
-        // Scenario 1: User already has a Stripe customer ID (existing subscriber)
-        if (userData?.stripe_customer_id) {
-            try {
-                const { subscriptionId, subscriptionItemId } = await createPayPerImageSubscription(
-                    userData.stripe_customer_id,
-                    user.id
-                )
-
-                // Update user record
-                await supabaseAdmin
+                // Get user's Stripe customer ID
+                const { data, error: userError } = await supabaseAdmin
                     .from('users')
-                    .update({
-                        pay_per_image_enabled: true,
-                        pay_per_image_subscription_id: subscriptionId,
-                        pay_per_image_item_id: subscriptionItemId,
-                        updated_at: new Date().toISOString(),
-                    })
+                    .select('stripe_customer_id, pay_per_image_enabled, pay_per_image_subscription_id')
                     .eq('id', user.id)
+                    .single()
 
-                return NextResponse.json({
-                    success: true,
-                    message: 'Pay-per-image enabled successfully',
-                    subscriptionId,
-                })
-            } catch (error) {
-                console.error('Error creating pay-per-image subscription:', error)
-                return NextResponse.json(
-                    { message: 'Failed to enable pay-per-image' },
-                    { status: 500 }
-                )
+                if (!userError && data) {
+                    userData = data
+                }
             }
         }
 
-        // Scenario 2: New user without Stripe customer - redirect to checkout
+        // Scenario 1: Authenticated user with existing subscription data
+        if (userId && userData) {
+            // Check if user already has pay-per-image enabled
+            if (userData.pay_per_image_enabled && userData.pay_per_image_subscription_id) {
+                return NextResponse.json({
+                    success: true,
+                    message: 'Pay-per-image is already enabled',
+                    alreadyEnabled: true,
+                })
+            }
+
+            // User has a Stripe customer ID - enable instantly
+            if (userData.stripe_customer_id) {
+                try {
+                    const { subscriptionId, subscriptionItemId } = await createPayPerImageSubscription(
+                        userData.stripe_customer_id,
+                        userId
+                    )
+
+                    // Update user record
+                    await supabaseAdmin
+                        .from('users')
+                        .update({
+                            pay_per_image_enabled: true,
+                            pay_per_image_subscription_id: subscriptionId,
+                            pay_per_image_item_id: subscriptionItemId,
+                            updated_at: new Date().toISOString(),
+                        })
+                        .eq('id', userId)
+
+                    return NextResponse.json({
+                        success: true,
+                        message: 'Pay-per-image enabled successfully',
+                        subscriptionId,
+                    })
+                } catch (error) {
+                    console.error('Error creating pay-per-image subscription:', error)
+                    return NextResponse.json(
+                        { message: 'Failed to enable pay-per-image' },
+                        { status: 500 }
+                    )
+                }
+            }
+        }
+
+        // Scenario 2: Non-authenticated user OR authenticated user without Stripe customer
+        // Redirect to Stripe checkout (will collect payment details and create customer)
         try {
-            const session = await createPayPerImageCheckout(user.id, returnUrl)
+            const session = await createPayPerImageCheckout(userId || null, returnUrl)
 
             return NextResponse.json({
                 success: true,

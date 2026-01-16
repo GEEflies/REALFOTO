@@ -116,7 +116,7 @@ export async function createPayPerImageSubscription(
  * This collects the card and creates a metered subscription
  */
 export async function createPayPerImageCheckout(
-    userId: string,
+    userId?: string | null,
     returnUrl?: string
 ) {
     const priceId = process.env.STRIPE_PAY_PER_IMAGE_PRICE_ID
@@ -127,6 +127,12 @@ export async function createPayPerImageCheckout(
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.aurix.pics'
     const cancelUrl = returnUrl || `${baseUrl}/#pricing`
 
+    // Build metadata only if userId is provided
+    const metadata: Record<string, string> = { type: 'pay_per_image' }
+    if (userId) {
+        metadata.userId = userId
+    }
+
     const session = await stripe.checkout.sessions.create({
         mode: 'subscription',
         payment_method_types: ['card'],
@@ -136,15 +142,9 @@ export async function createPayPerImageCheckout(
                 // No quantity for metered billing
             },
         ],
-        metadata: {
-            userId,
-            type: 'pay_per_image',
-        },
+        metadata,
         subscription_data: {
-            metadata: {
-                userId,
-                type: 'pay_per_image',
-            },
+            metadata,
         },
         success_url: `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}&type=pay_per_image`,
         cancel_url: cancelUrl,
