@@ -85,7 +85,7 @@ export function EnhanceModeSelector({
     return (
         <div className="mb-8 relative max-w-4xl mx-auto">
             {/* Primary Mode Dropdown */}
-            <div className="max-w-2xl mx-auto mb-8">
+            <div className="mb-8">
                 <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3 text-center">
                     {modeTitle}
                 </h2>
