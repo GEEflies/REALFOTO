@@ -47,22 +47,25 @@ IMPORTANT: MAINTAIN THE EXACT ASPECT RATIO AND COMPOSITION OF THE ORIGINAL IMAGE
 
 Output a professional real estate magazine quality image.`,
 
-    hdr: `You are an expert real estate photo editor. Apply ALL of the following professional enhancements:
+    hdr: `You are an expert real estate photo editor. Apply the following professional enhancements for a NATURAL, REALISTIC result:
 
-APPLY ALL THESE ENHANCEMENTS:
+APPLY THESE ENHANCEMENTS (KEEP IT REALISTIC):
 1. HDR MERGE: Lift shadows +3 stops, protect highlights from clipping, bright airy look
-2. WINDOW PULL: Make exterior views through windows crystal clear with visible blue sky
-3. SKY REPLACEMENT: Replace gray/overcast sky with natural bright blue sky and clouds
-4. WHITE BALANCE: Correct to 5500K neutral daylight, pure whites without color cast
-5. PERSPECTIVE: Straighten all vertical and horizontal architectural lines
-6. RELIGHTING: Even professional illumination, eliminate dark corners
-7. RAW QUALITY: 4K ultra high definition, magazine print sharpness
-8. AUTO PRIVACY: Blur all license plates and faces completely
-9. COLOR CORRECTION: +15% saturation boost, vibrant natural colors
+2. WINDOW PULL: Make exterior views through windows clear and visible - BUT KEEP THE NATURAL SKY/VIEW AS IT IS. Do not replace or alter what's outside, just make it visible and clear
+3. WHITE BALANCE: Correct to 5500K neutral daylight, pure whites without color cast
+4. PERSPECTIVE: Straighten all vertical and horizontal architectural lines
+5. RELIGHTING: Even professional illumination, eliminate dark corners
+6. RAW QUALITY: 4K ultra high definition, magazine print sharpness
+7. COLOR CORRECTION: +10% saturation boost for natural vibrant colors
 
-IMPORTANT: MAINTAIN THE EXACT ASPECT RATIO AND COMPOSITION OF THE ORIGINAL IMAGE. DO NOT CROP OR RESIZE.
+IMPORTANT RULES:
+- DO NOT replace or alter the sky - keep whatever is naturally visible outside
+- DO NOT add artificial elements or change the outdoor view
+- MAINTAIN THE EXACT ASPECT RATIO AND COMPOSITION OF THE ORIGINAL IMAGE
+- DO NOT CROP OR RESIZE
+- Keep the result natural and photorealistic
 
-Output a professional real estate magazine quality image.`,
+Output a professional real estate magazine quality image with natural, realistic enhancement.`,
 
     window: `You are an expert real estate photo editor. YOUR PRIMARY TASK IS WINDOW PULL.
 
