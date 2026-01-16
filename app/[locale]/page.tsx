@@ -136,7 +136,6 @@ export default function HomePage() {
                     beforeImage="/landing/hero images/wb-before.jpg"
                     afterImage="/landing/hero images/wb-after.jpg"
                     className=""
-                    watermark={true}
                   />
                   {/* Mobile testimonial bar - super slim */}
                   <div className="absolute bottom-0 left-0 right-0 z-10 bg-black/30 backdrop-blur-sm px-3 py-1.5 flex items-center justify-center gap-2">
@@ -215,7 +214,6 @@ export default function HomePage() {
                   beforeImage="/landing/hero images/wb-before.jpg"
                   afterImage="/landing/hero images/wb-after.jpg"
                   className=""
-                  watermark={true}
                 />
                 {/* Desktop testimonial overlay bar */}
                 <div className="absolute bottom-0 left-0 right-0 z-10 bg-black/20 backdrop-blur-sm border-t border-white/60 px-6 py-3 flex items-center justify-center gap-4">
@@ -266,7 +264,6 @@ export default function HomePage() {
                     beforeImage={feature.before}
                     afterImage={feature.after}
                     className="aspect-[4/3]"
-                    watermark={true}
                   />
                   <div className="p-6">
                     <h3 className="text-xl font-bold text-gray-900 mb-2">
@@ -305,7 +302,6 @@ export default function HomePage() {
                 beforeImage="/landing/aurix edit/original-edit.jpg"
                 afterImage="/landing/aurix edit/aurix-edit.jpg"
                 className=""
-                watermark={true}
               />
             </div>
 
@@ -318,7 +314,6 @@ export default function HomePage() {
                 beforeImage="/landing/human edit/original-edit.jpg"
                 afterImage="/landing/human edit/human-edit.jpg"
                 className=""
-                watermark={true}
               />
             </div>
           </div>
