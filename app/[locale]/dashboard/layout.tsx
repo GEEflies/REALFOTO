@@ -72,6 +72,40 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 return
             }
 
+            // Check if this is a login-only attempt (from login page via Google)
+            if (typeof window !== 'undefined') {
+                const urlParams = new URLSearchParams(window.location.search)
+                const isLoginOnly = urlParams.get('login_only') === 'true'
+
+                if (isLoginOnly) {
+                    console.log('Login-only attempt detected, checking if user exists in database...')
+
+                    // Check if user exists in our database
+                    const response = await fetch('/api/user/me')
+
+                    if (!response.ok) {
+                        // User doesn't exist in database - this is a new Google account
+                        console.log('User not found in database, signing out...')
+                        await signOut()
+
+                        // Redirect to login with error
+                        const mainDomain = window.location.hostname.includes('localhost')
+                            ? 'http://localhost:3000'
+                            : 'https://www.aurix.pics';
+                        const locale = pathname.startsWith('/sk') ? 'sk' : 'en';
+
+                        toast.error(tToasts('accountNotFound') || 'Account not found. Please sign up first.')
+                        window.location.href = `${mainDomain}/${locale}/login?error=account_not_found`;
+                        return
+                    }
+
+                    // User exists, remove the login_only parameter and continue
+                    urlParams.delete('login_only')
+                    const newUrl = window.location.pathname + (urlParams.toString() ? '?' + urlParams.toString() : '')
+                    window.history.replaceState({}, '', newUrl)
+                }
+            }
+
             // Get user data from API
             console.log('Fetching user data...')
             const response = await fetch('/api/user/me')

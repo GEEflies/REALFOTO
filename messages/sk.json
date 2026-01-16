@@ -326,7 +326,8 @@
         "logoutError": "Nepodarilo sa odhlásiť",
         "logoutSuccess": "Úspešne odhlásený",
         "portalError": "Nepodarilo sa vytvoriť reláciu portálu",
-        "loginRequired": "Pre zobrazenie histórie sa prosím prihláste"
+        "loginRequired": "Pre zobrazenie histórie sa prosím prihláste",
+        "accountNotFound": "Účet nenájdený. Najskôr sa zaregistrujte."
     },
     "SocialModal": {
         "title": "Už čoskoro!",

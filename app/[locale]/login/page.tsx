@@ -82,14 +82,17 @@ export default function LoginPage() {
             let finalRedirectUrl: string;
 
             if (redirectParams.startsWith('http')) {
-                finalRedirectUrl = redirectParams;
+                // Add login_only parameter to existing URL
+                const url = new URL(redirectParams)
+                url.searchParams.set('login_only', 'true')
+                finalRedirectUrl = url.toString()
             } else {
                 let redirectBase = window.location.origin
                 // In production, use app subdomain for Google redirect if not already on it
                 if (process.env.NODE_ENV === 'production' && !window.location.hostname.includes('app.')) {
                     redirectBase = 'https://app.aurix.pics'
                 }
-                finalRedirectUrl = `${redirectBase}${redirectParams}`
+                finalRedirectUrl = `${redirectBase}${redirectParams}?login_only=true`
             }
 
             await signInWithGoogle(finalRedirectUrl)
