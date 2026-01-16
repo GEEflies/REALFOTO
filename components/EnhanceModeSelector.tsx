@@ -78,7 +78,6 @@ export function EnhanceModeSelector({
     const ADDONS: { id: EnhanceAddon; icon: any; labelKey: string; descKey: string }[] = [
         { id: 'window', icon: AppWindow, labelKey: 'modes.window.label', descKey: 'modes.window.description' },
         { id: 'sky', icon: CloudSun, labelKey: 'modes.sky.label', descKey: 'modes.sky.description' },
-        { id: 'white_balance', icon: Scale, labelKey: 'modes.white_balance.label', descKey: 'modes.white_balance.description' },
         { id: 'perspective', icon: Ruler, labelKey: 'modes.perspective.label', descKey: 'modes.perspective.description' },
         { id: 'privacy', icon: Lock, labelKey: 'modes.privacy.label', descKey: 'modes.privacy.description' },
     ]
