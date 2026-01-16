@@ -312,9 +312,9 @@ export default function EnhancePage() {
         <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex flex-col">
             <EmailGate open={emailGateOpen} onSuccess={handleEmailSuccess} />
             <PaywallGate open={paywallGateOpen} onClose={() => setPaywallGateOpen(false)} />
-            <div className="max-w-5xl mx-auto px-4 py-12 flex-1 w-full flex flex-col gap-8">
+            <div className="max-w-5xl mx-auto px-4 py-12 flex-1 w-full">
                 {/* Header */}
-                <div className="text-center">
+                <div className="text-center mb-8">
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-sm font-medium mb-4">
                         <Sparkles className="w-4 h-4" />
                         <span>{t('badge')}</span>
@@ -330,8 +330,20 @@ export default function EnhancePage() {
 
 
 
+
+                {/* Mode Selection */}
+                <EnhanceModeSelector
+                    selectedMode={selectedMode}
+                    onSelectMode={setSelectedMode}
+                    selectedAddons={selectedAddons}
+                    onToggleAddon={handleToggleAddon}
+                    modes={ENHANCE_MODES}
+                    disabled={processingState === 'processing'}
+                    modeTitle={t('modeTitle')}
+                />
+
                 {/* Main Content */}
-                <div className="space-y-8 order-1 md:order-2">
+                <div className="space-y-8">
                     <AnimatePresence mode="wait">
                         {processingState === 'done' && enhancedImage ? (
                             <motion.div
@@ -457,18 +469,7 @@ export default function EnhancePage() {
                     </AnimatePresence>
                 </div>
 
-                {/* Mode Selection */}
-                <div className="order-2 md:order-1">
-                    <EnhanceModeSelector
-                        selectedMode={selectedMode}
-                        onSelectMode={setSelectedMode}
-                        selectedAddons={selectedAddons}
-                        onToggleAddon={handleToggleAddon}
-                        modes={ENHANCE_MODES}
-                        disabled={processingState === 'processing'}
-                        modeTitle={t('modeTitle')}
-                    />
-                </div>
+
             </div>
             <Footer />
         </div>

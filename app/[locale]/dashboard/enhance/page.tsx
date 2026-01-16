@@ -257,26 +257,23 @@ export default function DashboardEnhancePage() {
                 </p>
             </div>
 
+            {SelectorComponent}
+
 
 
             {/* Queue UI */}
             {queue.length === 0 ? (
-                <div className="gap-8 flex flex-col">
-                    <div className="order-1 md:order-2">
-                        <ImageDropzone
-                            onImagesSelect={handleImagesSelect}
-                            multiple={true}
-                            maxFiles={20}
-                            disabled={isProcessing}
-                        />
-                    </div>
-                    <div className="order-2 md:order-1">
-                        {SelectorComponent}
-                    </div>
+                <div className="space-y-8">
+                    <ImageDropzone
+                        onImagesSelect={handleImagesSelect}
+                        multiple={true}
+                        maxFiles={20}
+                        disabled={isProcessing}
+                    />
                 </div>
             ) : (
-                <div className="gap-6 flex flex-col">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 order-1 md:order-2">
+                <div className="space-y-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                         {queue.map((item) => (
                             <div key={item.id} className="bg-white border border-gray-200 rounded-xl overflow-hidden relative group">
                                 <div className="aspect-video relative bg-gray-100">
@@ -333,11 +330,9 @@ export default function DashboardEnhancePage() {
                         )}
                     </div>
 
-                    <div className="order-2 md:order-1">
-                        {SelectorComponent}
-                    </div>
 
-                    <div className="flex justify-end gap-4 sticky bottom-6 ml-auto w-fit bg-white/80 p-4 backdrop-blur-md rounded-xl shadow-lg border border-gray-100 z-40 order-3">
+
+                    <div className="flex justify-end gap-4 sticky bottom-6 ml-auto w-fit bg-white/80 p-4 backdrop-blur-md rounded-xl shadow-lg border border-gray-100 z-40">
                         <Button variant="ghost" onClick={clearQueue} disabled={isProcessing} className="w-32">
                             {t('batch.clearAll')}
                         </Button>
