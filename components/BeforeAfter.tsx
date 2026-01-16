@@ -11,6 +11,7 @@ interface BeforeAfterProps {
     afterImage: string
     beforeLabel?: string
     afterLabel?: string
+    watermark?: boolean
 }
 
 export function BeforeAfter({
@@ -18,6 +19,7 @@ export function BeforeAfter({
     afterImage,
     beforeLabel, // remove defaults here
     afterLabel,
+    watermark = false,
 }: BeforeAfterProps) {
     const t = useTranslations('Common')
     // Set defaults using translation if props not provided
@@ -132,6 +134,17 @@ export function BeforeAfter({
             <div className="absolute top-4 right-4 px-3 py-1.5 bg-black/50 backdrop-blur-sm rounded-full text-white text-sm font-medium">
                 {finalAfterLabel}
             </div>
+
+            {/* Watermark Overlay */}
+            {watermark && (
+                <div className="absolute bottom-4 right-4 z-20 pointer-events-none opacity-40">
+                    <img
+                        src="/aurix-logo.png"
+                        alt="Aurix"
+                        className="h-8 w-auto object-contain"
+                    />
+                </div>
+            )}
         </motion.div>
     )
 }

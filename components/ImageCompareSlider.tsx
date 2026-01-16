@@ -9,6 +9,7 @@ interface ImageCompareSliderProps {
     beforeAlt?: string
     afterAlt?: string
     className?: string
+    watermark?: boolean
 }
 
 export function ImageCompareSlider({
@@ -17,6 +18,7 @@ export function ImageCompareSlider({
     beforeAlt = 'Before',
     afterAlt = 'After',
     className = '',
+    watermark = false,
 }: ImageCompareSliderProps) {
     const [sliderPosition, setSliderPosition] = useState(50)
     const containerRef = useRef<HTMLDivElement>(null)
@@ -172,6 +174,16 @@ export function ImageCompareSlider({
                     </svg>
                 </div>
             </div>
+            {/* Watermark Overlay */}
+            {watermark && (
+                <div className="absolute bottom-2 right-2 md:bottom-4 md:right-4 z-20 pointer-events-none opacity-60">
+                    <img
+                        src="/aurix-logo.png"
+                        alt="Aurix"
+                        className="h-6 md:h-8 w-auto object-contain filter drop-shadow-md"
+                    />
+                </div>
+            )}
         </div>
     )
 }

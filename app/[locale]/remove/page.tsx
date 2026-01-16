@@ -167,29 +167,90 @@ export default function RemovePage() {
         }
     }
 
-    const handleDownload = () => {
+    const applyWatermark = async (imageSrc: string): Promise<string> => {
+        return new Promise((resolve, reject) => {
+            const img = new Image()
+            img.crossOrigin = 'anonymous'
+            img.onload = () => {
+                const canvas = document.createElement('canvas')
+                canvas.width = img.width
+                canvas.height = img.height
+                const ctx = canvas.getContext('2d')
+                if (!ctx) {
+                    reject(new Error('Could not get canvas context'))
+                    return
+                }
+
+                // Draw original image
+                ctx.drawImage(img, 0, 0)
+
+                // Load watermark logo
+                const logo = new Image()
+                logo.crossOrigin = 'anonymous'
+                logo.onload = () => {
+                    // Calculate logo size (e.g., 20% of image width)
+                    const logoWidth = img.width * 0.2
+                    const logoAspectRatio = logo.width / logo.height
+                    const logoHeight = logoWidth / logoAspectRatio
+
+                    // Position: bottom right with padding
+                    const padding = img.width * 0.02
+                    const x = img.width - logoWidth - padding
+                    const y = img.height - logoHeight - padding
+
+                    // Draw logo with opacity
+                    ctx.globalAlpha = 0.5
+                    ctx.drawImage(logo, x, y, logoWidth, logoHeight)
+                    ctx.globalAlpha = 1.0
+
+                    resolve(canvas.toDataURL('image/png'))
+                }
+                logo.onerror = () => {
+                    // If logo fails, just return original
+                    console.error('Failed to load watermark logo')
+                    resolve(imageSrc)
+                }
+                logo.src = '/aurix-logo.png'
+            }
+            img.onerror = () => reject(new Error('Failed to load image for watermarking'))
+            img.src = imageSrc
+        })
+    }
+
+    const handleDownload = async () => {
         if (!processedImage) return
 
         try {
-            console.log('Download start. Image starts with:', processedImage.substring(0, 50))
+            toast.loading(tToast('preparingDownload'), { id: 'download-toast' })
 
-            // Force browser to treat it as a download by changing MIME type to octet-stream
-            const base64Data = processedImage.split(',')[1]
-            const mimeType = processedImage.split(',')[0].split(':')[1].split(';')[0]
-            const ext = mimeType.includes('png') ? 'png' : 'jpg'
-            const filename = `edited-image-${Date.now()}.${ext}`
+            // Apply watermark before downloading
+            const watermarkedDataUrl = await applyWatermark(processedImage)
 
+            // Convert Data URL to Blob
+            const res = await fetch(watermarkedDataUrl)
+            const blob = await res.blob()
+
+            // Create Object URL
+            const url = window.URL.createObjectURL(blob)
+
+            // Create download link
             const link = document.createElement('a')
-            link.href = `data:application/octet-stream;base64,${base64Data}`
-            link.download = filename
+            link.href = url
+            // Force .png extension since we convert to png in applyWatermark
+            link.download = `aurix-removed-${Date.now()}.png`
 
             document.body.appendChild(link)
             link.click()
-            document.body.removeChild(link)
 
-            toast.success(`${tToast('downloadSuccess')}`)
+            // Cleanup
+            document.body.removeChild(link)
+            window.URL.revokeObjectURL(url)
+
+            toast.dismiss('download-toast')
+            toast.success(tToast('downloadSuccess'))
         } catch (error) {
             console.error('Download error:', error)
+            toast.dismiss('download-toast')
             toast.error(tToast('downloadError'))
         }
     }
@@ -235,6 +296,7 @@ export default function RemovePage() {
                                 <BeforeAfter
                                     beforeImage={originalImage!}
                                     afterImage={processedImage}
+                                    watermark={true}
                                 />
 
                                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
