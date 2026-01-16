@@ -11,20 +11,20 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ message: 'Email required' }, { status: 400 })
         }
 
-        // Check if email already exists
+        // Check if email already exists (double-check before insert)
         const { data: existingUser } = await db
             .from('leads')
             .select('id')
             .eq('email', email)
-            .single()
+            .maybeSingle() // Use maybeSingle instead of single to avoid error when no match
 
         if (existingUser) {
             return NextResponse.json({ message: 'Email already exists' }, { status: 409 })
         }
 
         // Upsert lead: if IP exists, update email; if not, insert new
-        // Note: The unique constraint is on IP. 
-        // If a user with same IP tries new email, we update the email associated with that IP.
+        // Note: The unique constraint is on IP for same-device tracking
+        // But email also has unique constraint at database level
         const { error } = await db
             .from('leads')
             .upsert({
@@ -34,11 +34,23 @@ export async function POST(req: NextRequest) {
             }, { onConflict: 'ip' })
             .select()
 
-        if (error) throw error
+        if (error) {
+            // Check if it's a unique constraint violation on email (Postgres error code 23505)
+            if (error.code === '23505' && error.message.includes('email')) {
+                return NextResponse.json({ message: 'Email already exists' }, { status: 409 })
+            }
+            throw error
+        }
 
         return NextResponse.json({ success: true })
-    } catch (error) {
+    } catch (error: any) {
         console.error('Lead registration error:', error)
+
+        // Handle unique constraint violation at catch level too
+        if (error.code === '23505' && error.message?.includes('email')) {
+            return NextResponse.json({ message: 'Email already exists' }, { status: 409 })
+        }
+
         return NextResponse.json({ message: 'Failed to register' }, { status: 500 })
     }
 }
