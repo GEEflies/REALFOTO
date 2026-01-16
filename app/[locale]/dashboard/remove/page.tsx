@@ -2,178 +2,182 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Download, Loader2, Eraser, RotateCcw, Upload, X } from 'lucide-react'
+import { Download, Loader2, Eraser, Trash2, Plus, AlertCircle, Wand2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
+import { get, set, del } from 'idb-keyval'
 
 import { Button } from '@/components/ui/button'
+import { ImageDropzone } from '@/components/ImageDropzone'
 import { compressImage } from '@/lib/utils'
 import { supabaseAuth } from '@/lib/supabase-auth'
 import { PaywallGate } from '@/components/PaywallGate'
 
-type ProcessingState = 'idle' | 'processing' | 'done' | 'error'
+type QueueItem = {
+    id: string
+    file: File
+    preview: string
+    status: 'pending' | 'processing' | 'completed' | 'error'
+    resultUrl?: string
+    error?: string
+}
 
 export default function DashboardRemovePage() {
     const t = useTranslations('Remove')
     const tToast = useTranslations('Toasts')
-    const [originalImage, setOriginalImage] = useState<string | null>(null)
-    const [originalFile, setOriginalFile] = useState<File | null>(null)
-    const [processedImage, setProcessedImage] = useState<string | null>(null)
-    const [processingState, setProcessingState] = useState<ProcessingState>('idle')
-    const [prompt, setPrompt] = useState<string>('')
-    const [isMobile, setIsMobile] = useState(false)
+
+    const [queue, setQueue] = useState<QueueItem[]>([])
+    const [isProcessing, setIsProcessing] = useState(false)
+    const [prompt, setPrompt] = useState('')
+    const [isLoaded, setIsLoaded] = useState(false)
     const [showPaywall, setShowPaywall] = useState(false)
 
+    // Load queue from IndexedDB
     useEffect(() => {
-        const checkMobile = () => setIsMobile(window.innerWidth < 768)
-        checkMobile()
-        window.addEventListener('resize', checkMobile)
-        return () => window.removeEventListener('resize', checkMobile)
+        get('remove-queue').then((val) => {
+            if (val) {
+                setQueue(val)
+                // Reset processing items
+                const hasProcessing = val.some((i: QueueItem) => i.status === 'processing')
+                if (hasProcessing) {
+                    setQueue(prev => prev.map(i => i.status === 'processing' ? { ...i, status: 'pending' } : i))
+                }
+            }
+            setIsLoaded(true)
+        })
     }, [])
 
-    const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0]
-        if (!file) return
+    // Save queue to IndexedDB
+    useEffect(() => {
+        if (isLoaded) {
+            set('remove-queue', queue)
+        }
+    }, [queue, isLoaded])
 
-        if (!file.type.startsWith('image/')) {
-            toast.error('Please select an image file')
+    // Warn on unload
+    useEffect(() => {
+        const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+            if (isProcessing || queue.some(i => i.status === 'pending')) {
+                e.preventDefault()
+                e.returnValue = ''
+                return ''
+            }
+        }
+        window.addEventListener('beforeunload', handleBeforeUnload)
+        return () => window.removeEventListener('beforeunload', handleBeforeUnload)
+    }, [isProcessing, queue])
+
+    const handleImagesSelect = async (files: File[]) => {
+        if (queue.length + files.length > 20) {
+            toast.error(tToast('limitExceeded'))
             return
         }
 
-        const reader = new FileReader()
-        reader.onload = () => {
-            setOriginalImage(reader.result as string)
-            setOriginalFile(file)
-            setProcessedImage(null)
-            setProcessingState('idle')
-        }
-        reader.readAsDataURL(file)
-    }
-
-    const handleDrop = (e: React.DragEvent) => {
-        e.preventDefault()
-        const file = e.dataTransfer.files?.[0]
-        if (!file) return
-
-        if (!file.type.startsWith('image/')) {
-            toast.error('Please drop an image file')
-            return
-        }
-
-        const reader = new FileReader()
-        reader.onload = () => {
-            setOriginalImage(reader.result as string)
-            setOriginalFile(file)
-            setProcessedImage(null)
-            setProcessingState('idle')
-        }
-        reader.readAsDataURL(file)
-    }
-
-    const processImage = async () => {
-        if (!originalFile) {
-            toast.error(tToast('selectImage'))
-            return
-        }
-
-        if (!prompt.trim()) {
-            toast.error('Please describe what you want to remove')
-            return
-        }
-
-        setProcessingState('processing')
-
-        try {
-            const { base64, mimeType } = await compressImage(originalFile, 4, 2048)
-
-            // Get session token for authenticated request
-            const { data: { session } } = await supabaseAuth.auth.getSession()
-            const token = session?.access_token
-
-            const response = await fetch('/api/remove', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    ...(token ? { 'Authorization': `Bearer ${token}` } : {})
-                },
-                body: JSON.stringify({
-                    image: base64,
-                    mimeType: mimeType,
-                    prompt: prompt.trim(),
-                }),
+        const newItems: QueueItem[] = []
+        for (const file of files) {
+            const reader = new FileReader()
+            const preview = await new Promise<string>((resolve) => {
+                reader.onload = () => resolve(reader.result as string)
+                reader.readAsDataURL(file)
             })
 
-            if (!response.ok) {
-                const error = await response.json()
+            newItems.push({
+                id: Math.random().toString(36).substring(7),
+                file,
+                preview,
+                status: 'pending'
+            })
+        }
+        setQueue(prev => [...prev, ...newItems])
+    }
 
-                // Check for Quota Exceeded
-                if (response.status === 403 && error.error === 'QUOTA_EXCEEDED') {
-                    setProcessingState('idle')
-                    setShowPaywall(true)
-                    toast.error(error.message || 'Quota exceeded')
-                    return
-                }
-
-                if (response.status === 403 && error.error === 'LIMIT_REACHED') {
-                    toast.error(tToast('limitReached'))
-                    setProcessingState('idle')
-                    return
-                }
-                throw new Error(error.message || 'Failed to process image')
-            }
-
-            const data = await response.json()
-            setProcessedImage(data.result)
-            setProcessingState('done')
-            toast.success('Object removed successfully!')
-
-            // Notify dashboard to refresh user quota
-            window.dispatchEvent(new Event('quotaUpdated'))
-        } catch (error) {
-            console.error('Remove error:', error)
-            setProcessingState('error')
-            toast.error(error instanceof Error ? error.message : 'Failed to remove object')
+    const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files.length > 0) {
+            handleImagesSelect(Array.from(e.target.files))
+            e.target.value = ''
         }
     }
 
-    const handleDownload = () => {
-        if (!processedImage) return
+    const processQueue = async () => {
+        if (!prompt.trim()) {
+            toast.error(tToast('enterPrompt') || 'Please describe what to remove')
+            return
+        }
 
-        try {
-            const isBase64 = processedImage.startsWith('data:')
-            const link = document.createElement('a')
+        setIsProcessing(true)
+        const idsToProcess = queue.filter(q => q.status === 'pending').map(q => q.id)
 
-            if (isBase64) {
-                const base64Data = processedImage.split(',')[1]
-                link.href = `data:application/octet-stream;base64,${base64Data}`
-                link.download = `removed-${Date.now()}.png`
-            } else {
-                link.href = processedImage
-                link.download = `removed-${Date.now()}.png`
-                link.target = "_blank"
+        for (const id of idsToProcess) {
+            const currentItem = queue.find(q => q.id === id)
+            if (!currentItem || currentItem.status !== 'pending') continue
+
+            setQueue(prev => prev.map(i => i.id === id ? { ...i, status: 'processing' } : i))
+
+            try {
+                const { base64, mimeType } = await compressImage(currentItem.file, 4, 2048)
+                const { data: { session } } = await supabaseAuth.auth.getSession()
+                const token = session?.access_token
+
+                const response = await fetch('/api/remove', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+                    },
+                    body: JSON.stringify({
+                        image: base64,
+                        mimeType: mimeType,
+                        prompt: prompt.trim(),
+                    }),
+                })
+
+                if (!response.ok) {
+                    const errorJson = await response.json()
+
+                    if (response.status === 403 && errorJson.error === 'QUOTA_EXCEEDED') {
+                        setIsProcessing(false)
+                        setShowPaywall(true)
+                        setQueue(prev => prev.map(i => i.id === id ? { ...i, status: 'pending' } : i))
+                        toast.error(errorJson.message || 'Quota exceeded')
+                        return
+                    }
+
+                    throw new Error(errorJson.message || 'Failed to process')
+                }
+
+                const data = await response.json()
+                const resultUrl = data.result // api/remove returns { result: base64/url }
+
+                setQueue(prev => prev.map(i => i.id === id ? { ...i, status: 'completed', resultUrl } : i))
+
+                window.dispatchEvent(new Event('quotaUpdated'))
+
+            } catch (error) {
+                console.error(error)
+                setQueue(prev => prev.map(i => i.id === id ? { ...i, status: 'error', error: 'Failed' } : i))
             }
-
-            document.body.appendChild(link)
-            link.click()
-            document.body.removeChild(link)
-            toast.success(tToast('downloadSuccess'))
-        } catch (error) {
-            console.error('Download error:', error)
-            toast.error(tToast('downloadError'))
+        }
+        setIsProcessing(false)
+        if (queue.some(i => i.status === 'completed')) {
+            toast.success(tToast('processSuccess') || 'Processing complete!')
         }
     }
 
-    const handleReset = () => {
-        setOriginalImage(null)
-        setOriginalFile(null)
-        setProcessedImage(null)
-        setProcessingState('idle')
-        setPrompt('')
+    const removeQueueItem = (id: string) => {
+        setQueue(prev => prev.filter(i => i.id !== id))
     }
+
+    const clearQueue = () => {
+        setQueue([])
+        setIsProcessing(false)
+        del('remove-queue')
+    }
+
+    if (!isLoaded) return null
 
     return (
-        <div className="p-6 lg:p-8">
+        <div className="p-4 lg:p-8">
             <PaywallGate
                 open={showPaywall}
                 onClose={() => setShowPaywall(false)}
@@ -191,151 +195,111 @@ export default function DashboardRemovePage() {
                     {t('title')}
                 </h1>
                 <p className="text-gray-600">
-                    {t('subtitle')}
+                    {t('batch.title') || 'Batch Object Removal'} - {queue.length}/20 {t('selected')}
                 </p>
             </div>
 
-            {/* Main Content */}
-            <div className="max-w-3xl mx-auto space-y-8">
-                <AnimatePresence mode="wait">
-                    {processingState === 'done' && processedImage ? (
-                        <motion.div
-                            key="result"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -20 }}
-                            className="space-y-6"
-                        >
-                            {/* Result Card */}
-                            <div className="bg-white rounded-2xl shadow-lg border-2 border-purple-100 p-6">
-                                <div className="flex items-center gap-2 mb-4">
-                                    <Eraser className="w-5 h-5 text-purple-600" />
-                                    <h3 className="text-lg font-semibold text-gray-800">{t('result.title')}</h3>
-                                </div>
+            {/* Removal Prompt Input (Replaces Mode Selector) */}
+            <div className="bg-white rounded-2xl border border-gray-200 p-6 mb-8 shadow-sm">
+                <div className="flex items-center gap-2 mb-3">
+                    <Wand2 className="w-5 h-5 text-purple-600" />
+                    <label className="text-sm font-semibold text-gray-900">
+                        {t('prompt.label')}
+                    </label>
+                </div>
+                <textarea
+                    value={prompt}
+                    onChange={(e) => setPrompt(e.target.value)}
+                    placeholder={t('prompt.placeholder')}
+                    className="w-full h-24 px-4 py-3 rounded-xl border border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 outline-none resize-none text-base"
+                    disabled={isProcessing || queue.some(i => i.status === 'processing')}
+                />
+                <p className="text-xs text-gray-500 mt-2 flex items-center gap-1">
+                    <AlertCircle className="w-3 h-3" />
+                    <span>{t('prompt.batchHint') || 'This prompt will be applied to all images in the queue'}</span>
+                </p>
+            </div>
 
-                                {/* Before/After Comparison */}
-                                <div className="grid md:grid-cols-2 gap-4 mb-4">
-                                    <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-gray-100">
-                                        <div className="absolute top-2 left-2 z-10 bg-black/70 text-white text-xs font-bold px-2 py-1 rounded-full">
-                                            Before
-                                        </div>
-                                        {originalImage && (
-                                            <Image src={originalImage} alt="Original" fill className="object-cover" />
-                                        )}
-                                    </div>
-                                    <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-gray-100">
-                                        <div className="absolute top-2 left-2 z-10 bg-purple-600 text-white text-xs font-bold px-2 py-1 rounded-full">
-                                            After
-                                        </div>
-                                        <Image src={processedImage} alt="Processed" fill className="object-cover" />
-                                    </div>
-                                </div>
-
-                                <Button
-                                    onClick={handleDownload}
-                                    className="w-full gap-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
-                                >
-                                    <Download className="w-5 h-5" />
-                                    {t('result.download')}
-                                </Button>
-                            </div>
-
-                            <div className="flex justify-center">
-                                <Button onClick={handleReset} size="lg" variant="outline" className="gap-2">
-                                    <RotateCcw className="w-5 h-5" />
-                                    {t('result.removeAnother')}
-                                </Button>
-                            </div>
-                        </motion.div>
-                    ) : (
-                        <motion.div
-                            key="upload"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            className="space-y-6"
-                        >
-                            {/* Upload Area */}
-                            {!originalImage ? (
-                                <div
-                                    onDrop={handleDrop}
-                                    onDragOver={(e) => e.preventDefault()}
-                                    className="bg-white rounded-2xl border-2 border-dashed border-gray-200 p-12 text-center hover:border-purple-400 transition-colors cursor-pointer"
-                                >
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        onChange={handleImageSelect}
-                                        className="hidden"
-                                        id="image-upload"
+            {/* Queue UI */}
+            {queue.length === 0 ? (
+                <div className="space-y-8">
+                    <ImageDropzone
+                        onImagesSelect={handleImagesSelect}
+                        multiple={true}
+                        maxFiles={20}
+                        disabled={isProcessing}
+                    />
+                </div>
+            ) : (
+                <div className="space-y-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {queue.map((item) => (
+                            <div key={item.id} className="bg-white border border-gray-200 rounded-xl overflow-hidden relative group">
+                                <div className="aspect-video relative bg-gray-100">
+                                    <Image
+                                        src={item.status === 'completed' && item.resultUrl ? item.resultUrl : item.preview}
+                                        alt="Img"
+                                        fill
+                                        className="object-cover"
                                     />
-                                    <label htmlFor="image-upload" className="cursor-pointer">
-                                        <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-purple-100 flex items-center justify-center">
-                                            <Upload className="w-8 h-8 text-purple-600" />
+                                    {item.status === 'processing' && (
+                                        <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                                            <Loader2 className="w-8 h-8 text-white animate-spin" />
                                         </div>
-                                        <p className="text-gray-900 font-medium mb-2">{t('upload.title')}</p>
-                                        <p className="text-sm text-gray-500">{t('upload.subtitle')}</p>
-                                    </label>
-                                </div>
-                            ) : (
-                                <div className="bg-white rounded-2xl border border-gray-200 p-6 space-y-6">
-                                    {/* Image Preview */}
-                                    <div className="relative">
-                                        <button
-                                            onClick={handleReset}
-                                            className="absolute top-2 right-2 z-10 p-2 bg-black/50 rounded-full text-white hover:bg-black/70 transition-colors"
-                                        >
-                                            <X className="w-4 h-4" />
-                                        </button>
-                                        <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-gray-100">
-                                            <Image src={originalImage} alt="Selected" fill className="object-cover" />
+                                    )}
+                                    {item.status === 'error' && (
+                                        <div className="absolute inset-0 bg-red-500/50 flex items-center justify-center text-white font-bold">{t('errorLabel') || 'Error'}</div>
+                                    )}
+                                    {item.status === 'completed' && (
+                                        <div className="absolute inset-0 bg-green-500/20 flex items-center justify-center">
+                                            <div className="bg-white rounded-full p-2">
+                                                <Eraser className="w-5 h-5 text-green-600" />
+                                            </div>
                                         </div>
-                                    </div>
-
-                                    {/* Prompt Input */}
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                                            {t('prompt.label')}
-                                        </label>
-                                        <textarea
-                                            value={prompt}
-                                            onChange={(e) => setPrompt(e.target.value)}
-                                            placeholder={t('prompt.placeholder')}
-                                            className="w-full h-24 px-4 py-3 rounded-xl border border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 outline-none resize-none"
-                                            disabled={processingState === 'processing'}
-                                        />
-                                        <p className="text-xs text-gray-500 mt-2">{t('prompt.hint')}</p>
-                                    </div>
-
-                                    {/* Process Button */}
-                                    <Button
-                                        onClick={processImage}
-                                        size="lg"
-                                        disabled={processingState === 'processing' || !prompt.trim()}
-                                        className="w-full gap-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
-                                    >
-                                        {processingState === 'processing' ? (
-                                            <>
-                                                <Loader2 className="w-5 h-5 animate-spin" />
-                                                {t('processing')}
-                                            </>
-                                        ) : (
-                                            <>
-                                                <Eraser className="w-5 h-5" />
-                                                {t('removeButton')}
-                                            </>
-                                        )}
-                                    </Button>
-
-                                    {processingState === 'processing' && (
-                                        <p className="text-sm text-gray-500 text-center">{t('processingHint')}</p>
                                     )}
                                 </div>
+                                <div className="p-3 flex items-center justify-between">
+                                    <span className="text-xs font-mono truncate max-w-[100px]">{item.file.name}</span>
+                                    {item.status === 'completed' && item.resultUrl ? (
+                                        <a href={item.resultUrl} download target="_blank" className="text-blue-600 hover:text-blue-800">
+                                            <Download className="w-4 h-4" />
+                                        </a>
+                                    ) : item.status === 'pending' && !isProcessing ? (
+                                        <button onClick={() => removeQueueItem(item.id)} className="text-gray-400 hover:text-red-500">
+                                            <Trash2 className="w-4 h-4" />
+                                        </button>
+                                    ) : null}
+                                </div>
+                            </div>
+                        ))}
+
+
+                    </div>
+
+                    <div className="flex justify-end gap-4 sticky bottom-6 ml-auto w-fit bg-white/80 p-4 backdrop-blur-md rounded-xl shadow-lg border border-gray-100 z-40">
+                        <Button variant="ghost" onClick={clearQueue} disabled={isProcessing} className="w-32">
+                            {t('batch.clearAll') || 'Clear All'}
+                        </Button>
+                        <Button
+                            onClick={processQueue}
+                            disabled={isProcessing || queue.filter(i => i.status === 'pending').length === 0 || !prompt.trim()}
+                            className="bg-gradient-to-r from-purple-600 to-pink-600 w-48"
+                        >
+                            {isProcessing ? (
+                                <>
+                                    <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                                    {t('processing')}
+                                </>
+                            ) : (
+                                <>
+                                    <Eraser className="w-4 h-4 mr-2" />
+                                    {t('removeButton') || 'Start Removal'}
+                                </>
                             )}
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-            </div>
+                        </Button>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
