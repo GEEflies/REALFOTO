@@ -180,7 +180,7 @@ export function ImageCompareSlider({
                     <img
                         src="/aurix-logo.png"
                         alt="Aurix"
-                        className="h-6 md:h-8 w-auto object-contain filter drop-shadow-md"
+                        className="w-[15%] md:w-[10%] max-w-[120px] h-auto object-contain filter drop-shadow-md"
                     />
                 </div>
             )}

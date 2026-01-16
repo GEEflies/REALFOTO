@@ -141,7 +141,7 @@ export function BeforeAfter({
                     <img
                         src="/aurix-logo.png"
                         alt="Aurix"
-                        className="h-8 w-auto object-contain"
+                        className="w-[15%] md:w-[10%] max-w-[120px] h-auto object-contain"
                     />
                 </div>
             )}

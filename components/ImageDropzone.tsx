@@ -122,7 +122,7 @@ export function ImageDropzone({
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.95 }}
-                        className="relative rounded-2xl overflow-hidden border-2 border-gray-200 bg-gray-50 w-fit mx-auto"
+                        className="relative rounded-2xl overflow-hidden border-2 border-gray-200 bg-gray-50 w-full max-w-2xl mx-auto"
                     >
                         <img
                             src={currentPreview}
