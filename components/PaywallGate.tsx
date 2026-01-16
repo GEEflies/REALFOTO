@@ -562,7 +562,7 @@ export function PaywallGate({ open, onClose, defaultTab = 'limitedOffer', showOn
                                     <Button
                                         size="lg"
                                         className="w-full h-11 text-base bg-gray-900 hover:bg-gray-800 text-white rounded-xl shadow-lg hover:shadow-xl transition-all"
-                                        onClick={() => window.location.href = 'mailto:enterprise@aurix.pics?subject=Enterprise%20Inquiry'}
+                                        onClick={() => window.location.href = 'mailto:karol.jr@billik.sk?subject=Enterprise%20Inquiry'}
                                     >
                                         {t('enterprise.contact')}
                                     </Button>
