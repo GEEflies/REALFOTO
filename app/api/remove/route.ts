@@ -16,6 +16,9 @@ const supabaseAdmin = createClient(
     }
 )
 
+// Max duration for serverless function (60 seconds)
+export const maxDuration = 60
+
 export async function POST(request: NextRequest) {
     try {
         // Parse request body
@@ -141,7 +144,7 @@ export async function POST(request: NextRequest) {
         }
 
         return NextResponse.json({
-            processed: processedBase64,
+            result: processedBase64,
             message: 'Object removed successfully',
         })
     } catch (error) {

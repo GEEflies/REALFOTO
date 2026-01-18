@@ -704,7 +704,11 @@
         "errors": {
             "fillAll": "Please fill in all fields",
             "googleLogin": "Failed to initiate Google login",
-            "generic": "Failed to log in"
+            "generic": "Failed to log in",
+            "invalidCredentials": "Invalid login credentials",
+            "emailNotConfirmed": "Please verify your email before logging in",
+            "userNotFound": "User not found",
+            "tooManyRequests": "Too many requests. Please try again later."
         }
     },
     "Dashboard": {

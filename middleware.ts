@@ -84,11 +84,25 @@ export default async function middleware(request: NextRequest) {
     }
 
     // IP-based Localization (Auto-detect Slovak)
-    // Only applies to root path '/' (landing page entry)
-    if (pathname === '/') {
+    // Applies to root path '/' and dashboard roots
+    if (pathname === '/' || pathname === '/dashboard') {
         const country = (request as any).geo?.country || request.headers.get('x-vercel-ip-country');
+
+        let targetLocale = 'en';
         if (country === 'SK') {
+            targetLocale = 'sk';
+        }
+
+        // If user is at root '/', redirect to localized root (which might then redirect to dashboard if authenticated? 
+        // No, standard next-intl middleware handles / -> /en or /sk usually, but here we enforce it based on IP)
+        // Ensure we don't redirect if we are already at the target
+
+        if (pathname === '/' && targetLocale === 'sk') {
             return NextResponse.redirect(new URL('/sk', request.url));
+        }
+
+        if (pathname === '/dashboard') {
+            return NextResponse.redirect(new URL(`/${targetLocale}/dashboard`, request.url));
         }
     }
 

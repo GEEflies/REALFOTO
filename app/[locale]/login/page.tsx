@@ -10,6 +10,7 @@ import { useTranslations } from 'next-intl'
 import { toast } from 'sonner'
 import Image from 'next/image'
 import { signInWithEmail, signInWithGoogle, setRememberMe, getSession } from '@/lib/supabase-auth'
+import { AuthError } from '@supabase/supabase-js'
 
 export default function LoginPage() {
     const t = useTranslations('Login')
@@ -66,6 +67,21 @@ export default function LoginPage() {
         checkExistingSession()
     }, [router, searchParams])
 
+    const getErrorMessage = (error: unknown) => {
+        if (!error) return t('errors.generic')
+
+        const message = error instanceof Error ? error.message : String(error)
+
+        // Map Supabase error messages to translation keys
+        if (message.includes('Invalid login credentials')) return t('errors.invalidCredentials')
+        if (message.includes('Email not confirmed')) return t('errors.emailNotConfirmed')
+        if (message.includes('User not found')) return t('errors.userNotFound')
+        if (message.includes('Too many requests')) return t('errors.tooManyRequests')
+
+        // Fallback to generic or original message if no mapping found
+        return t('errors.generic')
+    }
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
 
@@ -116,7 +132,7 @@ export default function LoginPage() {
             }
         } catch (error) {
             console.error('Login error:', error)
-            toast.error(error instanceof Error ? error.message : t('errors.generic'))
+            toast.error(getErrorMessage(error))
         } finally {
             setIsLoading(false)
         }

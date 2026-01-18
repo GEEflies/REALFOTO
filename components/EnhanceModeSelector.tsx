@@ -116,9 +116,9 @@ export function EnhanceModeSelector({
                                 )}>
                                     <selectedModeInfo.icon className="w-6 h-6 text-blue-600" />
                                 </div>
-                                <div className="text-left">
-                                    <div className="font-bold text-gray-900 text-lg">{selectedModeInfo.label}</div>
-                                    <div className="text-sm text-gray-500">{selectedModeInfo.description}</div>
+                                <div className="text-left min-w-0 flex-1">
+                                    <div className="font-bold text-gray-900 text-sm md:text-lg truncate">{selectedModeInfo.label}</div>
+                                    <div className="text-xs md:text-sm text-gray-500 truncate">{selectedModeInfo.description}</div>
                                 </div>
                             </div>
                         )}

@@ -24,7 +24,11 @@
         "errors": {
             "fillAll": "Prosím vyplňte všetky polia",
             "googleLogin": "Nepodarilo sa spustiť prihlásenie cez Google",
-            "generic": "Nepodarilo sa prihlásiť"
+            "generic": "Nepodarilo sa prihlásiť",
+            "invalidCredentials": "Nesprávne prihlasovacie údaje (email alebo heslo)",
+            "emailNotConfirmed": "Potvrďte svoj email pred prihlásením",
+            "userNotFound": "Používateľ s týmto emailom neexistuje",
+            "tooManyRequests": "Príliš veľa neúspešných pokusov. Skúste to neskôr."
         }
     },
     "Dashboard": {
@@ -278,7 +282,8 @@
         "prompt": {
             "label": "Čo by ste chceli odstrániť?",
             "placeholder": "napr. odpadkový kôš v rohu, elektrické vedenie na oblohe",
-            "hint": "Pre najlepšie výsledky buďte konkrétni o objekte a jeho umiestnení."
+            "hint": "Pre najlepšie výsledky buďte konkrétni o objekte a jeho umiestnení.",
+            "batchHint": "Tip: Tento popis sa vzťahuje na všetky obrázky. Buďte konkrétni!"
         },
         "removeButton": "Odstrániť objekt",
         "processing": "Odstraňujem objekt...",
