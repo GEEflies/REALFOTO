@@ -76,6 +76,7 @@ export function BeforeAfter({
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             className="relative w-full rounded-2xl overflow-hidden cursor-col-resize select-none shadow-xl"
+            style={{ touchAction: 'none' }}
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
             onMouseLeave={handleMouseUp}
@@ -96,7 +97,7 @@ export function BeforeAfter({
                 <img
                     src={afterImage}
                     alt={afterLabel}
-                    className="w-full h-full"
+                    className="w-full h-full object-contain bg-gray-100" // Changed to object-contain to preserve aspect ratio
                     draggable={false}
                 />
             </div>
@@ -109,7 +110,7 @@ export function BeforeAfter({
                 <img
                     src={beforeImage}
                     alt={beforeLabel}
-                    className="w-full h-full"
+                    className="w-full h-full object-contain bg-gray-100" // Changed to object-contain
                     draggable={false}
                 />
             </div>
@@ -119,19 +120,47 @@ export function BeforeAfter({
                 className="absolute top-0 bottom-0 w-1 bg-white shadow-lg cursor-col-resize z-10"
                 style={{ left: `${sliderPosition}%`, transform: 'translateX(-50%)' }}
                 onMouseDown={handleMouseDown}
-                onTouchStart={handleMouseDown}
+                onTouchStart={(e) => {
+                    e.preventDefault(); // Prevent scroll on touch start
+                    handleMouseDown();
+                }}
             >
                 {/* Handle */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center">
-                    <GripVertical className="w-5 h-5 text-gray-400" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center gap-0.5">
+                    <svg
+                        className="w-3 h-3 text-gray-700"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2.5}
+                            d="M15 19l-7-7 7-7"
+                        />
+                    </svg>
+                    <svg
+                        className="w-3 h-3 text-gray-700"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2.5}
+                            d="M9 5l7 7-7 7"
+                        />
+                    </svg>
                 </div>
             </div>
 
             {/* Labels */}
-            <div className="absolute top-4 left-4 px-3 py-1.5 bg-black/50 backdrop-blur-sm rounded-full text-white text-sm font-medium">
+            <div className="absolute top-4 left-4 px-3 py-1.5 bg-black/50 backdrop-blur-sm rounded-full text-white text-sm font-medium z-10">
                 {finalBeforeLabel}
             </div>
-            <div className="absolute top-4 right-4 px-3 py-1.5 bg-black/50 backdrop-blur-sm rounded-full text-white text-sm font-medium">
+            <div className="absolute top-4 right-4 px-3 py-1.5 bg-black/50 backdrop-blur-sm rounded-full text-white text-sm font-medium z-10">
                 {finalAfterLabel}
             </div>
 
