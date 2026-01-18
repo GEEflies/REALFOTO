@@ -102,7 +102,10 @@ export default async function middleware(request: NextRequest) {
         }
 
         if (pathname === '/dashboard') {
-            return NextResponse.redirect(new URL(`/${targetLocale}/dashboard`, request.url));
+            if (targetLocale === 'sk') {
+                return NextResponse.redirect(new URL(`/sk/dashboard`, request.url));
+            }
+            // Do not force redirect for 'en' as it's the default locale and causes a loop with intlMiddleware
         }
     }
 
