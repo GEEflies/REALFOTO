@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { createServerClient } from '@supabase/ssr'
 
 // Server-side Supabase client
 const supabaseAdmin = createClient(
@@ -19,30 +20,44 @@ export async function GET(request: NextRequest) {
         const authHeader = request.headers.get('authorization')
         let userId: string | null = null
 
-        if (authHeader?.startsWith('Bearer ')) {
-            const token = authHeader.substring(7)
-            const { data: { user }, error } = await supabaseAdmin.auth.getUser(token)
-            if (!error && user) {
-                userId = user.id
+        // Create a Supabase client configured to use cookies (Robust Auth)
+        const cookieStore = request.cookies
+        const supabase = createServerClient(
+            process.env.NEXT_PUBLIC_SUPABASE_URL!,
+            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+            {
+                cookies: {
+                    getAll() {
+                        return cookieStore.getAll()
+                    },
+                    setAll(cookiesToSet) {
+                        try {
+                            cookiesToSet.forEach(({ name, value, options }) =>
+                                cookieStore.set({ name, value, ...options })
+                            )
+                        } catch {
+                            // The `setAll` method was called from a Server Component.
+                            // This can be ignored if you have middleware refreshing
+                            // user sessions.
+                        }
+                    },
+                },
             }
+        )
+
+        // Get user from Supabase Auth
+        const { data: { user }, error: authError } = await supabase.auth.getUser()
+
+        if (!authError && user) {
+            userId = user.id
         }
 
-        // Also check for session cookie
-        const cookies = request.headers.get('cookie')
-        if (!userId && cookies) {
-            const sessionMatch = cookies.match(/sb-[^=]+-auth-token=([^;]+)/)
-            if (sessionMatch) {
-                try {
-                    const sessionData = JSON.parse(decodeURIComponent(sessionMatch[1]))
-                    if (sessionData?.[0]?.access_token) {
-                        const { data: { user }, error } = await supabaseAdmin.auth.getUser(sessionData[0].access_token)
-                        if (!error && user) {
-                            userId = user.id
-                        }
-                    }
-                } catch {
-                    // Invalid session format
-                }
+        // Fallback: Check Authorization header if cookie auth failed
+        if (!userId && authHeader?.startsWith('Bearer ')) {
+            const token = authHeader.substring(7)
+            const { data: { user: tokenUser }, error: tokenError } = await supabaseAdmin.auth.getUser(token)
+            if (!tokenError && tokenUser) {
+                userId = tokenUser.id
             }
         }
 

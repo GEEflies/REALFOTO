@@ -154,7 +154,7 @@ export default function DashboardEnhancePage() {
                 const { data: { session } } = await supabaseAuth.auth.getSession()
                 const token = session?.access_token
 
-                const response = await fetch('/api/vylepsit', {
+                const response = await fetch('/api/enhance', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
