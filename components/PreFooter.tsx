@@ -18,7 +18,7 @@ export function PreFooter() {
                     {t('subtitle')}
                 </p>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                    <Link href="/enhance">
+                    <Link href="/vylepsit">
                         <Button size="lg" className="h-14 px-8 text-lg rounded-full shadow-xl shadow-blue-600/20 bg-blue-600 hover:bg-blue-700 transition-all hover:scale-105">
                             {t('cta')}
                             <ArrowRight className="w-5 h-5 ml-2" />

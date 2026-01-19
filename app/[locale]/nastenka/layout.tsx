@@ -67,7 +67,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                     window.location.href = `${mainDomain}/${locale}/login?redirect=${returnUrl}`;
                 } else {
                     // Normal redirect on same domain
-                    router.push('/login');
+                    router.push('/prihlasenie');
                 }
                 return
             }
@@ -128,7 +128,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             }
         } catch (error) {
             console.error('Auth check error:', error)
-            router.push('/login')
+            router.push('/prihlasenie')
         } finally {
             console.log('Setting isLoading false')
             setIsLoading(false)

@@ -62,23 +62,24 @@ export function Footer() {
                         <h3 className="font-bold text-gray-900 mb-6">{t('handyLinks')}</h3>
                         <ul className="space-y-4">
                             <li><Link href="/" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.home')}</Link></li>
-                            <li><Link href="/enhance" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.enhance')}</Link></li>
-                            <li><Link href="/remove" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.remove')}</Link></li>
-                            <li><Link href="/pricing" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.pricing')}</Link></li>
-                            <li><Link href="/status" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.status')}</Link></li>
+                            <li><Link href="/vylepsit" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.enhance')}</Link></li>
+                            <li><Link href="/odstranit" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.remove')}</Link></li>
+                            <li><Link href="/cennik" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.pricing')}</Link></li>
+                            <li><Link href="/stav" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.status')}</Link></li>
+                            <li><Link href="/program-partner" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.affiliate')}</Link></li>
                         </ul>
                     </div>
 
                     {/* Company */}
                     <div>
-                        <h3 className="font-bold text-gray-900 mb-6">{t('company')}</h3>
-                        <ul className="space-y-4">
-                            <li><Link href="/about" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.about')}</Link></li>
+                        <h3 className="font-semibold text-gray-900 mb-4">{t('company')}</h3>
+                        <ul className="space-y-3">
+                            <li><Link href="/o-nas" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.about')}</Link></li>
                             <li><Link href="/blog" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.blog')}</Link></li>
-                            <li><Link href="/jobs" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.jobs')}</Link></li>
-                            <li><Link href="/affiliate" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.affiliate')}</Link></li>
-                            <li><Link href="/privacy" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.privacy')}</Link></li>
-                            <li><Link href="/terms" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.terms')}</Link></li>
+                            <li><Link href="/kariera" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.jobs')}</Link></li>
+                            <li><Link href="/kontakt" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.contact')}</Link></li>
+                            <li><Link href="/ochrana-sukromia" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.privacy')}</Link></li>
+                            <li><Link href="/podmienky" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.terms')}</Link></li>
                         </ul>
                     </div>
 

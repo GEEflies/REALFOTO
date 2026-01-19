@@ -104,7 +104,7 @@ export function Navbar() {
                     {/* Auth + Mobile Menu */}
                     <div className="flex items-center gap-3">
                         {/* Login Button (Desktop only) */}
-                        <Link href="/login" className="hidden md:inline-block">
+                        <Link href="/prihlasenie" className="hidden md:inline-block">
                             <Button size="sm" className="gap-2">
                                 <LogIn className="w-4 h-4" />
                                 <span className="hidden sm:inline">{t('signIn')}</span>
@@ -159,7 +159,7 @@ export function Navbar() {
 
                             {/* Mobile Login Button */}
                             <Link
-                                href="/login"
+                                href="/prihlasenie"
                                 onClick={() => setMobileMenuOpen(false)}
                                 className="flex items-center gap-3 px-4 py-3 rounded-lg transition-colors cursor-pointer text-gray-600 hover:bg-gray-50"
                             >

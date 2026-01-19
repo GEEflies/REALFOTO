@@ -400,7 +400,7 @@ export default function SignupPage() {
                 <p className="text-center text-gray-600 mt-6">
                     {t('haveAccount')}{' '}
                     <button
-                        onClick={() => router.push('/login')}
+                        onClick={() => router.push('/prihlasenie')}
                         className="text-blue-600 font-medium hover:underline"
                     >
                         {t('login')}

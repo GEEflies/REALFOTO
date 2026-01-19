@@ -60,7 +60,7 @@ export default function DashboardSettingsPage() {
         try {
             const session = await getSession()
             if (!session) {
-                router.push('/login')
+                router.push('/prihlasenie')
                 return
             }
 
