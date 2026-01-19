@@ -3,6 +3,7 @@ import { removeObject } from '@/lib/gemini'
 import { db } from '@/lib/supabase'
 import { createClient } from '@supabase/supabase-js'
 import { reportImageUsage } from '@/lib/stripe'
+import { incrementUserUsage } from '@/lib/usage'
 
 // Server-side Supabase client (Admin)
 const supabaseAdmin = createClient(
@@ -116,11 +117,8 @@ export async function POST(request: NextRequest) {
 
         // Increment usage count based on user type
         if (userId) {
-            // Call RPC to increment user usage
-            const { error } = await supabaseAdmin.rpc('increment_image_usage', { user_id: userId })
-            if (error) {
-                console.error('Failed to increment user usage via RPC:', error)
-            }
+            // Call shared utility to increment user usage (Robust: RPC -> Manual)
+            await incrementUserUsage(supabaseAdmin, userId)
 
             // Report usage to Stripe if pay-per-image is enabled
             if (userPayPerImageItemId) {
