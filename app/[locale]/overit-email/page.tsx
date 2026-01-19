@@ -111,7 +111,7 @@ export default function VerifyEmailPage() {
     }
 
     const handleContinueToDashboard = () => {
-        router.push('/dashboard')
+        router.push('/nastenka')
     }
 
     return (

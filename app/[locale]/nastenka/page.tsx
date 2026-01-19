@@ -29,7 +29,7 @@ export default function DashboardHomePage() {
 
             {/* Simple Actions Actions */}
             <div className="grid md:grid-cols-2 gap-6 w-full max-w-2xl">
-                <Link href="/dashboard/enhance" className="group">
+                <Link href="/nastenka/vylepsit" className="group">
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
@@ -47,7 +47,7 @@ export default function DashboardHomePage() {
                     </motion.div>
                 </Link>
 
-                <Link href="/dashboard/remove" className="group">
+                <Link href="/nastenka/odstranit" className="group">
                     <motion.div
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}

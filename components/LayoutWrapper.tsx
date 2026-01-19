@@ -9,7 +9,7 @@ interface LayoutWrapperProps {
 
 export function LayoutWrapper({ children }: LayoutWrapperProps) {
     const pathname = usePathname()
-    const isDashboard = pathname?.includes('/dashboard')
+    const isDashboard = pathname?.includes('/nastenka')
 
     return (
         <>

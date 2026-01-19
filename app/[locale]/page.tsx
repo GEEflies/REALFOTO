@@ -168,7 +168,7 @@ export default function HomePage() {
 
               {/* CTA Buttons */}
               <div className="grid grid-cols-2 gap-3 w-full sm:flex sm:flex-row sm:items-center sm:gap-4 sm:w-auto mb-6">
-                <Link href="/enhance" className="w-full sm:w-auto">
+                <Link href="/vylepsit" className="w-full sm:w-auto">
                   <Button size="lg" className="w-full h-11 sm:h-12 px-3 sm:px-8 text-sm sm:text-base gap-2 bg-blue-600 hover:bg-blue-700 shadow-lg hover:shadow-blue-500/25 transition-all cursor-pointer">
                     <span className="sm:hidden">{t('ctaTryFreeShort')}</span>
                     <span className="hidden sm:inline">{t('ctaTryFree')}</span>

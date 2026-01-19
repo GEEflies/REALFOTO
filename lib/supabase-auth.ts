@@ -134,7 +134,7 @@ export async function signInWithGoogle(redirectTo?: string) {
     const { data, error } = await supabaseAuth.auth.signInWithOAuth({
         provider: 'google',
         options: {
-            redirectTo: redirectTo || `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.aurix.pics'}/dashboard`,
+            redirectTo: redirectTo || `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.aurix.pics'}/nastenka`,
         },
     })
     return { data, error }

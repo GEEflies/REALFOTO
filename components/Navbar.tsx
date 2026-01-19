@@ -57,7 +57,7 @@ export function Navbar() {
 
     const dashboardHref = process.env.NODE_ENV === 'production'
         ? 'https://app.aurix.pics'
-        : '/dashboard'
+        : '/nastenka'
 
     return (
         <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-gray-100">

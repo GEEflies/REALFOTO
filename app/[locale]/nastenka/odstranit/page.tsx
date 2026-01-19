@@ -119,7 +119,7 @@ export default function DashboardRemovePage() {
                 const { data: { session } } = await supabaseAuth.auth.getSession()
                 const token = session?.access_token
 
-                const response = await fetch('/api/remove', {
+                const response = await fetch('/api/odstranit', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

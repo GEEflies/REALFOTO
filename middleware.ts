@@ -4,7 +4,7 @@ import { createServerClient } from '@supabase/ssr';
 import { NextRequest, NextResponse } from 'next/server';
 
 // Routes that require authentication
-const protectedRoutes = ['/dashboard', '/en/dashboard', '/sk/dashboard'];
+const protectedRoutes = ['/nastenka', '/sk/nastenka'];
 
 // Check if user is authenticated via Supabase session cookie
 async function isAuthenticated(request: NextRequest): Promise<boolean> {
@@ -39,10 +39,10 @@ async function isAuthenticated(request: NextRequest): Promise<boolean> {
 // Internationalization middleware
 const intlMiddleware = createMiddleware({
     // A list of all locales that are supported
-    locales: ['en', 'sk'],
+    locales: ['sk'],
 
     // Used when no locale matches
-    defaultLocale: 'en',
+    defaultLocale: 'sk',
 
     // Always use prefix for consistency
     localePrefix: 'as-needed'
@@ -52,60 +52,34 @@ export default async function middleware(request: NextRequest) {
     let { pathname } = request.nextUrl;
     const hostname = request.headers.get('host') || '';
 
-    // Handle 'app' subdomain: Rewrite root '/' to '/dashboard'
+    // Handle 'app' subdomain: Rewrite root '/' to '/nastenka'
     // This ensures app.aurix.pics loads the dashboard by default
     if (hostname.startsWith('app.') && pathname === '/') {
-        pathname = '/dashboard';
+        pathname = '/nastenka';
         const url = request.nextUrl.clone();
-        url.pathname = '/dashboard';
+        url.pathname = '/nastenka';
         // Update request object to be used by subsequent logic and intlMiddleware
         request = new NextRequest(url, request);
     }
 
     // Strict App Subdomain Restriction
-    // Prevent access to public landing pages (like /remove, /enhance) on the app subdomain
+    // Prevent access to public landing pages (like /odstranit, /vylepsit) on the app subdomain
     if (request.method === 'OPTIONS') {
         return NextResponse.next();
     }
 
     if (hostname.startsWith('app.')) {
         const isAllowedPath =
-            pathname === '/dashboard' ||
-            pathname.includes('/dashboard') ||
+            pathname === '/nastenka' ||
+            pathname.includes('/nastenka') ||
             pathname.includes('/auth') ||
             pathname.startsWith('/api') ||
             pathname.startsWith('/_next') ||
             pathname.includes('.'); // static files
 
         if (!isAllowedPath) {
-            // Redirect all other traffic (e.g. /remove, /enhance, /login) to dashboard
-            return NextResponse.redirect(new URL('/dashboard', request.url));
-        }
-    }
-
-    // IP-based Localization (Auto-detect Slovak)
-    // Applies to root path '/' and dashboard roots
-    if (pathname === '/' || pathname === '/dashboard') {
-        const country = (request as any).geo?.country || request.headers.get('x-vercel-ip-country');
-
-        let targetLocale = 'en';
-        if (country === 'SK') {
-            targetLocale = 'sk';
-        }
-
-        // If user is at root '/', redirect to localized root (which might then redirect to dashboard if authenticated? 
-        // No, standard next-intl middleware handles / -> /en or /sk usually, but here we enforce it based on IP)
-        // Ensure we don't redirect if we are already at the target
-
-        if (pathname === '/' && targetLocale === 'sk') {
-            return NextResponse.redirect(new URL('/sk', request.url));
-        }
-
-        if (pathname === '/dashboard') {
-            if (targetLocale === 'sk') {
-                return NextResponse.redirect(new URL(`/sk/dashboard`, request.url));
-            }
-            // Do not force redirect for 'en' as it's the default locale and causes a loop with intlMiddleware
+            // Redirect all other traffic (e.g. /odstranit, /vylepsit, /prihlasenie) to dashboard
+            return NextResponse.redirect(new URL('/nastenka', request.url));
         }
     }
 
@@ -120,8 +94,8 @@ export default async function middleware(request: NextRequest) {
 
         if (!authenticated) {
             // Normal relative redirect for main domain
-            const locale = pathname.startsWith('/sk') ? 'sk' : 'en';
-            const loginUrl = new URL(`/${locale}/login`, request.url);
+            const locale = 'sk';
+            const loginUrl = new URL(`/${locale}/prihlasenie`, request.url);
             loginUrl.searchParams.set('redirect', pathname);
             return NextResponse.redirect(loginUrl);
         }
@@ -136,5 +110,6 @@ export const config = {
     // Match all pathnames except for
     // - … if they start with `/api`, `/_next` or `/_vercel`
     // - … the ones containing a dot (e.g. `favicon.ico`)
-    matcher: ['/((?!api|_next|_vercel|.*\\..*).*)', '/dashboard/:path*']
+    matcher: ['/((?!api|_next|_vercel|.*\\..*).*)', '/nastenka/:path*']
 };
+

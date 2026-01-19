@@ -182,17 +182,17 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     }
 
     const navItems = [
-        { href: '/dashboard', icon: Home, label: t('nav.home') },
-        { href: '/dashboard/enhance', icon: Sparkles, label: t('nav.enhance') },
-        { href: '/dashboard/remove', icon: Eraser, label: t('nav.remove') },
-        { href: '/dashboard/history', icon: Clock, label: t('nav.history') },
-        { href: '/dashboard/settings', icon: Settings, label: t('nav.settings') },
+        { href: '/nastenka', icon: Home, label: t('nav.home') },
+        { href: '/nastenka/vylepsit', icon: Sparkles, label: t('nav.enhance') },
+        { href: '/nastenka/odstranit', icon: Eraser, label: t('nav.remove') },
+        { href: '/nastenka/historia', icon: Clock, label: t('nav.history') },
+        { href: '/nastenka/nastavenia', icon: Settings, label: t('nav.settings') },
     ]
 
     const isActive = (href: string) => {
         // Handle locale prefix
         const cleanPath = pathname.replace(/^\/(en|sk)/, '')
-        return cleanPath === href || (href !== '/dashboard' && cleanPath.startsWith(href))
+        return cleanPath === href || (href !== '/nastenka' && cleanPath.startsWith(href))
     }
 
     if (isLoading) {
@@ -209,7 +209,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             <aside className="hidden lg:flex flex-col w-64 bg-slate-900 border-r border-slate-800 fixed h-full text-gray-300">
                 {/* Logo */}
                 <div className="p-4 mb-2">
-                    <Link href="/dashboard" className="flex items-center gap-3 px-2">
+                    <Link href="/nastenka" className="flex items-center gap-3 px-2">
                         <Image src="/aurix-logo.png" alt="Aurix" width={32} height={32} className="rounded-lg" />
                         <span className="text-xl font-bold text-white tracking-tight">Aurix</span>
                     </Link>
@@ -332,7 +332,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 >
                     <Menu className="w-6 h-6 text-gray-300" />
                 </button>
-                <Link href="/dashboard" className="flex items-center gap-2">
+                <Link href="/nastenka" className="flex items-center gap-2">
                     <Image src="/aurix-logo.png" alt="Aurix" width={32} height={32} className="rounded-lg" />
                     <span className="text-lg font-bold text-white">Aurix</span>
                 </Link>
@@ -358,7 +358,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                         >
                             {/* Close Button */}
                             <div className="p-4 flex items-center justify-between border-b border-slate-800">
-                                <Link href="/dashboard" className="flex items-center gap-2" onClick={() => setSidebarOpen(false)}>
+                                <Link href="/nastenka" className="flex items-center gap-2" onClick={() => setSidebarOpen(false)}>
                                     <Image src="/aurix-logo.png" alt="Aurix" width={32} height={32} className="rounded-lg" />
                                     <span className="text-lg font-bold text-white">Aurix</span>
                                 </Link>

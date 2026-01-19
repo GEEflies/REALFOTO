@@ -163,7 +163,7 @@ export default function EnhancePage() {
             // Compress image to reduce file size (max 4MB, max 2048px dimension)
             const { base64, mimeType } = await compressImage(originalFile, 4, 2048)
 
-            const response = await fetch('/api/enhance', {
+            const response = await fetch('/api/vylepsit', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

@@ -41,7 +41,7 @@ export default function LoginPage() {
                     }
 
                     // Determine the target URL
-                    const dashboardPath = redirectParam || '/dashboard'
+                    const dashboardPath = redirectParam || '/nastenka'
 
                     // Check if we're in production
                     const isProduction = typeof window !== 'undefined' && window.location.hostname.includes('aurix.pics')
@@ -117,7 +117,7 @@ export default function LoginPage() {
                 }
 
                 // Determine the target URL
-                const dashboardPath = redirectParam || '/dashboard'
+                const dashboardPath = redirectParam || '/nastenka'
 
                 // Check if we're in production
                 const isProduction = typeof window !== 'undefined' && window.location.hostname.includes('aurix.pics')
@@ -140,7 +140,7 @@ export default function LoginPage() {
 
     const handleGoogleLogin = async () => {
         try {
-            const redirectParams = searchParams.get('redirect') || '/dashboard'
+            const redirectParams = searchParams.get('redirect') || '/nastenka'
 
             // Check if redirectParams is already a full URL (happens when redirecting from app subdomain)
             let finalRedirectUrl: string;

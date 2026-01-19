@@ -77,7 +77,7 @@ export default function FeaturePage({ params }: FeaturePageProps) {
                                 {t('description')}
                             </p>
                             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                                <Link href="/enhance">
+                                <Link href="/vylepsit">
                                     <Button size="lg" className="h-14 px-8 text-lg rounded-full shadow-lg bg-blue-600 hover:bg-blue-700 transition-all">
                                         {t('cta')}
                                         <ArrowRight className="w-5 h-5 ml-2" />

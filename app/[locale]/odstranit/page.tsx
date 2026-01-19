@@ -126,7 +126,7 @@ export default function RemovePage() {
         try {
             const base64 = await getBase64FromFile(originalFile)
 
-            const response = await fetch('/api/remove', {
+            const response = await fetch('/api/odstranit', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

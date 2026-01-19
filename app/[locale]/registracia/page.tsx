@@ -163,7 +163,7 @@ export default function SignupPage() {
             const stripeSessionId = searchParams.get('session_id')
 
             // Build redirect URL with session params
-            let redirectUrl = `${window.location.origin}/dashboard`
+            let redirectUrl = `${window.location.origin}/nastenka`
             const params = new URLSearchParams()
             if (session) params.append('session', session)
             if (stripeSessionId) params.append('session_id', stripeSessionId)

@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
         // If the locale is not supported, Stripe defaults to English or the account default.
         const portalSession = await stripe.billingPortal.sessions.create({
             customer: stripeCustomerId,
-            return_url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.aurix.pics'}${locale === 'sk' ? '/sk' : ''}/dashboard/settings`,
+            return_url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.aurix.pics'}${locale === 'sk' ? '/sk' : ''}/nastenka/settings`,
             locale: locale === 'sk' ? 'sk' : 'en',
         })
 
