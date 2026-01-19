@@ -40,11 +40,16 @@ const customCookieStorage = {
     },
     setItem: (key: string, value: string) => {
         if (typeof document === 'undefined') return
-        // In production, share cookie across all subdomains (.aurix.pics)
+        // In production, share cookie across all subdomains (.aurix.pics or .realfoto.sk)
         // In development (localhost), use the exact hostname
         const hostname = window.location.hostname
-        const isProd = hostname.includes('aurix.pics')
-        const domainProp = isProd ? '; domain=.aurix.pics' : ''
+        let domainProp = ''
+        if (hostname.includes('aurix.pics')) {
+            domainProp = '; domain=.aurix.pics'
+        } else if (hostname.includes('realfoto.sk')) {
+            domainProp = '; domain=.realfoto.sk'
+        }
+
         const secureProp = window.location.protocol === 'https:' ? '; Secure' : ''
 
         // Use 2 weeks (1,209,600 seconds) if Remember Me is enabled
@@ -65,8 +70,10 @@ const customCookieStorage = {
         const isProd = hostname.includes('aurix.pics')
 
         // Clear for shared domain
-        if (isProd) {
+        if (hostname.includes('aurix.pics')) {
             document.cookie = `${key}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; domain=.aurix.pics`
+        } else if (hostname.includes('realfoto.sk')) {
+            document.cookie = `${key}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; domain=.realfoto.sk`
         }
 
         // Also clear for current host (just in case)
@@ -114,7 +121,7 @@ export async function signUpWithEmail(email: string, password: string, metadata?
         password,
         options: {
             data: metadata, // Store tier/quota info in user metadata
-            emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.aurix.pics'}/verify-email`,
+            emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.app.realfoto.sk'}/verify-email`,
         },
     })
     return { data, error }
@@ -134,7 +141,7 @@ export async function signInWithGoogle(redirectTo?: string) {
     const { data, error } = await supabaseAuth.auth.signInWithOAuth({
         provider: 'google',
         options: {
-            redirectTo: redirectTo || `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.aurix.pics'}/nastenka`,
+            redirectTo: redirectTo || `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.app.realfoto.sk'}/nastenka`,
         },
     })
     return { data, error }

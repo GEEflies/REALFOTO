@@ -55,9 +55,12 @@ export function Navbar() {
         { href: '/odstranit', label: t('remove'), icon: Eraser },
     ]
 
-    const dashboardHref = process.env.NODE_ENV === 'production'
-        ? 'https://app.aurix.pics'
-        : '/nastenka'
+    const dashboardHref =
+        typeof window !== 'undefined' && window.location.hostname.includes('realfoto.sk')
+            ? 'https://www.app.realfoto.sk'
+            : process.env.NODE_ENV === 'production'
+                ? 'https://app.aurix.pics'
+                : '/nastenka'
 
     return (
         <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-gray-100">

@@ -58,10 +58,16 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 console.log('No session found, redirecting to login...')
 
                 // If on app subdomain, redirect to main domain login with return URL
-                if (typeof window !== 'undefined' && window.location.hostname.startsWith('app.')) {
-                    const mainDomain = window.location.hostname.includes('localhost')
-                        ? 'http://localhost:3000'
-                        : 'https://www.aurix.pics';
+                if (typeof window !== 'undefined' && (window.location.hostname.startsWith('app.') || window.location.hostname.startsWith('www.app.'))) {
+                    const hostname = window.location.hostname;
+                    let mainDomain = 'http://localhost:3000';
+
+                    if (hostname.includes('realfoto.sk')) {
+                        mainDomain = 'https://www.realfoto.sk';
+                    } else if (hostname.includes('aurix.pics')) {
+                        mainDomain = 'https://www.aurix.pics';
+                    }
+
                     const returnUrl = encodeURIComponent(window.location.href);
                     const locale = pathname.startsWith('/sk') ? 'sk' : 'en';
                     window.location.href = `${mainDomain}/${locale}/login?redirect=${returnUrl}`;
@@ -168,10 +174,12 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             toast.error(tToasts('logoutError'))
         } else {
             // Determine redirect URL (Landing Page)
-            let redirectUrl = 'https://www.aurix.pics'
+            let redirectUrl = 'https://www.realfoto.sk'; // Default to realfoto
             if (typeof window !== 'undefined') {
-                if (window.location.hostname.includes('localhost')) {
-                    redirectUrl = 'http://localhost:3000'
+                if (window.location.hostname.includes('aurix.pics')) {
+                    redirectUrl = 'https://www.aurix.pics';
+                } else if (window.location.hostname.includes('localhost')) {
+                    redirectUrl = 'http://localhost:3000';
                 }
             }
 

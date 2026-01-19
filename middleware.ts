@@ -52,9 +52,10 @@ export default async function middleware(request: NextRequest) {
     let { pathname } = request.nextUrl;
     const hostname = request.headers.get('host') || '';
 
-    // Handle 'app' subdomain: Rewrite root '/' to '/nastenka'
-    // This ensures app.aurix.pics loads the dashboard by default
-    if (hostname.startsWith('app.') && pathname === '/') {
+    // Handle 'app' subdomain (including www.app): Rewrite root '/' to '/nastenka'
+    const isAppSubdomain = hostname.startsWith('app.') || hostname.startsWith('www.app.');
+
+    if (isAppSubdomain && pathname === '/') {
         pathname = '/nastenka';
         const url = request.nextUrl.clone();
         url.pathname = '/nastenka';
@@ -68,7 +69,7 @@ export default async function middleware(request: NextRequest) {
         return NextResponse.next();
     }
 
-    if (hostname.startsWith('app.')) {
+    if (isAppSubdomain) {
         const isAllowedPath =
             pathname === '/nastenka' ||
             pathname.includes('/nastenka') ||
@@ -85,7 +86,7 @@ export default async function middleware(request: NextRequest) {
 
     // Check if route requires authentication (only for main domain)
     // App subdomain auth is handled client-side to avoid cookie sharing issues
-    const isProtectedRoute = !hostname.startsWith('app.') && protectedRoutes.some(route =>
+    const isProtectedRoute = !hostname.startsWith('app.') && !hostname.startsWith('www.app.') && protectedRoutes.some(route =>
         pathname === route || pathname.startsWith(`${route}/`)
     );
 

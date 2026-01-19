@@ -44,11 +44,13 @@ export default function LoginPage() {
                     const dashboardPath = redirectParam || '/nastenka'
 
                     // Check if we're in production
-                    const isProduction = typeof window !== 'undefined' && window.location.hostname.includes('aurix.pics')
+                    const hostname = typeof window !== 'undefined' ? window.location.hostname : ''
+                    const isProduction = hostname.includes('aurix.pics') || hostname.includes('realfoto.sk')
 
                     if (isProduction) {
                         // In production, always redirect to app subdomain for dashboard
-                        window.location.href = `https://app.aurix.pics${dashboardPath}`
+                        const domain = hostname.includes('realfoto.sk') ? 'https://www.app.realfoto.sk' : 'https://app.aurix.pics'
+                        window.location.href = `${domain}${dashboardPath}`
                     } else {
                         // On localhost, stay on same domain
                         router.push(dashboardPath)
@@ -120,11 +122,13 @@ export default function LoginPage() {
                 const dashboardPath = redirectParam || '/nastenka'
 
                 // Check if we're in production
-                const isProduction = typeof window !== 'undefined' && window.location.hostname.includes('aurix.pics')
+                const hostname = typeof window !== 'undefined' ? window.location.hostname : ''
+                const isProduction = hostname.includes('aurix.pics') || hostname.includes('realfoto.sk')
 
                 if (isProduction) {
                     // In production, always redirect to app subdomain for dashboard
-                    window.location.href = `https://app.aurix.pics${dashboardPath}`
+                    const domain = hostname.includes('realfoto.sk') ? 'https://www.app.realfoto.sk' : 'https://app.aurix.pics'
+                    window.location.href = `${domain}${dashboardPath}`
                 } else {
                     // On localhost, stay on same domain
                     router.push(dashboardPath)
@@ -154,7 +158,11 @@ export default function LoginPage() {
                 let redirectBase = window.location.origin
                 // In production, use app subdomain for Google redirect if not already on it
                 if (process.env.NODE_ENV === 'production' && !window.location.hostname.includes('app.')) {
-                    redirectBase = 'https://app.aurix.pics'
+                    if (window.location.hostname.includes('realfoto.sk')) {
+                        redirectBase = 'https://www.app.realfoto.sk'
+                    } else {
+                        redirectBase = 'https://app.aurix.pics'
+                    }
                 }
                 finalRedirectUrl = `${redirectBase}${redirectParams}?login_only=true`
             }

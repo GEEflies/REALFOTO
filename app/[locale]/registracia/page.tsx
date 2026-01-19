@@ -173,7 +173,17 @@ export default function SignupPage() {
 
             // In production, redirect to app subdomain
             if (process.env.NODE_ENV === 'production' && !window.location.hostname.includes('app.')) {
-                redirectUrl = redirectUrl.replace('www.aurix.pics', 'app.aurix.pics')
+                if (window.location.hostname.includes('realfoto.sk')) {
+                    redirectUrl = redirectUrl.replace('www.realfoto.sk', 'www.app.realfoto.sk').replace('realfoto.sk', 'www.app.realfoto.sk')
+                    // Clean up potential double www or app prefix if replace was aggressive, ensuring correct format
+                    if (!redirectUrl.includes('www.app.realfoto.sk')) {
+                        // Fallback safe construction
+                        const path = redirectUrl.split('realfoto.sk')[1]
+                        redirectUrl = `https://www.app.realfoto.sk${path}`
+                    }
+                } else {
+                    redirectUrl = redirectUrl.replace('www.aurix.pics', 'app.aurix.pics')
+                }
             }
 
             // Dynamic import to avoid server-side issues content
