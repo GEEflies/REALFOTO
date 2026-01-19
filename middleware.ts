@@ -82,6 +82,23 @@ export default async function middleware(request: NextRequest) {
             // Redirect all other traffic (e.g. /odstranit, /vylepsit, /prihlasenie) to dashboard
             return NextResponse.redirect(new URL('/nastenka', request.url));
         }
+    } else {
+        // Enforce Dashboard on Subdomain ONLY
+        // If trying to access /nastenka from main domain (not app subdomain), redirect to subdomain
+        if (pathname === '/nastenka' || pathname.startsWith('/nastenka/') || pathname === '/sk/nastenka' || pathname.startsWith('/sk/nastenka/')) {
+            // Skip for localhost to allow development
+            if (!hostname.includes('localhost')) {
+                let targetHost = 'www.app.realfoto.sk';
+                if (hostname.includes('aurix.pics')) {
+                    targetHost = 'app.aurix.pics';
+                }
+
+                const url = new URL(request.url);
+                url.hostname = targetHost;
+                url.protocol = 'https:';
+                return NextResponse.redirect(url);
+            }
+        }
     }
 
     // Check if route requires authentication (only for main domain)
