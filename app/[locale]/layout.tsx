@@ -11,32 +11,32 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'),
-  title: 'Aurix | AI Real Estate Photo Editor',
+  title: 'Real Foto | AI Real Estate Photo Editor',
   description: 'Enhance photos & remove objects in seconds with AI-powered real estate photo editing.',
   keywords: ['real estate', 'photo editing', 'AI', 'HDR', 'property photos'],
-  authors: [{ name: 'Aurix' }],
+  authors: [{ name: 'Real Foto' }],
   icons: {
-    icon: '/aurix-logo.png',
-    apple: '/aurix-logo.png',
+    icon: '/realfoto-logo.png',
+    apple: '/realfoto-logo.png',
   },
   openGraph: {
-    title: 'Aurix | AI Real Estate Photo Editor',
+    title: 'Real Foto | AI Real Estate Photo Editor',
     description: 'Enhance photos & remove objects in seconds with AI-powered real estate photo editing.',
     type: 'website',
     images: [
       {
-        url: '/aurix-logo.png',
+        url: '/realfoto-logo.png',
         width: 1200,
         height: 630,
-        alt: 'Aurix Logo',
+        alt: 'Real Foto Logo',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Aurix | AI Real Estate Photo Editor',
+    title: 'Real Foto | AI Real Estate Photo Editor',
     description: 'Enhance photos & remove objects in seconds with AI-powered real estate photo editing.',
-    images: ['/aurix-logo.png'],
+    images: ['/realfoto-logo.png'],
   },
 }
 

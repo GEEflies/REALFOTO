@@ -59,7 +59,7 @@ export function Navbar() {
         typeof window !== 'undefined' && window.location.hostname.includes('realfoto.sk')
             ? 'https://www.app.realfoto.sk'
             : process.env.NODE_ENV === 'production'
-                ? 'https://app.aurix.pics'
+                ? 'https://app.realfoto.sk'
                 : '/nastenka'
 
     return (
@@ -70,15 +70,15 @@ export function Navbar() {
                     <Link href="/" className="flex items-center gap-3 group">
                         <div className="relative w-12 h-12">
                             <Image
-                                src="/aurix-logo.png"
-                                alt="Aurix Logo"
+                                src="/realfoto-logo.png"
+                                alt="Real Foto Logo"
                                 fill
                                 sizes="48px"
                                 className="object-contain"
                             />
                         </div>
                         <span className="font-bold text-2xl text-gray-900">
-                            Aurix
+                            Real Foto
                         </span>
                     </Link>
 

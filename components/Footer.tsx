@@ -27,15 +27,15 @@ export function Footer() {
                         <Link href="/" className="flex items-center gap-3">
                             <div className="relative w-10 h-10">
                                 <Image
-                                    src="/aurix-logo.png"
-                                    alt="Aurix Logo"
+                                    src="/realfoto-logo.png"
+                                    alt="Real Foto Logo"
                                     fill
                                     sizes="40px"
                                     className="object-contain"
                                 />
                             </div>
                             <span className="font-bold text-2xl text-gray-900">
-                                Aurix
+                                Real Foto
                             </span>
                         </Link>
                         <p className="text-gray-600 text-sm leading-relaxed max-w-xs">
@@ -103,11 +103,11 @@ export function Footer() {
                 {/* Bottom Bar */}
                 <div className="pt-8 border-t border-gray-200 flex flex-col md:flex-row items-center justify-between gap-4">
                     <p className="text-sm text-gray-500">
-                        © {currentYear} Aurix. {t('rights')}
+                        © {currentYear} Real Foto. {t('rights')}
                     </p>
                     <div className="flex items-center gap-6">
                         <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
-                            <span className="text-white text-xs font-bold">A</span>
+                            <span className="text-white text-xs font-bold">RF</span>
                         </div>
                     </div>
                 </div>

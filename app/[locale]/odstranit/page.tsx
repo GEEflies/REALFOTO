@@ -210,7 +210,7 @@ export default function RemovePage() {
                     console.error('Failed to load watermark logo')
                     resolve(imageSrc)
                 }
-                logo.src = '/aurix-logo.png'
+                logo.src = '/realfoto-logo.png'
             }
             img.onerror = () => reject(new Error('Failed to load image for watermarking'))
             img.src = imageSrc

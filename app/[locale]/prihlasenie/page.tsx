@@ -196,8 +196,8 @@ export default function LoginPage() {
                 {/* Logo - Hidden on mobile */}
                 <div className="text-center mb-8 hidden md:block">
                     <Link href="/" className="inline-flex items-center gap-2 mb-4">
-                        <Image src="/aurix-logo.png" alt="Aurix" width={40} height={40} className="rounded-lg" />
-                        <span className="text-2xl font-bold text-gray-900">Aurix</span>
+                        <Image src="/realfoto-logo.png" alt="Real Foto" width={40} height={40} className="rounded-lg" />
+                        <span className="text-2xl font-bold text-gray-900">Real Foto</span>
                     </Link>
                 </div>
 

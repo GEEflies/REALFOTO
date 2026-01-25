@@ -168,8 +168,8 @@ export function BeforeAfter({
             {watermark && (
                 <div className="absolute bottom-2 right-2 md:bottom-3 md:right-3 z-20 pointer-events-none opacity-60 w-[15%] md:w-[10%] max-w-[120px] flex justify-end">
                     <img
-                        src="/aurix-logo.png"
-                        alt="Aurix"
+                        src="/realfoto-logo.png"
+                        alt="Real Foto"
                         className="w-full h-auto object-contain object-right"
                     />
                 </div>

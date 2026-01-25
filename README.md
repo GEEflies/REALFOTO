@@ -1,8 +1,8 @@
-# Aurix
+# Real Foto
 
 **Professional AI Real Estate Photo Enhancement**
 
-Aurix is a cutting-edge SaaS platform designed to help real estate agents and photographers transform their property photos instantly. Using advanced AI models, Aurix automates complex editing tasks such as HDR merging, sky replacement, window pulling, and object removal, delivering professional results in seconds.
+Real Foto is a cutting-edge SaaS platform designed to help real estate agents and photographers transform their property photos instantly. Using advanced AI models, Real Foto automates complex editing tasks such as HDR merging, sky replacement, window pulling, and object removal, delivering professional results in seconds.
 
 ## 🚀 Features
 

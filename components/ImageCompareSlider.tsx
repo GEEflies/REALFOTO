@@ -178,8 +178,8 @@ export function ImageCompareSlider({
             {watermark && (
                 <div className="absolute bottom-2 right-2 md:bottom-4 md:right-4 z-20 pointer-events-none opacity-60">
                     <img
-                        src="/aurix-logo.png"
-                        alt="Aurix"
+                        src="/realfoto-logo.png"
+                        alt="Real Foto"
                         className="w-[15%] md:w-[10%] max-w-[120px] h-auto object-contain filter drop-shadow-md"
                     />
                 </div>

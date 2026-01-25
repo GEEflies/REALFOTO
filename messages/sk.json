@@ -8,7 +8,7 @@
     },
     "Login": {
         "title": "Vitajte späť",
-        "subtitle": "Prihláste sa do svojho Aurix účtu",
+        "subtitle": "Prihláste sa do svojho Real Foto účtu",
         "email": "Emailová adresa",
         "emailPlaceholder": "vas@email.com",
         "password": "Heslo",
@@ -67,7 +67,7 @@
             "title": "Kvóta obrázkov"
         },
         "home": {
-            "welcome": "Vitajte v Aurix",
+            "welcome": "Vitajte v Real Foto",
             "subtitle": "Začnite vylepšovať vaše realitné fotografie s pomocou AI",
             "quickActions": "Rýchle akcie",
             "enhance": {
@@ -138,7 +138,7 @@
         "usedBy": "Spoľahlivá kvalita pre profesionálne výsledky",
         "usedByMobile": "Overená kvalita",
         "featuresTitle": "Čo dokážete s naším AI",
-        "featuresSubtitle": "Aurix upraví vaše realitné fotografie do najmenšieho detailu. Plne optimalizované pre realitný priemysel.",
+        "featuresSubtitle": "Real Foto upraví vaše realitné fotografie do najmenšieho detailu. Plne optimalizované pre realitný priemysel.",
         "features": {
             "hdr": {
                 "title": "HDR Zlúčenie",
@@ -146,7 +146,7 @@
             },
             "window": {
                 "title": "Zjasnenie Okien",
-                "description": "Aurix detekuje okná a aplikuje presnú masku na odkrytie jasného výhľadu von. Toto zabezpečí, že interiéry aj exteriéry sú viditeľné s dokonalou jasnosťou."
+                "description": "Real Foto detekuje okná a aplikuje presnú masku na odkrytie jasného výhľadu von. Toto zabezpečí, že interiéry aj exteriéry sú viditeľné s dokonalou jasnosťou."
             },
             "sky": {
                 "title": "Výmena Oblohy",
@@ -179,7 +179,7 @@
         },
         "comparisonTitle": "Rýchlejšie a lacnejšie ako manuálna úprava",
         "comparisonSubtitle": "Získajte vysokokvalitné vylepšenia za zlomok času a nákladov v porovnaní s manuálnou úpravou.",
-        "aurixLabel": "Aurix 0,29€ / fotka",
+        "aurixLabel": "Real Foto 0,29€ / fotka",
         "humanLabel": "Fotograf 5€ / fotka",
         "pricingTitle": "Jednoduchý a transparentný cenník",
         "pricingSubtitle": "Začnite zadarmo, prejdite na vyšší balík, keď budete potrebovať viac. Žiadne skryté poplatky, kedykoľvek zrušiteľné.",
@@ -200,7 +200,7 @@
                 "description": "Použije všetko naraz pre profi výsledky"
             },
             "hdr": {
-                "label": "Najnovší AI model od Aurixu",
+                "label": "Najnovší AI model od Real Fotou",
                 "description": "zaručí profi štúdiový vzhľad vašich fotiek"
             },
             "window": {
@@ -850,7 +850,7 @@
         },
         "satisfaction": {
             "title": "Ako ste spokojní?",
-            "subtitle": "Ohodnoťte svoju celkovú skúsenosť s Aurix."
+            "subtitle": "Ohodnoťte svoju celkovú skúsenosť s Real Foto."
         },
         "featuresStep": {
             "title": "Aké funkcie by vám najviac pomohli?",
