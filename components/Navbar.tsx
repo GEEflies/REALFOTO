@@ -68,15 +68,15 @@ export function Navbar() {
                 <div className="flex items-center justify-between h-16">
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-3 group">
-                        <div className="relative w-12 h-12">
-                            <Image
-                                src="/realfoto-logo.png"
-                                alt="Real Foto Logo"
-                                fill
-                                sizes="48px"
-                                className="object-contain"
-                            />
-                        </div>
+                        <Image
+                            src="/realfoto-logo.png"
+                            alt="Real Foto Logo"
+                            width={48}
+                            height={48}
+                            className="object-contain"
+                            priority
+                            quality={100}
+                        />
                         <span className="font-bold text-2xl text-gray-900">
                             Real Foto
                         </span>
