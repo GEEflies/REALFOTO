@@ -33,6 +33,7 @@ export function Footer() {
                                     sizes="40px"
                                     className="object-contain"
                                     quality={100}
+                                    unoptimized
                                 />
                             </div>
                             <span className="font-bold text-2xl text-gray-900">

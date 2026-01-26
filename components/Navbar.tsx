@@ -76,6 +76,7 @@ export function Navbar() {
                             className="object-contain"
                             priority
                             quality={100}
+                            unoptimized
                         />
                         <span className="font-bold text-2xl text-gray-900">
                             Real Foto

@@ -218,7 +218,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 {/* Logo */}
                 <div className="p-4 mb-2">
                     <Link href="/nastenka" className="flex items-center gap-3 px-2">
-                        <Image src="/realfoto-logo.png" alt="Real Foto" width={32} height={32} className="rounded-lg" />
+                        <Image src="/realfoto-logo.png" alt="Real Foto" width={32} height={32} className="rounded-lg" unoptimized />
                         <span className="text-xl font-bold text-white tracking-tight">Real Foto</span>
                     </Link>
                 </div>
@@ -341,7 +341,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                     <Menu className="w-6 h-6 text-gray-300" />
                 </button>
                 <Link href="/nastenka" className="flex items-center gap-2">
-                    <Image src="/realfoto-logo.png" alt="Real Foto" width={32} height={32} className="rounded-lg" />
+                    <Image src="/realfoto-logo.png" alt="Real Foto" width={32} height={32} className="rounded-lg" unoptimized />
                     <span className="text-lg font-bold text-white">Real Foto</span>
                 </Link>
             </div>
@@ -367,7 +367,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                             {/* Close Button */}
                             <div className="p-4 flex items-center justify-between border-b border-slate-800">
                                 <Link href="/nastenka" className="flex items-center gap-2" onClick={() => setSidebarOpen(false)}>
-                                    <Image src="/realfoto-logo.png" alt="Real Foto" width={32} height={32} className="rounded-lg" />
+                                    <Image src="/realfoto-logo.png" alt="Real Foto" width={32} height={32} className="rounded-lg" unoptimized />
                                     <span className="text-lg font-bold text-white">Real Foto</span>
                                 </Link>
                                 <button

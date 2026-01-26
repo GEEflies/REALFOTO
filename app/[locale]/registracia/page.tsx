@@ -245,7 +245,7 @@ export default function SignupPage() {
                 {/* Logo */}
                 <div className="text-center mb-8">
                     <div className="inline-flex items-center gap-2 mb-4">
-                        <Image src="/realfoto-logo.png" alt="Real Foto" width={40} height={40} className="rounded-lg" />
+                        <Image src="/realfoto-logo.png" alt="Real Foto" width={40} height={40} className="rounded-lg" unoptimized />
                         <span className="text-2xl font-bold text-gray-900">Real Foto</span>
                     </div>
                 </div>
