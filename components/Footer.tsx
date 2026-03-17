@@ -79,7 +79,7 @@ export function Footer() {
                             <li><Link href="/o-nas" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.about')}</Link></li>
                             <li><Link href="/blog" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.blog')}</Link></li>
                             <li><Link href="/kariera" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.jobs')}</Link></li>
-                            <li><Link href="/kontakt" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.contact')}</Link></li>
+                            <li><Link href="/o-nas" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.contact')}</Link></li>
                             <li><Link href="/ochrana-sukromia" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.privacy')}</Link></li>
                             <li><Link href="/podmienky" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('links.terms')}</Link></li>
                         </ul>
@@ -89,15 +89,15 @@ export function Footer() {
                     <div>
                         <h3 className="font-bold text-gray-900 mb-6">{t('features')}</h3>
                         <ul className="space-y-4">
-                            <li><Link href="/feature/sky-replacement" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('featureList.sky')}</Link></li>
-                            <li><Link href="/feature/perspective-correction" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('featureList.perspective')}</Link></li>
-                            <li><Link href="/feature/hdr-merge" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('featureList.hdr')}</Link></li>
-                            <li><Link href="/feature/window-pulling" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('featureList.window')}</Link></li>
-                            <li><Link href="/feature/white-balance" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('featureList.whiteBalance')}</Link></li>
-                            <li><Link href="/feature/image-relighting" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('featureList.relighting')}</Link></li>
-                            <li><Link href="/feature/raw-support" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('featureList.raw')}</Link></li>
-                            <li><Link href="/feature/auto-privacy" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('featureList.privacy')}</Link></li>
-                            <li><Link href="/feature/color-correction" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('featureList.color')}</Link></li>
+                            <li><Link href="/funkcie/sky-replacement" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('featureList.sky')}</Link></li>
+                            <li><Link href="/funkcie/perspective-correction" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('featureList.perspective')}</Link></li>
+                            <li><Link href="/funkcie/hdr-merge" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('featureList.hdr')}</Link></li>
+                            <li><Link href="/funkcie/window-pulling" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('featureList.window')}</Link></li>
+                            <li><Link href="/funkcie/white-balance" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('featureList.whiteBalance')}</Link></li>
+                            <li><Link href="/funkcie/image-relighting" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('featureList.relighting')}</Link></li>
+                            <li><Link href="/funkcie/raw-support" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('featureList.raw')}</Link></li>
+                            <li><Link href="/funkcie/auto-privacy" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('featureList.privacy')}</Link></li>
+                            <li><Link href="/funkcie/color-correction" className="text-gray-600 hover:text-blue-600 text-sm transition-colors">{t('featureList.color')}</Link></li>
                         </ul>
                     </div>
                 </div>

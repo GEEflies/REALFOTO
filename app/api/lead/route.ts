@@ -4,6 +4,11 @@ import { db } from '@/lib/supabase'
 
 export async function POST(req: NextRequest) {
     try {
+        if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+            console.error('Lead API: Missing Supabase environment variables')
+            return NextResponse.json({ message: 'Service unavailable' }, { status: 503 })
+        }
+
         const { email } = await req.json()
         const ip = req.headers.get('x-forwarded-for') || 'unknown'
 
@@ -57,6 +62,10 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
     try {
+        if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+            return NextResponse.json({ hasEmail: false, usageCount: 0, isPro: false })
+        }
+
         const ip = req.headers.get('x-forwarded-for') || 'unknown'
 
         const { data, error } = await db
