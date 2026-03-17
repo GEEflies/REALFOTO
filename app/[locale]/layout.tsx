@@ -1,9 +1,8 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import { ClerkProvider } from '@clerk/nextjs'
 import { Toaster } from 'sonner'
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server'; // Correct import for Next.js 14+
+import { getMessages } from 'next-intl/server';
 import { LayoutWrapper } from '@/components/LayoutWrapper'
 import '../globals.css'
 
@@ -48,10 +47,9 @@ export default async function RootLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params
-  const hasClerkKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
   const messages = await getMessages();
 
-  const content = (
+  return (
     <html lang={locale} data-scroll-behavior="smooth">
       <body className={inter.className}>
         <NextIntlClientProvider messages={messages}>
@@ -67,11 +65,4 @@ export default async function RootLayout({
       </body>
     </html>
   )
-
-  // Only use ClerkProvider if credentials are available
-  if (hasClerkKey) {
-    return <ClerkProvider>{content}</ClerkProvider>
-  }
-
-  return content
 }

@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import crypto from 'crypto'
+import Stripe from 'stripe'
 
 // Server-side Supabase client with service role key
 const supabaseAdmin = createClient(
@@ -16,7 +18,6 @@ const supabaseAdmin = createClient(
 // Decrypt session data (for simulated sessions)
 function decryptSessionData(encrypted: string): object | null {
     try {
-        const crypto = require('crypto')
         const ENCRYPTION_KEY = process.env.SESSION_ENCRYPTION_KEY || 'aurix-default-key-change-in-prod'
         const decipher = crypto.createDecipheriv(
             'aes-256-cbc',
@@ -63,7 +64,7 @@ export async function POST(request: NextRequest) {
         if (sessionId) {
             try {
                 // Verify the session directly with Stripe for security
-                const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
+                const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
                 const session = await stripe.checkout.sessions.retrieve(sessionId, {
                     expand: ['subscription', 'line_items']
                 })
@@ -195,7 +196,7 @@ export async function POST(request: NextRequest) {
         // Update Stripe with the User ID so webhooks can match events to users
         if (stripeCustomerId) {
             try {
-                const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
+                const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
                 await stripe.customers.update(stripeCustomerId, {
                     metadata: {
                         userId: userId,

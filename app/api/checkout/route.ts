@@ -1,11 +1,32 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { auth } from '@clerk/nextjs/server'
+import { createClient } from '@supabase/supabase-js'
 import { createCheckoutSession } from '@/lib/stripe'
+
+const supabaseAdmin = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    {
+        auth: {
+            autoRefreshToken: false,
+            persistSession: false,
+        },
+    }
+)
 
 export async function POST(request: NextRequest) {
     try {
-        const { userId } = await auth()
-        if (!userId) {
+        // Authenticate via Bearer token (same pattern as enhance/remove routes)
+        const authHeader = request.headers.get('authorization')
+        if (!authHeader?.startsWith('Bearer ')) {
+            return NextResponse.json(
+                { message: 'Unauthorized. Please sign in.' },
+                { status: 401 }
+            )
+        }
+
+        const token = authHeader.substring(7)
+        const { data: { user }, error: authError } = await supabaseAdmin.auth.getUser(token)
+        if (authError || !user) {
             return NextResponse.json(
                 { message: 'Unauthorized. Please sign in.' },
                 { status: 401 }
@@ -22,15 +43,17 @@ export async function POST(request: NextRequest) {
             )
         }
 
-        // TODO: Get user's Stripe customer ID from database
-        // const user = await prisma.user.findUnique({
-        //   where: { clerkId: userId },
-        // })
+        // Get user's Stripe customer ID from database
+        const { data: userData } = await supabaseAdmin
+            .from('users')
+            .select('stripe_customer_id')
+            .eq('id', user.id)
+            .single()
 
         const session = await createCheckoutSession(
-            null, // customerId - use user.stripeCustomerId in production
+            userData?.stripe_customer_id || null,
             priceId,
-            userId
+            user.id
         )
 
         return NextResponse.json({ url: session.url })
